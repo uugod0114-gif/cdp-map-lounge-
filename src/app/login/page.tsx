@@ -20,11 +20,6 @@ export default async function LoginPage() {
 
           <RosterLoginForm />
 
-          {/* 임시 진단용 문구 - 원인 파악되면 제거 예정 */}
-          <p className="mt-4 text-xs text-slate-400">
-            (진단용) 명단에서 총 {rosterNames.length}명을 불러왔습니다.
-          </p>
-
           {rosterNames.length === 0 && (
             <p className="mt-4 text-xs text-amber-300">
               명단을 아직 불러오지 못했어요. 운영진에게 .env.local의 GOOGLE_SHEET_ID /
