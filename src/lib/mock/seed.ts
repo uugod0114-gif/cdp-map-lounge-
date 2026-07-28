@@ -44,7 +44,7 @@ const mainBlocks: ContentBlock[] = [
       title: "마케팅의 다음 챕터,\nCDP MAP에서 시작하세요",
       subtitle: "ETC마케팅본부 CDP · Marketing Assignment Program",
       description:
-        "마케팅 PM CDP 예정자(병원 MR 경험 必) 및 마케팅 직무 역량강화하고 싶은 분들 누구나 참여할 수 있는 프로그램입니다.\n신청 기간 : ~8/10(월)까지",
+        "PM 직무 입문부터 실전 캠페인 협업까지, 현직 멘토와 함께 성장하는 8주 프로그램입니다.",
       buttonLabel: "지금 신청하기",
       buttonUrl: "https://forms.gle/awVLtckpMasscMAY7",
       linkTarget: "_blank",
@@ -55,8 +55,21 @@ const mainBlocks: ContentBlock[] = [
     },
   ),
   block(
-    "cardGrid",
+    "statCard",
     1,
+    { title: "이번 기수 현황", isActive: true, visibilityRoles: [] },
+    {
+      stats: [
+        { label: "누적 수강자", value: "312명" },
+        { label: "멘토 PM", value: "48명" },
+        { label: "평균 만족도", value: "4.8 / 5" },
+        { label: "수료율", value: "94%" },
+      ],
+    },
+  ),
+  block(
+    "cardGrid",
+    2,
     { title: "CDP MAP은 이런 프로그램이에요", isActive: true, visibilityRoles: [] },
     {
       cards: [
@@ -74,6 +87,27 @@ const mainBlocks: ContentBlock[] = [
           title: "청강 트랙 제공",
           description: "관심있는 구성원 누구나 자료 열람과 강의 참여가 가능합니다.",
           icon: "BookOpen",
+        },
+      ],
+    },
+  ),
+  block(
+    "cardGrid",
+    3,
+    { title: "참여 방식을 선택하세요", isActive: true, visibilityRoles: [] },
+    {
+      cards: [
+        {
+          title: "수강자로 참여",
+          description: "전체 커리큘럼 수강, 멘토 매칭, 과제 협업까지 모두 경험합니다.",
+          buttonLabel: "수강자 안내",
+          buttonUrl: "/about",
+        },
+        {
+          title: "청강자로 참여",
+          description: "일정 확인, 자료 열람, 피드백 참여로 가볍게 시작해 보세요.",
+          buttonLabel: "청강자 안내",
+          buttonUrl: "/about",
         },
       ],
     },
@@ -700,6 +734,17 @@ export const mockAnnouncements: Announcement[] = [
 ];
 
 export const mockMaterials: MaterialItem[] = [
+  {
+    id: nextId("mat"),
+    title: "우리 본부 PM 평가 맛보기_박미경/김유신",
+    description: "1회차 2강의 자료",
+    fileType: "pdf",
+    sessionId: mockSessions[0].id,
+    visibilityRoles: ["learner", "auditor"],
+    downloadAllowed: false,
+    flipbookEnabled: true,
+    fileUrl: "https://online.fliphtml5.com/balhrb/dblw/",
+  },
   {
     id: nextId("mat"),
     title: "CDP MAP 오리엔테이션 자료",
