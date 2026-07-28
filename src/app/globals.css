@@ -1,0 +1,74 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
+@import "tailwindcss";
+
+:root {
+  /* ===== CDP MAP 디자인 토큰 (imweb 스타일 클린 + 배너 네이비) ===== */
+  --color-map-navy: #12173a;
+  --color-map-navy-soft: #1c2350;
+  --color-map-navy-mute: #4a5080;
+  --color-map-gold: #e8c96b;
+  --color-map-gold-soft: #faf3e0;
+  --color-map-line: #e7e8ee;
+  --color-map-ink: #12173a;
+  --color-map-mist: #f7f7fa;
+
+  --background: #ffffff;
+  --foreground: var(--color-map-ink);
+
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-map-navy: var(--color-map-navy);
+  --color-map-navy-soft: var(--color-map-navy-soft);
+  --color-map-navy-mute: var(--color-map-navy-mute);
+  --color-map-gold: var(--color-map-gold);
+  --color-map-gold-soft: var(--color-map-gold-soft);
+  --color-map-line: var(--color-map-line);
+  --color-map-ink: var(--color-map-ink);
+  --color-map-mist: var(--color-map-mist);
+
+  --font-display: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+
+  --radius-card: var(--radius-card);
+  --radius-pill: var(--radius-pill);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-map-navy);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.cms-preview-frame {
+  transition: width 0.25s ease;
+}
