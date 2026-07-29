@@ -1,11 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/common/button";
 
-const NAV = [
-  { href: "/about", label: "교육 소개" },
-  { href: "/schedule", label: "일정" },
-  { href: "/faq", label: "FAQ" },
-];
+const NAV = [{ href: "/about", label: "교육 소개" }];
 
 export function SiteHeader() {
   return (

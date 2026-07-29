@@ -9,13 +9,13 @@ import { loginWithRosterName } from "@/features/auth/roster-actions";
 import type { UserRole } from "@/types/content";
 
 const ROLE_HOME: Record<UserRole, string> = {
-  super_admin: "/admin",
-  operator: "/admin",
-  editor: "/admin",
-  learner: "/learner",
-  auditor: "/auditor",
-  mentor: "/mentor",
-  instructor: "/instructor",
+  super_admin: "/",
+  operator: "/",
+  editor: "/",
+  learner: "/",
+  auditor: "/",
+  mentor: "/",
+  instructor: "/",
 };
 
 export function RosterLoginForm() {
