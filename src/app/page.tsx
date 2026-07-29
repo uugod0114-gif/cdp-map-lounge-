@@ -14,7 +14,7 @@ export default async function HomePage() {
     <PublicShell>
       <BlockList blocks={page?.publishedBlocks ?? []} role="auditor" />
 
-      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+      <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-map-navy">강의 일정</p>
@@ -27,7 +27,7 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="flex flex-col gap-4">
           {sessions.map((session) => (
             <Card key={session.id} className="flex flex-col gap-4 border-map-navy/10">
               <div className="flex items-start justify-between gap-3">
@@ -51,7 +51,7 @@ export default async function HomePage() {
               <div className="flex flex-wrap gap-2">
                 <Link href={`/sessions/${session.id}`}>
                   <Button variant="primary" size="sm">
-                    <PlayCircle className="h-4 w-4" /> 회차 강의 보러가기
+                    <PlayCircle className="h-4 w-4" /> 회차별 세부 아젠다 보러가기
                   </Button>
                 </Link>
               </div>
