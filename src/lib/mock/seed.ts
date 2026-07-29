@@ -44,7 +44,7 @@ const mainBlocks: ContentBlock[] = [
       title: "마케팅의 다음 챕터,\nCDP MAP에서 시작하세요",
       subtitle: "ETC마케팅본부 CDP · Marketing Assignment Program",
       description:
-        "PM 직무 입문부터 실전 캠페인 협업까지, 현직 멘토와 함께 성장하는 8주 프로그램입니다.",
+        "예비 PM의 직무 입문부터 마케팅 역량을 한 단계 높이고 싶은 분들까지, \n 현직 전문가와 함께하는 5주 직무 역량 강화 프로그램입니다.",
       buttonLabel: "지금 신청하기",
       buttonUrl: "https://forms.gle/awVLtckpMasscMAY7",
       linkTarget: "_blank",
@@ -58,8 +58,8 @@ const mainBlocks: ContentBlock[] = [
     "card",
     1,
     {
-      title: "이미 참여 중이신가요?",
-      description: "라운지에서 교육 소개, 강의 일정, 강의 자료까지 한 번에 확인하세요.",
+      title: "이미 신청을 완료하셨나요?",
+      description: "신청 시 입력한 이름으로 로그인한 후, MAP 라운지에 입장해 주세요.",
       buttonLabel: "라운지 입장하기",
       buttonUrl: "/lounge",
       align: "center",
