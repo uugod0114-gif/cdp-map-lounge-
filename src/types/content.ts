@@ -233,7 +233,10 @@ export interface MaterialItem {
   visibilityRoles: UserRole[];
   downloadAllowed: boolean;
   flipbookEnabled: boolean;
+  /** 플립북/뷰어용 링크 (예: FlipHTML5, 웍스드라이브 PDF 링크) */
   fileUrl: string;
+  /** 다운로드 전용 링크. 없으면 fileUrl로 다운로드한다. */
+  downloadUrl?: string;
   coverImageUrl?: string;
 }
 

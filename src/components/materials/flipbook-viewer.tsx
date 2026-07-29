@@ -16,12 +16,19 @@ interface FlipbookViewerProps {
   fileUrl: string;
   title: string;
   downloadAllowed?: boolean;
+  /** 다운로드 전용 링크. 없으면 fileUrl로 다운로드한다. */
+  downloadUrl?: string;
 }
 
 const PAGE_WIDTH = 480;
 const PAGE_HEIGHT = 640;
 
-export function FlipbookViewer({ fileUrl, title, downloadAllowed = true }: FlipbookViewerProps) {
+export function FlipbookViewer({
+  fileUrl,
+  title,
+  downloadAllowed = true,
+  downloadUrl,
+}: FlipbookViewerProps) {
   const [pageImages, setPageImages] = React.useState<string[]>([]);
   const [status, setStatus] = React.useState<"loading" | "ready" | "error">("loading");
   const [errorMessage, setErrorMessage] = React.useState<string>("");
@@ -103,7 +110,7 @@ export function FlipbookViewer({ fileUrl, title, downloadAllowed = true }: Flipb
         <p>플립북을 불러오지 못했습니다.</p>
         <p className="text-xs text-red-400">{errorMessage}</p>
         {downloadAllowed && (
-          <a href={fileUrl} target="_blank" rel="noreferrer" className="mt-2 underline">
+          <a href={downloadUrl ?? fileUrl} target="_blank" rel="noreferrer" className="mt-2 underline">
             원본 파일 새 탭에서 열기
           </a>
         )}
@@ -145,7 +152,7 @@ export function FlipbookViewer({ fileUrl, title, downloadAllowed = true }: Flipb
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </Button>
           {downloadAllowed && (
-            <a href={fileUrl} target="_blank" rel="noreferrer">
+            <a href={downloadUrl ?? fileUrl} target="_blank" rel="noreferrer">
               <Button size="sm" variant="outline">
                 <Download className="h-4 w-4" /> 원본 다운로드
               </Button>

@@ -7,12 +7,13 @@ import { detectEmbedKind } from "@/lib/embeds/detect";
 import type { UserRole } from "@/types/content";
 
 /**
- * 운영진이 "제목 | 링크" 형태로 여러 줄을 붙여넣으면 한 번에 자료로 등록한다.
+ * 운영진이 "제목 | 링크" 또는 "제목 | 플립북링크 | 다운로드링크" 형태로
+ * 여러 줄을 붙여넣으면 한 번에 자료로 등록한다.
  * 구분자는 | 또는 탭(엑셀/시트에서 복사했을 때 대응) 둘 다 허용한다.
  *
  * 예시 입력:
- *   1회차 오리엔테이션 자료 | https://worksdrive.company.com/file/abc123
- *   UBIST 실전 자료 | https://worksdrive.company.com/file/def456
+ *   1회차 오리엔테이션 자료 | https://online.fliphtml5.com/xxxx | https://worksdrive.company.com/file/abc123
+ *   (다운로드 링크를 생략하면 첫 번째 링크로 다운로드됩니다)
  */
 export async function createMaterialsBulkAction(
   sessionId: string,
@@ -36,9 +37,16 @@ export async function createMaterialsBulkAction(
 
   for (const line of lines) {
     const parts = line.split(/\||\t/).map((p) => p.trim());
-    const [title, url] = parts.length >= 2 ? parts : [null, parts[0]];
+    // 3개: 제목 | 뷰어링크 | 다운로드링크,  2개: 제목 | 링크,  1개: 링크만
+    const title = parts.length >= 2 ? parts[0] : null;
+    const url = parts.length >= 2 ? parts[1] : parts[0];
+    const downloadUrl = parts.length >= 3 ? parts[2] : undefined;
 
     if (!url || !/^https?:\/\//.test(url)) {
+      skipped.push(line);
+      continue;
+    }
+    if (downloadUrl && !/^https?:\/\//.test(downloadUrl)) {
       skipped.push(line);
       continue;
     }
@@ -53,9 +61,10 @@ export async function createMaterialsBulkAction(
         fileType: "pdf",
         sessionId,
         visibilityRoles: ["learner", "auditor"],
-        downloadAllowed: kind !== "flipbook",
+        downloadAllowed: Boolean(downloadUrl) || kind !== "flipbook",
         flipbookEnabled: isFlipbookLike,
         fileUrl: url,
+        downloadUrl,
       },
       actorName,
     );

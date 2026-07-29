@@ -51,9 +51,14 @@ export function MaterialsAdminForm({
       <Card className="border-map-navy/10">
         <h3 className="mb-3 font-semibold text-map-ink">회차별 자료 일괄 등록</h3>
         <p className="mb-4 text-sm text-slate-500">
-          웍스드라이브 등에서 각 파일의 <b>개별 공유 링크</b>를 복사해서, 한 줄에 하나씩
+          플립북 링크(FlipHTML5 등)와 실제 다운로드용 PDF 링크(웍스드라이브 등)를 따로
+          가지고 있다면, 한 줄에 하나씩
+          <code className="mx-1 rounded bg-slate-100 px-1.5 py-0.5 text-xs">
+            제목 | 플립북링크 | 다운로드링크
+          </code>
+          형식으로 붙여넣으세요. 다운로드 링크가 없으면
           <code className="mx-1 rounded bg-slate-100 px-1.5 py-0.5 text-xs">제목 | 링크</code>
-          형식으로 붙여넣으면 한 번에 등록됩니다. (제목 생략하고 링크만 넣어도 됩니다)
+          만 넣어도 됩니다.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div>
@@ -77,7 +82,7 @@ export function MaterialsAdminForm({
             <textarea
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
-              placeholder={"1회차 오리엔테이션 자료 | https://worksdrive.company.com/file/abc123\nUBIST 실전 자료 | https://worksdrive.company.com/file/def456"}
+              placeholder={"1회차 오리엔테이션 자료 | https://online.fliphtml5.com/xxxx | https://worksdrive.company.com/file/abc123\nUBIST 실전 자료 | https://worksdrive.company.com/file/def456"}
               className="min-h-32 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-mono"
             />
           </div>

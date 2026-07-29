@@ -28,7 +28,14 @@ export function MaterialDetailView({ material }: { material: MaterialItem }) {
   }
 
   if (material.flipbookEnabled && isFlipHtml5Url(material.fileUrl)) {
-    return <ExternalFlipbookEmbed url={material.fileUrl} title={material.title} />;
+    return (
+      <ExternalFlipbookEmbed
+        url={material.fileUrl}
+        title={material.title}
+        downloadAllowed={material.downloadAllowed}
+        downloadUrl={material.downloadUrl}
+      />
+    );
   }
 
   if (material.flipbookEnabled) {
@@ -37,6 +44,7 @@ export function MaterialDetailView({ material }: { material: MaterialItem }) {
         fileUrl={material.fileUrl}
         title={material.title}
         downloadAllowed={material.downloadAllowed}
+        downloadUrl={material.downloadUrl}
       />
     );
   }
@@ -50,7 +58,7 @@ export function MaterialDetailView({ material }: { material: MaterialItem }) {
         <p className="font-semibold text-map-ink">{material.title}</p>
       </div>
       {material.downloadAllowed && (
-        <a href={material.fileUrl} target="_blank" rel="noreferrer">
+        <a href={material.downloadUrl ?? material.fileUrl} target="_blank" rel="noreferrer">
           <Button size="sm" variant="outline">
             다운로드
           </Button>

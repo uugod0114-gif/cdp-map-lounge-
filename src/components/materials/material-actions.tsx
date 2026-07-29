@@ -8,11 +8,13 @@ import { useDemoUser } from "@/features/auth/role-context";
 export function MaterialActions({
   materialId,
   fileUrl,
+  downloadUrl,
   flipbookEnabled,
   downloadAllowed,
 }: {
   materialId: string;
   fileUrl: string;
+  downloadUrl?: string;
   flipbookEnabled: boolean;
   downloadAllowed: boolean;
 }) {
@@ -38,7 +40,7 @@ export function MaterialActions({
         </Link>
       )}
       {downloadAllowed && (
-        <a href={fileUrl} target="_blank" rel="noreferrer">
+        <a href={downloadUrl ?? fileUrl} target="_blank" rel="noreferrer">
           <Button size="sm" variant="subtle">
             <Download className="h-4 w-4" /> 다운로드
           </Button>
