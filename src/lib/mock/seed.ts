@@ -55,16 +55,16 @@ const mainBlocks: ContentBlock[] = [
     },
   ),
   block(
-    "statCard",
+    "card",
     1,
-    { title: "이번 기수 현황", isActive: true, visibilityRoles: [] },
     {
-      stats: [
-        { label: "누적 수강자", value: "312명" },
-        { label: "멘토 PM", value: "48명" },
-        { label: "평균 만족도", value: "4.8 / 5" },
-        { label: "수료율", value: "94%" },
-      ],
+      title: "이미 참여 중이신가요?",
+      description: "라운지에서 교육 소개, 강의 일정, 강의 자료까지 한 번에 확인하세요.",
+      buttonLabel: "라운지 입장하기",
+      buttonUrl: "/lounge",
+      align: "center",
+      isActive: true,
+      visibilityRoles: [],
     },
   ),
   block(
@@ -87,27 +87,6 @@ const mainBlocks: ContentBlock[] = [
           title: "청강 트랙 제공",
           description: "관심있는 구성원 누구나 자료 열람과 강의 참여가 가능합니다.",
           icon: "BookOpen",
-        },
-      ],
-    },
-  ),
-  block(
-    "cardGrid",
-    3,
-    { title: "참여 방식을 선택하세요", isActive: true, visibilityRoles: [] },
-    {
-      cards: [
-        {
-          title: "수강자로 참여",
-          description: "전체 커리큘럼 수강, 멘토 매칭, 과제 협업까지 모두 경험합니다.",
-          buttonLabel: "수강자 안내",
-          buttonUrl: "/about",
-        },
-        {
-          title: "청강자로 참여",
-          description: "일정 확인, 자료 열람, 피드백 참여로 가볍게 시작해 보세요.",
-          buttonLabel: "청강자 안내",
-          buttonUrl: "/about",
         },
       ],
     },
@@ -209,9 +188,42 @@ const commonLoungeBlocks: ContentBlock[] = [
       visibilityRoles: [],
     },
   ),
-  block("recentNotices", 1, { title: "공지사항", isActive: true, visibilityRoles: [] }),
-  block("schedule", 2, { title: "다가오는 일정", isActive: true, visibilityRoles: [] }),
-  block("recentMaterials", 3, { title: "최근 자료", isActive: true, visibilityRoles: [] }),
+  block(
+    "cardGrid",
+    1,
+    { title: "무엇을 확인하고 싶으세요?", isActive: true, visibilityRoles: [] },
+    {
+      cards: [
+        {
+          title: "교육 소개",
+          description: "CDP MAP이 어떤 프로그램인지 다시 확인해보세요.",
+          buttonLabel: "보러가기",
+          buttonUrl: "/about",
+        },
+        {
+          title: "강의 일정",
+          description: "회차별 날짜, 장소, 아젠다를 확인하세요.",
+          buttonLabel: "일정 보기",
+          buttonUrl: "/schedule",
+        },
+        {
+          title: "강의 자료",
+          description: "회차별 자료를 조회하고 다운로드하세요.",
+          buttonLabel: "자료 보기",
+          buttonUrl: "/materials",
+        },
+        {
+          title: "실시간 피드백",
+          description: "강의에 대한 의견을 바로 남겨보세요.",
+          buttonLabel: "피드백 남기기",
+          buttonUrl: "/feedback",
+        },
+      ],
+    },
+  ),
+  block("recentNotices", 2, { title: "공지사항", isActive: true, visibilityRoles: [] }),
+  block("schedule", 3, { title: "다가오는 일정", isActive: true, visibilityRoles: [] }),
+  block("recentMaterials", 4, { title: "최근 자료", isActive: true, visibilityRoles: [] }),
 ];
 
 const learnerLoungeBlocks: ContentBlock[] = [
@@ -741,7 +753,7 @@ export const mockMaterials: MaterialItem[] = [
     fileType: "pdf",
     sessionId: mockSessions[0].id,
     visibilityRoles: ["learner", "auditor"],
-    downloadAllowed: false,
+    downloadAllowed: true,
     flipbookEnabled: true,
     fileUrl: "https://online.fliphtml5.com/balhrb/dblw/",
   },
