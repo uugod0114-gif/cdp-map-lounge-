@@ -8,7 +8,7 @@ import { ROLE_LABEL, isStaff } from "@/lib/permissions/roles";
 import { Badge } from "@/components/common/badge";
 
 const NAV = [
-  { href: "/lounge", label: "종합 라운지" },
+  { href: "/", label: "홈" },
   { href: "/schedule", label: "일정" },
   { href: "/announcements", label: "공지" },
   { href: "/materials", label: "자료" },

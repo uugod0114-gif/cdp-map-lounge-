@@ -98,7 +98,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <Link
-          href="/lounge"
+          href="/"
           className="flex items-center gap-2 border-t border-white/10 px-5 py-4 text-xs text-slate-400 hover:text-white"
         >
           <Home className="h-4 w-4" /> 공개 사이트로 이동
