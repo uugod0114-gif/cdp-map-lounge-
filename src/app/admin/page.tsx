@@ -14,7 +14,7 @@ export default async function AdminDashboardPage() {
     getDashboardStats(),
     listPages(),
     listSessions(),
-    listActivityLogs(6),
+    listActivityLogs(15),
   ]);
 
   const reviewTargets = [
@@ -25,6 +25,7 @@ export default async function AdminDashboardPage() {
   ];
 
   const statCards = [
+    { label: "오늘 방문자 수", value: stats.visitorsToday },
     { label: "신청자 수", value: stats.applicants },
     { label: "수강자 수", value: stats.learners },
     { label: "청강자 수", value: stats.auditors },
@@ -88,7 +89,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       <Card className="mt-6">
-        <p className="mb-3 font-bold text-map-ink">최근 활동 로그</p>
+        <p className="mb-3 font-bold text-map-ink">최근 활동 / 접속 기록</p>
         {logs.length === 0 ? (
           <p className="text-sm text-slate-400">아직 기록된 활동이 없습니다. 콘텐츠를 수정해 보세요.</p>
         ) : (

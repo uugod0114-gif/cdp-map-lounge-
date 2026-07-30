@@ -82,6 +82,12 @@ function logActivity(actor: string, action: string, targetType: string, targetId
   });
 }
 
+/** 로그인 접속 기록 (관리자 대시보드 접속기록/방문자 수 집계용) */
+export async function recordLogin(actorName: string, role: string) {
+  await delay();
+  logActivity(actorName, `로그인 (${role})`, "auth", actorName);
+}
+
 // ================= Pages =================
 export async function listPages(): Promise<PageContent[]> {
   await delay();
@@ -343,6 +349,13 @@ export async function listActivityLogs(limit = 20): Promise<ActivityLog[]> {
 // ================= Dashboard 통계 (기획서 20장 요약) =================
 export async function getDashboardStats() {
   await delay();
+  const todayKey = new Date().toDateString();
+  const visitorsToday = new Set(
+    store.activityLogs
+      .filter((l) => l.action.startsWith("로그인") && new Date(l.createdAt).toDateString() === todayKey)
+      .map((l) => l.actor),
+  ).size;
+
   return {
     applicants: 58,
     learners: 24,
@@ -354,6 +367,7 @@ export async function getDashboardStats() {
     assignmentSubmissionRate: 88,
     assignmentCompletionRate: 76,
     mentorAvgResponseHours: 6.4,
+    visitorsToday,
     pendingReviews: store.pages.filter((p) => p.status === "in_review").length +
       store.sessions.filter((s) => s.status === "in_review").length,
   };

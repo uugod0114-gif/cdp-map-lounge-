@@ -1,6 +1,7 @@
 "use server";
 
 import { findRosterMemberByName } from "@/lib/roster/google-sheet";
+import { recordLogin } from "@/services/content-service";
 
 export interface RosterLoginResult {
   ok: boolean;
@@ -24,5 +25,6 @@ export async function loginWithRosterName(name: string): Promise<RosterLoginResu
     };
   }
 
+  await recordLogin(member.name, member.role);
   return { ok: true, name: member.name, role: member.role };
 }

@@ -72,3 +72,24 @@ html {
 .cms-preview-frame {
   transition: width 0.25s ease;
 }
+
+/* 토스 홈페이지 스타일의 풀페이지 스크롤 스냅.
+   scroll-snap-align이 붙은 섹션에만 적용되므로 다른 페이지엔 영향 없음. */
+html {
+  scroll-snap-type: y mandatory;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-snap-type: none;
+  }
+}

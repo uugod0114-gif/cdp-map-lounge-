@@ -7,21 +7,38 @@ import { Button } from "@/components/common/button";
 import { Badge } from "@/components/common/badge";
 import { useDemoUser } from "@/features/auth/role-context";
 import { ROLE_LABEL } from "@/lib/permissions/roles";
+import type { UserRole } from "@/types/content";
 
-const NAV = [
+const BASE_NAV = [
   { href: "/#intro", label: "교육 소개" },
   { href: "/#schedule", label: "강의 일정" },
   { href: "/#materials", label: "강의 자료" },
   { href: "/#feedback", label: "피드백" },
 ];
 
+/** 로그인한 역할에 따라 상단 메뉴에 추가되는 항목 */
+const ROLE_EXTRA_NAV: Partial<Record<UserRole, { href: string; label: string }[]>> = {
+  learner: [
+    { href: "/learner/assignments", label: "과제 관리" },
+    { href: "/learner/attendance", label: "출석" },
+  ],
+  mentor: [{ href: "/mentor/assignments", label: "과제 관리" }],
+  instructor: [{ href: "/instructor/feedback-overview", label: "내 강의 질문/피드백" }],
+};
+
 export function SiteHeader() {
-  const { user, isLoggedIn, logout } = useDemoUser();
+  const { user, isLoggedIn, isStaffUser, logout } = useDemoUser();
   const router = useRouter();
+
+  const nav = [
+    ...BASE_NAV,
+    ...(isLoggedIn ? ROLE_EXTRA_NAV[user.role] ?? [] : []),
+    ...(isStaffUser ? [{ href: "/admin", label: "운영 CMS" }] : []),
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-map-line bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
             <span className="grid h-9 w-9 place-items-center rounded-full bg-map-navy font-display text-sm font-semibold text-white">
@@ -32,12 +49,12 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-6 md:flex">
-            {NAV.map((item) => (
+          <nav className="hidden items-center gap-5 md:flex">
+            {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-semibold text-slate-600 transition hover:text-map-navy"
+                className="whitespace-nowrap text-sm font-semibold text-slate-600 transition hover:text-map-navy"
               >
                 {item.label}
               </Link>
@@ -73,8 +90,8 @@ export function SiteHeader() {
                   로그인
                 </Button>
               </Link>
-              {/* 로그인 버튼 아래 작은 안내 박스 */}
-              <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-map-line bg-white p-3 text-right shadow-sm">
+              {/* 로그인 버튼 아래, 더 오른쪽(바깥쪽)으로 뺀 작은 안내 박스 */}
+              <div className="absolute -right-4 top-full mt-2 w-56 rounded-xl border border-map-line bg-white p-3 text-right shadow-sm sm:-right-8">
                 <p className="text-xs text-slate-400">신청 후 로그인이 가능해요</p>
                 <Link
                   href="/apply"
