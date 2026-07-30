@@ -18,6 +18,7 @@ import { Button } from "@/components/common/button";
 import { Card } from "@/components/common/card";
 import { WaveBackground } from "@/components/common/wave-background";
 import Image from "next/image";
+import { Reveal } from "@/components/common/reveal";
 import { cn } from "@/lib/utils/cn";
 import { useDemoUser } from "@/features/auth/role-context";
 
@@ -291,30 +292,29 @@ function BlockBody({ block }: { block: ContentBlock }) {
             {cards.map((c, idx) => {
               const Icon = c.icon ? ICONS[c.icon] : undefined;
               return (
-                <div
-                  key={c.title}
-                  className="rounded-[1.5rem] border border-map-line bg-white p-6 shadow-md shadow-map-navy/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-map-navy/10"
-                >
-                  {Icon && (
-                    <div
-                      className={cn(
-                        "grid h-12 w-12 place-items-center rounded-full shadow-md",
-                        badgeStyles[idx % badgeStyles.length],
-                      )}
-                    >
-                      <Icon className="h-5 w-5" />
-                    </div>
-                  )}
-                  <h3 className="mt-4 text-[15px] font-medium text-map-ink">{c.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{c.description}</p>
-                  {c.buttonLabel && (
-                    <Link href={c.buttonUrl ?? "#"} className="mt-4 inline-block">
-                      <Button size="sm" variant="outline">
-                        {c.buttonLabel}
-                      </Button>
-                    </Link>
-                  )}
-                </div>
+                <Reveal key={c.title} delay={idx * 100}>
+                  <div className="h-full rounded-[1.5rem] border border-map-line bg-white p-6 shadow-md shadow-map-navy/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-map-navy/10">
+                    {Icon && (
+                      <div
+                        className={cn(
+                          "grid h-12 w-12 place-items-center rounded-full shadow-md",
+                          badgeStyles[idx % badgeStyles.length],
+                        )}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </div>
+                    )}
+                    <h3 className="mt-4 text-[15px] font-medium text-map-ink">{c.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{c.description}</p>
+                    {c.buttonLabel && (
+                      <Link href={c.buttonUrl ?? "#"} className="mt-4 inline-block">
+                        <Button size="sm" variant="outline">
+                          {c.buttonLabel}
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                </Reveal>
               );
             })}
           </div>
