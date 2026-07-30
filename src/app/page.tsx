@@ -24,7 +24,7 @@ export default async function HomePage() {
       </div>
 
       {/* 교육 소개 */}
-      <div id="intro" className="snap-section scroll-mt-16">
+      <div id="intro" className="snap-section scroll-mt-16 bg-map-gold-soft/40">
         <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
           <BlockList blocks={aboutPage?.publishedBlocks ?? []} role="auditor" />
         </div>
@@ -43,7 +43,7 @@ export default async function HomePage() {
       </div>
 
       {/* 강의 자료 */}
-      <div id="materials" className="snap-section scroll-mt-16">
+      <div id="materials" className="snap-section scroll-mt-16 bg-map-gold-soft/40">
         <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
           <h2 className="mb-2 font-display text-2xl font-medium text-map-ink">강의 자료</h2>
           <p className="mb-6 text-sm text-slate-500">
