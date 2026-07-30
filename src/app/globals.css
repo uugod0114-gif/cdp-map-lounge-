@@ -2,20 +2,20 @@
 @import "tailwindcss";
 
 :root {
-  /* ===== CDP MAP 디자인 토큰 (Pantone 2026: Cloud Dancer 배경 + Teal Green 강조) ===== */
-  --color-map-navy: #0f4c4c;
-  --color-map-navy-soft: #146b6b;
-  --color-map-navy-mute: #66b2b2;
-  --color-map-gold: #e8c96b;
-  --color-map-gold-soft: #faf3e0;
-  --color-map-line: #e5e2da;
-  --color-map-ink: #16302c;
-  --color-map-mist: #f5f3ee;
+  /* ===== CDP MAP 디자인 토큰 (화이트 배경 + 트랜스포머티브 틸, 발랄한 톤) ===== */
+  --color-map-navy: #0f9b8e;
+  --color-map-navy-soft: #14b3a3;
+  --color-map-navy-mute: #8ee0d3;
+  --color-map-gold: #ffc857;
+  --color-map-gold-soft: #fff3d6;
+  --color-map-line: #e6f4f1;
+  --color-map-ink: #163b36;
+  --color-map-mist: #f3fbfa;
 
-  --background: #f1efea;
+  --background: #ffffff;
   --foreground: var(--color-map-ink);
 
-  --radius-card: 1rem;
+  --radius-card: 1.25rem;
   --radius-pill: 999px;
 }
 

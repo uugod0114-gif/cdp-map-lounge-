@@ -8,7 +8,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-gradient-to-br from-map-navy-mute via-map-navy-soft to-map-navy text-white shadow-sm shadow-map-navy/20 hover:brightness-110",
+          "bg-map-navy text-white shadow-sm shadow-map-navy/25 hover:bg-map-navy-soft",
         inverse: "bg-white text-map-navy hover:bg-map-mist",
         outline: "border border-map-navy text-map-navy bg-transparent hover:bg-map-navy hover:text-white",
         ghost: "text-map-navy hover:bg-map-mist",
