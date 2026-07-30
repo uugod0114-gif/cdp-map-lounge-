@@ -28,6 +28,7 @@
     "react-hook-form": "^7.82.0",
     "react-pageflip": "^2.0.3",
     "recharts": "^3.10.0",
+    "resend": "^6.18.1",
     "server-only": "^0.0.1",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"

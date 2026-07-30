@@ -12,11 +12,15 @@ import type { UserRole } from "@/types/content";
  *   GOOGLE_SHEET_ID          - 스프레드시트 URL의 /d/ 다음에 오는 긴 ID
  *   GOOGLE_SHEET_ROSTER_GID  - "라운지 명단" 탭을 클릭했을 때 주소창 끝에 붙는 gid 숫자
  *
- * (탭을 클릭한 상태에서 브라우저 주소창의 ...#gid=123456789 부분이 gid입니다.)
+ * 시트 컬럼 구조 (1행은 헤더, 2행부터 데이터):
+ *   A열 = 구분 (운영진/수강/청강/교수자/멘토)
+ *   B열 = 이름
+ *   C열 = 그룹웨어 이메일
  */
 
 export interface RosterMember {
   name: string;
+  email: string;
   role: UserRole;
   rawCategory: string;
 }
@@ -87,8 +91,8 @@ function mapCategoryToRole(rawCategory: string): UserRole | null {
 }
 
 /**
- * "라운지 명단" 시트(B열=구분, C열=이름)를 읽어 이름→역할 매핑을 반환한다.
- * 60초간 캐시하여 로그인할 때마다 매번 시트를 새로 긁지 않는다.
+ * "라운지 명단" 시트(A열=구분, B열=이름, C열=이메일)를 읽어 반환한다.
+ * 60초간 캐시하여 매번 시트를 새로 긁지 않는다.
  */
 export async function fetchRosterFromSheet(): Promise<RosterMember[]> {
   const url = buildCsvUrl();
@@ -110,12 +114,14 @@ export async function fetchRosterFromSheet(): Promise<RosterMember[]> {
 
     const members: RosterMember[] = [];
     for (const cols of rows) {
-      const rawCategory = (cols[1] ?? "").trim(); // B열
-      const name = (cols[2] ?? "").trim(); // C열
+      const rawCategory = (cols[0] ?? "").trim(); // A열
+      const name = (cols[1] ?? "").trim(); // B열
+      const email = (cols[2] ?? "").trim().toLowerCase(); // C열
       if (!name || name === "이름") continue;
+      if (!email || !email.includes("@")) continue;
       const role = mapCategoryToRole(rawCategory);
       if (!role) continue;
-      members.push({ name, role, rawCategory });
+      members.push({ name, email, role, rawCategory });
     }
     return members;
   } catch (error) {
@@ -136,4 +142,29 @@ export async function findRosterMemberByName(
   const target = normalizeName(name);
   if (!target) return null;
   return roster.find((m) => normalizeName(m.name) === target) ?? null;
+}
+
+/** 이름 + 이메일이 명단의 같은 행에 정확히 일치하는지 확인한다 (회원가입 시 사용). */
+export async function findRosterMemberByNameAndEmail(
+  name: string,
+  email: string,
+): Promise<RosterMember | null> {
+  const roster = await fetchRosterFromSheet();
+  const targetName = normalizeName(name);
+  const targetEmail = email.trim().toLowerCase();
+  if (!targetName || !targetEmail) return null;
+  return (
+    roster.find(
+      (m) => normalizeName(m.name) === targetName && m.email === targetEmail,
+    ) ?? null
+  );
+}
+
+export async function findRosterMemberByEmail(
+  email: string,
+): Promise<RosterMember | null> {
+  const roster = await fetchRosterFromSheet();
+  const target = email.trim().toLowerCase();
+  if (!target) return null;
+  return roster.find((m) => m.email === target) ?? null;
 }
