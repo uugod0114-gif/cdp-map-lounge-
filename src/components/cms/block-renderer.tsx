@@ -279,9 +279,9 @@ function BlockBody({ block }: { block: ContentBlock }) {
           buttonUrl?: string;
         }[]) ?? [];
       const badgeStyles = [
-        "bg-gradient-to-br from-map-navy-mute to-map-navy-soft text-white",
-        "bg-gradient-to-br from-map-gold to-amber-400 text-white",
-        "bg-gradient-to-br from-map-navy-soft to-map-navy text-white",
+        "bg-map-gold-soft text-map-navy",
+        "bg-map-navy text-white",
+        "bg-map-gold-soft text-map-navy",
       ];
       return (
         <div className="flex flex-col gap-6">
@@ -293,11 +293,11 @@ function BlockBody({ block }: { block: ContentBlock }) {
               const Icon = c.icon ? ICONS[c.icon] : undefined;
               return (
                 <Reveal key={c.title} delay={idx * 100}>
-                  <div className="h-full rounded-[1.5rem] border border-map-line bg-white p-6 shadow-md shadow-map-navy/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-map-navy/10">
+                  <div className="h-full rounded-[1.5rem] border border-map-line bg-white p-6 transition-colors duration-200 hover:border-map-navy">
                     {Icon && (
                       <div
                         className={cn(
-                          "grid h-12 w-12 place-items-center rounded-full shadow-md",
+                          "grid h-12 w-12 place-items-center rounded-full",
                           badgeStyles[idx % badgeStyles.length],
                         )}
                       >

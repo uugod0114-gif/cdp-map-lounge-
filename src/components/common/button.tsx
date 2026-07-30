@@ -3,20 +3,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-all duration-150 disabled:pointer-events-none disabled:opacity-50 active:translate-y-[2px]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50 active:opacity-80",
   {
     variants: {
       variant: {
-        primary:
-          "bg-gradient-to-br from-map-navy-mute via-map-navy-soft to-map-navy text-white shadow-[0_6px_0_0_rgba(18,63,69,0.35)] hover:brightness-105 hover:shadow-[0_4px_0_0_rgba(18,63,69,0.35)] active:shadow-[0_2px_0_0_rgba(18,63,69,0.35)]",
-        inverse:
-          "bg-white text-map-navy shadow-[0_5px_0_0_rgba(18,63,69,0.12)] hover:bg-map-mist hover:shadow-[0_3px_0_0_rgba(18,63,69,0.12)]",
-        outline:
-          "border-2 border-map-navy text-map-navy bg-transparent hover:bg-map-navy hover:text-white",
+        primary: "bg-map-navy text-white hover:bg-map-navy-soft",
+        inverse: "bg-white text-map-navy hover:bg-map-mist",
+        outline: "border border-map-navy text-map-navy bg-transparent hover:bg-map-gold-soft",
         ghost: "text-map-navy hover:bg-map-mist",
         subtle: "bg-map-mist text-map-navy hover:bg-map-line",
-        mint:
-          "bg-map-navy-mute/30 text-map-navy-soft shadow-[0_5px_0_0_rgba(142,224,211,0.5)] hover:bg-map-navy-mute/45 hover:shadow-[0_3px_0_0_rgba(142,224,211,0.5)]",
+        mint: "bg-map-gold-soft text-map-navy hover:bg-map-navy-mute/40",
         destructive: "bg-red-600 text-white hover:bg-red-700",
       },
       size: {

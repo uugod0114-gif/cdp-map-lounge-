@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/common/button";
 import { Card } from "@/components/common/card";
-import { AnonAvatar } from "@/components/common/anon-avatar";
 
 interface SessionFeedbackEntry {
   id: string;
@@ -14,7 +13,6 @@ interface SessionFeedbackEntry {
 }
 
 const STORAGE_KEY_PREFIX = "cdp-map-session-feedback-";
-const ANON_SEED_KEY = "cdp-map-anon-seed";
 
 const DEFAULT_ENTRIES: SessionFeedbackEntry[] = [
   {
@@ -49,20 +47,9 @@ export function SessionExperiencePanel({
   sessionTitle: string;
 }) {
   const [entries, setEntries] = useState<SessionFeedbackEntry[]>(DEFAULT_ENTRIES);
-  const [anonSeed, setAnonSeed] = useState("");
+  const [feedbackAuthor, setFeedbackAuthor] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [satisfaction, setSatisfaction] = useState("5");
-
-  // 브라우저별 익명 식별자: 이름 대신 이 시드로 아이콘 아바타가 고정 배정된다.
-  useEffect(() => {
-    let seed = window.localStorage.getItem(ANON_SEED_KEY);
-    if (!seed) {
-      seed = `anon-${Math.random().toString(36).slice(2, 10)}`;
-      window.localStorage.setItem(ANON_SEED_KEY, seed);
-    }
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage(외부 시스템) 초기 동기화
-    setAnonSeed(seed);
-  }, []);
 
   useEffect(() => {
     try {
@@ -92,9 +79,10 @@ export function SessionExperiencePanel({
 
   const handleFeedbackSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!feedbackMessage.trim()) return;
-    const nextEntry = createEntry(anonSeed || "익명", feedbackMessage.trim(), Number(satisfaction));
+    if (!feedbackAuthor.trim() || !feedbackMessage.trim()) return;
+    const nextEntry = createEntry(feedbackAuthor.trim(), feedbackMessage.trim(), Number(satisfaction));
     setEntries((current) => [nextEntry, ...current]);
+    setFeedbackAuthor("");
     setFeedbackMessage("");
     setSatisfaction("5");
   };
@@ -122,11 +110,14 @@ export function SessionExperiencePanel({
       <Card className="border-map-navy/10">
         <h3 className="font-semibold text-map-ink">피드백 남기기</h3>
         <form className="mt-4 space-y-4" onSubmit={handleFeedbackSubmit}>
-          <div className="flex items-center gap-2 rounded-lg bg-map-mist px-3 py-2.5">
-            {anonSeed && <AnonAvatar seed={anonSeed} size={26} showLabel />}
-            <span className="text-xs text-slate-500">
-              으로 익명 등록됩니다 · 아이콘은 자동 배정
-            </span>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-slate-600">이름</label>
+            <input
+              value={feedbackAuthor}
+              onChange={(event) => setFeedbackAuthor(event.target.value)}
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              placeholder="이름을 입력해 주세요"
+            />
           </div>
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-600">오늘 강의는 어땠나요?</label>
@@ -164,11 +155,7 @@ export function SessionExperiencePanel({
             {entries.map((entry) => (
               <div key={entry.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center justify-between gap-2">
-                  {entry.author === "교수진" ? (
-                    <p className="text-sm font-semibold text-map-navy">교수진</p>
-                  ) : (
-                    <AnonAvatar seed={entry.author} size={26} showLabel />
-                  )}
+                  <p className="text-sm font-semibold text-map-ink">{entry.author}</p>
                   <p className="text-xs text-slate-400">
                     {new Date(entry.createdAt).toLocaleString("ko-KR", {
                       month: "short",
