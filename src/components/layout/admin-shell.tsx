@@ -61,17 +61,17 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   if (!isStaff(actualUser.role)) {
     return (
-      <div className="grid min-h-screen place-items-center bg-slate-50 text-slate-400">
+      <div className="grid min-h-screen place-items-center bg-map-mist text-slate-400">
         운영진 권한을 확인하는 중입니다…
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-map-navy text-slate-200 lg:flex">
+    <div className="flex min-h-screen bg-map-mist">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-map-line bg-gradient-to-b from-map-navy via-map-navy to-map-navy-soft text-slate-200 lg:flex">
         <div className="flex h-16 items-center gap-2 px-5">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-map-gold text-xs font-semibold text-map-navy">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-map-gold text-xs font-semibold text-map-navy shadow-sm">
             MAP
           </span>
           <span className="font-display text-sm font-medium text-white">운영 CMS</span>
@@ -106,7 +106,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col">
-        <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6">
+        <header className="flex h-16 items-center justify-between border-b border-map-line bg-white/90 backdrop-blur px-4 sm:px-6 rounded-b-2xl shadow-sm">
           <p className="text-sm text-slate-400">
             운영진: <span className="font-semibold text-map-ink">{actualUser.name}</span>
           </p>

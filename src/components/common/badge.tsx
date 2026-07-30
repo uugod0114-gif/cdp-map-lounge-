@@ -3,17 +3,17 @@ import { cn } from "@/lib/utils/cn";
 import type { ContentStatus } from "@/types/content";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold",
+  "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold shadow-sm",
   {
     variants: {
       variant: {
         neutral: "bg-slate-100 text-slate-600",
-        navy: "bg-map-navy/10 text-map-navy",
-        yellow: "bg-map-gold-soft text-amber-700",
-        coral: "bg-map-gold-soft text-map-navy",
-        success: "bg-emerald-100 text-emerald-700",
-        warning: "bg-amber-100 text-amber-700",
-        danger: "bg-red-100 text-red-700",
+        navy: "bg-map-navy text-white",
+        yellow: "bg-map-gold text-white",
+        coral: "bg-map-navy-mute text-map-navy",
+        success: "bg-emerald-500 text-white",
+        warning: "bg-amber-500 text-white",
+        danger: "bg-red-500 text-white",
       },
     },
     defaultVariants: { variant: "neutral" },

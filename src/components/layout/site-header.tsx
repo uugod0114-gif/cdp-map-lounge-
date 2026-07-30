@@ -15,11 +15,11 @@ export function SiteHeader() {
   const router = useRouter();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-100 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-4 z-40 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between rounded-full border border-map-line bg-white/95 px-5 shadow-[0_10px_30px_-10px_rgba(18,63,69,0.25)] backdrop-blur">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-map-navy-mute to-map-navy font-display text-sm font-semibold text-map-gold">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-map-navy-mute to-map-navy font-display text-sm font-semibold text-map-gold shadow-sm">
               MAP
             </span>
             <span className="hidden font-display text-base font-medium tracking-tight text-map-ink sm:inline">
@@ -32,7 +32,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-slate-600 transition hover:text-map-navy"
+                className="text-sm font-semibold text-slate-600 transition hover:text-map-navy"
               >
                 {item.label}
               </Link>

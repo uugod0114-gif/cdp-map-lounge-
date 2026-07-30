@@ -12,10 +12,10 @@
   --color-map-ink: #123f45;
   --color-map-mist: #eafbf8;
 
-  --background: #ffffff;
+  --background: #fffdfa;
   --foreground: var(--color-map-ink);
 
-  --radius-card: 1.25rem;
+  --radius-card: 1.75rem;
   --radius-pill: 999px;
 }
 
