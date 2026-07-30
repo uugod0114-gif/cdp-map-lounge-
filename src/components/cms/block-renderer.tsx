@@ -17,7 +17,7 @@ import { canViewBlock } from "@/lib/permissions/roles";
 import { Button } from "@/components/common/button";
 import { Card } from "@/components/common/card";
 import { WaveBackground } from "@/components/common/wave-background";
-import { OrbCluster } from "@/components/common/orb-cluster";
+import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { useDemoUser } from "@/features/auth/role-context";
 
@@ -169,8 +169,16 @@ function BlockBody({ block }: { block: ContentBlock }) {
                 </div>
               )}
             </div>
-            <div className="h-56 w-56 shrink-0 sm:h-72 sm:w-72">
-              <OrbCluster />
+            <div className="relative h-64 w-64 shrink-0 sm:h-80 sm:w-80">
+              <div className="absolute inset-6 rounded-full bg-map-navy-mute/30 blur-2xl" />
+              <Image
+                src="/images/mascot-map-bear.png"
+                alt="CDP MAP 마스코트"
+                fill
+                sizes="320px"
+                className="relative object-contain drop-shadow-xl"
+                priority
+              />
             </div>
           </div>
         </div>

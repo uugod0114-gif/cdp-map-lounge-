@@ -3,8 +3,35 @@ import { PublicShell } from "@/components/layout/public-shell";
 import { BlockList } from "@/components/cms/block-renderer";
 import { Card } from "@/components/common/card";
 import { Button } from "@/components/common/button";
-import { CalendarDays, MapPin, PlayCircle } from "lucide-react";
+import { Check, CalendarDays, MapPin, PlayCircle } from "lucide-react";
 import { getPageBySlug, listSessions } from "@/services/content-service";
+
+const PARTICIPATION_TRACKS = [
+  {
+    label: "청강자",
+    tagline: "가볍게 시작하기",
+    features: ["강의 일정 확인", "강의 자료 열람", "강의 후기 남기기"],
+    highlighted: false,
+  },
+  {
+    label: "수강자",
+    tagline: "제대로 성장하기",
+    features: [
+      "전체 커리큘럼 수강",
+      "1:1 멘토 PM 매칭",
+      "주차별 과제 협업",
+      "실시간 피드백 참여",
+      "수료증 발급",
+    ],
+    highlighted: true,
+  },
+  {
+    label: "교수자 / 멘토",
+    tagline: "함께 이끌어가기",
+    features: ["담당 강의 자료 등록", "수강자 과제 피드백", "질문/Q&A 답변"],
+    highlighted: false,
+  },
+];
 
 export default async function HomePage() {
   const page = await getPageBySlug("main");
@@ -13,6 +40,51 @@ export default async function HomePage() {
   return (
     <PublicShell>
       <BlockList blocks={page?.publishedBlocks ?? []} role="auditor" />
+
+      <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
+        <div className="mb-8 text-center">
+          <p className="text-sm font-semibold text-map-navy">Care For Your Growth</p>
+          <h2 className="mt-1 font-display text-2xl font-medium text-map-ink sm:text-3xl">
+            참여 방식을 선택하세요
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          {PARTICIPATION_TRACKS.map((track) => (
+            <div
+              key={track.label}
+              className={
+                track.highlighted
+                  ? "flex flex-col rounded-[1.75rem] bg-gradient-to-br from-map-navy-soft to-map-navy p-7 text-white shadow-[0_20px_40px_-15px_rgba(18,63,69,0.4)] md:-translate-y-3"
+                  : "flex flex-col rounded-[1.75rem] border border-map-line bg-white p-7 text-map-ink shadow-[0_8px_24px_-8px_rgba(18,63,69,0.12)]"
+              }
+            >
+              <p
+                className={
+                  track.highlighted
+                    ? "text-xs font-semibold uppercase tracking-wide text-map-navy-mute"
+                    : "text-xs font-semibold uppercase tracking-wide text-map-navy"
+                }
+              >
+                {track.tagline}
+              </p>
+              <h3 className="mt-2 font-display text-xl font-medium">{track.label}</h3>
+              <ul className="mt-5 flex flex-1 flex-col gap-2.5">
+                {track.features.map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm">
+                    <Check className={track.highlighted ? "h-4 w-4 text-map-navy-mute" : "h-4 w-4 text-map-navy"} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/apply" className="mt-6">
+                <Button variant={track.highlighted ? "inverse" : "outline"} className="w-full">
+                  신청 안내 보기
+                </Button>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
         <div className="mb-6 flex items-center justify-between gap-3">
