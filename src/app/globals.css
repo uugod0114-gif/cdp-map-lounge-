@@ -2,15 +2,15 @@
 @import "tailwindcss";
 
 :root {
-  /* ===== CDP MAP 디자인 토큰 (화이트 배경 + 트랜스포머티브 틸, 발랄한 톤) ===== */
-  --color-map-navy: #0f9b8e;
-  --color-map-navy-soft: #14b3a3;
+  /* ===== CDP MAP 디자인 토큰 (화이트 배경 + Transformative Teal) ===== */
+  --color-map-navy: #123f45;
+  --color-map-navy-soft: #1d6e64;
   --color-map-navy-mute: #8ee0d3;
   --color-map-gold: #ffc857;
   --color-map-gold-soft: #fff3d6;
-  --color-map-line: #e6f4f1;
-  --color-map-ink: #163b36;
-  --color-map-mist: #f3fbfa;
+  --color-map-line: #d9f0ec;
+  --color-map-ink: #123f45;
+  --color-map-mist: #eafbf8;
 
   --background: #ffffff;
   --foreground: var(--color-map-ink);

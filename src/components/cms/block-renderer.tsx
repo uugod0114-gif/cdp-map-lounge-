@@ -17,6 +17,7 @@ import { canViewBlock } from "@/lib/permissions/roles";
 import { Button } from "@/components/common/button";
 import { Card } from "@/components/common/card";
 import { WaveBackground } from "@/components/common/wave-background";
+import { OrbCluster } from "@/components/common/orb-cluster";
 import { cn } from "@/lib/utils/cn";
 import { useDemoUser } from "@/features/auth/role-context";
 
@@ -129,32 +130,37 @@ function BlockBody({ block }: { block: ContentBlock }) {
           </div>
         );
       }
-      // 기본: imweb 스타일의 화이트 배경 중앙 정렬 히어로
+      // 기본: 텍스트 + 3D 오브 장식의 2단 히어로 (참고 레퍼런스의 좌측 텍스트/우측 비주얼 구조)
       return (
         <div className="relative overflow-hidden px-4 py-16 text-map-ink sm:py-24">
           <WaveBackground />
-          <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
-            {fields.subtitle && (
-              <span className="text-xs font-medium tracking-wide text-slate-500">
-                {fields.subtitle}
-              </span>
-            )}
-            {fields.title && (
-              <h1 className="whitespace-pre-line font-display text-3xl font-medium leading-tight text-map-ink sm:text-[44px]">
-                {fields.title}
-              </h1>
-            )}
-            {fields.description && (
-              <p className="max-w-lg text-[15px] leading-relaxed text-slate-500">{fields.description}</p>
-            )}
-            {fields.buttonLabel && (
-              <Link href={fields.buttonUrl ?? "#"} target={fields.linkTarget}>
-                <Button variant="primary" size="lg" className="mt-2">
-                  {fields.buttonLabel}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            )}
+          <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col items-center gap-5 text-center lg:items-start lg:text-left">
+              {fields.subtitle && (
+                <span className="text-xs font-medium tracking-wide text-slate-500">
+                  {fields.subtitle}
+                </span>
+              )}
+              {fields.title && (
+                <h1 className="whitespace-pre-line font-display text-3xl font-medium leading-tight text-map-ink sm:text-[44px]">
+                  {fields.title}
+                </h1>
+              )}
+              {fields.description && (
+                <p className="max-w-lg text-[15px] leading-relaxed text-slate-500">{fields.description}</p>
+              )}
+              {fields.buttonLabel && (
+                <Link href={fields.buttonUrl ?? "#"} target={fields.linkTarget}>
+                  <Button variant="primary" size="lg" className="mt-2">
+                    {fields.buttonLabel}
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              )}
+            </div>
+            <div className="h-56 w-56 shrink-0 sm:h-72 sm:w-72">
+              <OrbCluster />
+            </div>
           </div>
         </div>
       );
@@ -252,17 +258,34 @@ function BlockBody({ block }: { block: ContentBlock }) {
           buttonLabel?: string;
           buttonUrl?: string;
         }[]) ?? [];
+      const badgeStyles = [
+        "bg-gradient-to-br from-map-navy-mute to-map-navy-soft text-white",
+        "bg-gradient-to-br from-map-gold to-amber-400 text-white",
+        "bg-gradient-to-br from-map-navy-soft to-map-navy text-white",
+      ];
       return (
         <div className="flex flex-col gap-6">
           {fields.title && (
             <h2 className="font-display text-2xl font-medium text-map-ink">{fields.title}</h2>
           )}
-          <div className="grid grid-cols-1 gap-px overflow-hidden rounded-card border border-map-line bg-map-line sm:grid-cols-2 lg:grid-cols-3">
-            {cards.map((c) => {
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {cards.map((c, idx) => {
               const Icon = c.icon ? ICONS[c.icon] : undefined;
               return (
-                <div key={c.title} className="bg-white p-6">
-                  {Icon && <Icon className="h-5 w-5 text-map-navy" />}
+                <div
+                  key={c.title}
+                  className="rounded-[1.5rem] border border-map-line bg-white p-6 shadow-md shadow-map-navy/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-map-navy/10"
+                >
+                  {Icon && (
+                    <div
+                      className={cn(
+                        "grid h-12 w-12 place-items-center rounded-full shadow-md",
+                        badgeStyles[idx % badgeStyles.length],
+                      )}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </div>
+                  )}
                   <h3 className="mt-4 text-[15px] font-medium text-map-ink">{c.title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{c.description}</p>
                   {c.buttonLabel && (

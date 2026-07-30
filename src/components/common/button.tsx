@@ -8,11 +8,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-map-navy text-white shadow-sm shadow-map-navy/25 hover:bg-map-navy-soft",
+          "bg-gradient-to-br from-map-navy-mute via-map-navy-soft to-map-navy text-white shadow-sm shadow-map-navy/25 hover:brightness-105",
         inverse: "bg-white text-map-navy hover:bg-map-mist",
         outline: "border border-map-navy text-map-navy bg-transparent hover:bg-map-navy hover:text-white",
         ghost: "text-map-navy hover:bg-map-mist",
         subtle: "bg-map-mist text-map-navy hover:bg-map-line",
+        mint: "bg-map-navy-mute/25 text-map-navy-soft hover:bg-map-navy-mute/40",
         destructive: "bg-red-600 text-white hover:bg-red-700",
       },
       size: {

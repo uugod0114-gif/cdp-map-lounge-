@@ -63,7 +63,7 @@ export function SiteHeader() {
             </>
           ) : (
             <Link href="/login">
-              <Button variant="ghost" size="sm">
+              <Button variant="mint" size="sm">
                 로그인
               </Button>
             </Link>
