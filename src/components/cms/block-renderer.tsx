@@ -149,13 +149,24 @@ function BlockBody({ block }: { block: ContentBlock }) {
               {fields.description && (
                 <p className="max-w-lg text-[15px] leading-relaxed text-slate-500">{fields.description}</p>
               )}
-              {fields.buttonLabel && (
-                <Link href={fields.buttonUrl ?? "#"} target={fields.linkTarget}>
-                  <Button variant="primary" size="lg" className="mt-2">
-                    {fields.buttonLabel}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+              {(fields.buttonLabel || fields.secondaryButtonLabel) && (
+                <div className="mt-2 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+                  {fields.buttonLabel && (
+                    <Link href={fields.buttonUrl ?? "#"} target={fields.linkTarget}>
+                      <Button variant="primary" size="lg">
+                        {fields.buttonLabel}
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  )}
+                  {fields.secondaryButtonLabel && (
+                    <Link href={fields.secondaryButtonUrl ?? "#"}>
+                      <Button variant="mint" size="lg">
+                        {fields.secondaryButtonLabel}
+                      </Button>
+                    </Link>
+                  )}
+                </div>
               )}
             </div>
             <div className="h-56 w-56 shrink-0 sm:h-72 sm:w-72">

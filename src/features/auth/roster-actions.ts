@@ -19,7 +19,8 @@ export async function loginWithRosterName(name: string): Promise<RosterLoginResu
   if (!member) {
     return {
       ok: false,
-      message: "신청 접수한 이름과 정확히 같은지 확인해 주세요.",
+      message:
+        "라운지 명단에서 이름을 찾을 수 없어요. 구글시트에 등록된 이름과 정확히 같은지 확인해 주세요.",
     };
   }
 

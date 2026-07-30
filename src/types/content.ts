@@ -83,6 +83,8 @@ export interface BlockCommonFields {
   icon?: string;
   buttonLabel?: string;
   buttonUrl?: string;
+  secondaryButtonLabel?: string;
+  secondaryButtonUrl?: string;
   linkTarget?: LinkTarget;
   align?: Alignment;
   width?: BlockWidth;
