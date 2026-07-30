@@ -1,21 +1,27 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap");
 @import "tailwindcss";
 
 :root {
-  /* ===== CDP MAP 디자인 토큰 (토스 스타일: 화이트 + 에듀그린) ===== */
+  /* ===== CDP MAP 디자인 토큰 v10 (화이트 배경 + 에듀 그린) =====
+     brand   #0f8a5e  성장·학습을 상징하는 대표 그린
+     deep    #0a6b49  텍스트/호버용 짙은 그린
+     mute    #9bd9c2  라이트 그린 (그라데이션·보조)
+     gold    #f0b429  웜 앰버 포인트 (하이라이트 전용)
+     ink     #191f28  본문 텍스트 (토스 계열 잉크)
+     mist    #f9fafb  섹션 교차 배경  */
   --color-map-navy: #0f8a5e;
-  --color-map-navy-soft: #0b6e4a;
-  --color-map-navy-mute: #7fd9ae;
-  --color-map-gold: #0f8a5e;
-  --color-map-gold-soft: #e8f8f0;
-  --color-map-line: #ebebee;
+  --color-map-navy-soft: #0a6b49;
+  --color-map-navy-mute: #9bd9c2;
+  --color-map-gold: #f0b429;
+  --color-map-gold-soft: #fdf3da;
+  --color-map-line: #e5e8eb;
   --color-map-ink: #191f28;
-  --color-map-mist: #f9f9fb;
+  --color-map-mist: #f9fafb;
 
   --background: #ffffff;
   --foreground: var(--color-map-ink);
 
-  --radius-card: 1.25rem;
+  --radius-card: 1.75rem;
   --radius-pill: 999px;
 }
 
@@ -32,8 +38,8 @@
   --color-map-ink: var(--color-map-ink);
   --color-map-mist: var(--color-map-mist);
 
-  --font-display: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
-  --font-sans: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+  --font-display: "Noto Sans KR", -apple-system, sans-serif;
+  --font-sans: "Noto Sans KR", -apple-system, sans-serif;
 
   --radius-card: var(--radius-card);
   --radius-pill: var(--radius-pill);

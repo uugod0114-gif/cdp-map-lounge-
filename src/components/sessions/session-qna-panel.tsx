@@ -6,6 +6,7 @@ import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/common/button";
 import { Card } from "@/components/common/card";
 import { Badge } from "@/components/common/badge";
+import { AnonAvatar } from "@/components/common/anon-avatar";
 import { useDemoUser } from "@/features/auth/role-context";
 import { isStaff, ROLE_LABEL } from "@/lib/permissions/roles";
 import { submitQuestionAction, answerQuestionAction } from "@/features/feedback/qna-actions";
@@ -59,7 +60,7 @@ export function SessionQnaPanel({
           <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="강의 내용, 시설/환경 등 궁금한 점을 남겨주세요"
+            placeholder="궁금한 점을 남겨주세요 · 익명 아이콘으로 표시됩니다"
             className="flex-1 rounded-lg border border-slate-200 px-3 py-2.5 text-sm"
           />
           <Button type="submit" variant="primary" disabled={submitting}>
@@ -78,7 +79,8 @@ export function SessionQnaPanel({
             <div key={q.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
               <div className="flex items-center justify-between gap-2">
                 <span className="flex items-center gap-2 text-sm font-semibold text-map-ink">
-                  {q.authorName}
+                  {/* 익명 표시: 실명 대신 작성자별 고정 아이콘 아바타 */}
+                  <AnonAvatar seed={q.authorName} size={28} showLabel />
                   <Badge variant="neutral">{ROLE_LABEL[q.authorRole]}</Badge>
                 </span>
                 <span className="text-xs text-slate-400">
