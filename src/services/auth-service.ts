@@ -1,13 +1,6 @@
 import "server-only";
 import type { UserRole } from "@/types/content";
 
-export interface RegisteredUser {
-  email: string;
-  name: string;
-  role: UserRole;
-  registeredAt: string;
-}
-
 interface VerificationEntry {
   code: string;
   name: string;
@@ -18,15 +11,13 @@ interface VerificationEntry {
 }
 
 interface AuthStore {
-  registeredUsers: RegisteredUser[];
   pendingCodes: Map<string, VerificationEntry>;
 }
 
 const globalForAuth = globalThis as unknown as { __cdpMapAuthStore?: AuthStore };
 
 const store: AuthStore =
-  globalForAuth.__cdpMapAuthStore ??
-  (globalForAuth.__cdpMapAuthStore = { registeredUsers: [], pendingCodes: new Map() });
+  globalForAuth.__cdpMapAuthStore ?? (globalForAuth.__cdpMapAuthStore = { pendingCodes: new Map() });
 
 const CODE_TTL_MS = 10 * 60 * 1000; // 10분
 const MAX_ATTEMPTS = 5;
@@ -73,20 +64,5 @@ export function verifyPendingCode(email: string, code: string): VerifyCodeResult
   }
 
   store.pendingCodes.delete(key);
-
-  const existing = store.registeredUsers.find((u) => u.email === key);
-  if (!existing) {
-    store.registeredUsers.push({
-      email: key,
-      name: entry.name,
-      role: entry.role,
-      registeredAt: new Date().toISOString(),
-    });
-  }
-
   return { ok: true, name: entry.name, role: entry.role };
-}
-
-export function findRegisteredUserByEmail(email: string): RegisteredUser | undefined {
-  return store.registeredUsers.find((u) => u.email === email.trim().toLowerCase());
 }

@@ -35,6 +35,7 @@ export function EmailAuthForm() {
   const [signupStep, setSignupStep] = React.useState<SignupStep>("details");
   const [name, setName] = React.useState("");
   const [signupEmail, setSignupEmail] = React.useState("");
+  const [category, setCategory] = React.useState<"learner" | "auditor">("learner");
   const [code, setCode] = React.useState("");
 
   // 로그인 상태
@@ -54,7 +55,7 @@ export function EmailAuthForm() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const result = await requestSignupCode(name, signupEmail);
+    const result = await requestSignupCode(name, signupEmail, category);
     setLoading(false);
 
     if (!result.ok) {
@@ -122,6 +123,21 @@ export function EmailAuthForm() {
 
       {tab === "signup" && signupStep === "details" && (
         <form onSubmit={handleRequestCode} className="flex flex-col gap-3">
+          <p className="rounded-lg bg-map-gold-soft/60 p-3 text-xs leading-relaxed text-map-navy">
+            별도 교육 신청 제출과 다르게, 본인 확인을 위해 그룹웨어 이메일 주소로 라운지
+            회원가입을 요청드립니다.
+          </p>
+          <div>
+            <label className="mb-1 block text-sm font-semibold text-slate-600">참여 유형</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value as "learner" | "auditor")}
+              className="w-full rounded-lg border border-map-line px-3 py-2.5 text-sm"
+            >
+              <option value="learner">수강자</option>
+              <option value="auditor">청강자</option>
+            </select>
+          </div>
           <div>
             <label className="mb-1 block text-sm font-semibold text-slate-600">이름</label>
             <input
@@ -129,7 +145,6 @@ export function EmailAuthForm() {
               onChange={(e) => setName(e.target.value)}
               placeholder="ex. 홍길동"
               className="w-full rounded-lg border border-map-line px-3 py-2.5 text-sm"
-              autoFocus
             />
           </div>
           <div>
