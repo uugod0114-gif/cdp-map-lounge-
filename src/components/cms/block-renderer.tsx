@@ -112,7 +112,7 @@ function BlockBody({ block }: { block: ContentBlock }) {
       // highlighted=true: 네이비 프로모션 카드(마감 임박 등 강조 공지용)
       if (fields.highlighted) {
         return (
-          <div className="flex flex-col items-center justify-between gap-4 rounded-card bg-map-navy px-6 py-8 text-white sm:flex-row sm:px-10">
+          <div className="flex flex-col items-center justify-between gap-4 rounded-card bg-gradient-to-br from-map-navy via-map-navy-soft to-map-navy-mute px-6 py-8 text-white shadow-md shadow-map-navy/20 sm:flex-row sm:px-10">
             <div>
               {fields.title && <p className="text-lg font-medium">{fields.title}</p>}
               {fields.description && (
@@ -145,9 +145,7 @@ function BlockBody({ block }: { block: ContentBlock }) {
               </h1>
             )}
             {fields.description && (
-              <p className="max-w-lg whitespace-pre-line text-[15px] leading-relaxed text-slate-500">
-                {fields.description}
-              </p>
+              <p className="max-w-lg text-[15px] leading-relaxed text-slate-500">{fields.description}</p>
             )}
             {fields.buttonLabel && (
               <Link href={fields.buttonUrl ?? "#"} target={fields.linkTarget}>

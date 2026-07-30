@@ -19,7 +19,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-map-navy font-display text-sm font-semibold text-map-gold">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-map-navy-mute to-map-navy font-display text-sm font-semibold text-map-gold">
               MAP
             </span>
             <span className="hidden font-display text-base font-medium tracking-tight text-map-ink sm:inline">
