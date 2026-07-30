@@ -8,7 +8,12 @@ import { Badge } from "@/components/common/badge";
 import { useDemoUser } from "@/features/auth/role-context";
 import { ROLE_LABEL } from "@/lib/permissions/roles";
 
-const NAV = [{ href: "/about", label: "교육 소개" }];
+const NAV = [
+  { href: "/about#intro", label: "교육 소개" },
+  { href: "/about#schedule", label: "강의 일정" },
+  { href: "/about#materials", label: "강의 자료" },
+  { href: "/about#feedback", label: "피드백" },
+];
 
 export function SiteHeader() {
   const { user, isLoggedIn, logout } = useDemoUser();
@@ -40,7 +45,7 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="relative flex items-center gap-3">
           {isLoggedIn ? (
             <>
               <Link href="/notifications" className="text-slate-400 hover:text-map-navy">
@@ -62,11 +67,23 @@ export function SiteHeader() {
               </button>
             </>
           ) : (
-            <Link href="/login">
-              <Button variant="mint" size="sm">
-                로그인
-              </Button>
-            </Link>
+            <div className="group relative">
+              <Link href="/login">
+                <Button variant="mint" size="sm">
+                  로그인
+                </Button>
+              </Link>
+              {/* 로그인 버튼 아래 작은 라운지 안내 박스 */}
+              <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-map-line bg-white p-3 text-right shadow-sm">
+                <p className="text-xs text-slate-400">신청 후 로그인이 가능해요</p>
+                <Link
+                  href="/lounge"
+                  className="mt-1 inline-block text-xs font-semibold text-map-navy hover:underline"
+                >
+                  라운지 입장하기 →
+                </Link>
+              </div>
+            </div>
           )}
         </div>
       </div>

@@ -48,49 +48,12 @@ const mainBlocks: ContentBlock[] = [
       buttonLabel: "지금 신청하기",
       buttonUrl: "https://forms.gle/awVLtckpMasscMAY7",
       linkTarget: "_blank",
-      secondaryButtonLabel: "라운지 둘러보기",
+      secondaryButtonLabel: "라운지 바로가기",
       secondaryButtonUrl: "/lounge",
       align: "center",
       highlighted: false,
       isActive: true,
       visibilityRoles: [],
-    },
-  ),
-  block(
-    "card",
-    1,
-    {
-      title: "이미 참여 중이신가요?",
-      description: "라운지에서 교육 소개, 강의 일정, 강의 자료까지 한 번에 확인하세요.",
-      buttonLabel: "라운지 입장하기",
-      buttonUrl: "/lounge",
-      align: "center",
-      isActive: true,
-      visibilityRoles: [],
-    },
-  ),
-  block(
-    "cardGrid",
-    2,
-    { title: "CDP MAP은 이런 프로그램이에요", isActive: true, visibilityRoles: [] },
-    {
-      cards: [
-        {
-          title: "실전 중심 커리큘럼",
-          description: "8주간 실제 캠페인 과제를 멘토 PM과 함께 수행합니다.",
-          icon: "Target",
-        },
-        {
-          title: "1:1 멘토 매칭",
-          description: "직무별 현직 PM이 밀착 피드백을 제공합니다.",
-          icon: "Users",
-        },
-        {
-          title: "청강 트랙 제공",
-          description: "관심있는 구성원 누구나 자료 열람과 강의 참여가 가능합니다.",
-          icon: "BookOpen",
-        },
-      ],
     },
   ),
 ];
