@@ -2,17 +2,17 @@
 @import "tailwindcss";
 
 :root {
-  /* ===== CDP MAP 디자인 토큰 (imweb 스타일 클린 + 배너 네이비) ===== */
-  --color-map-navy: #12173a;
-  --color-map-navy-soft: #1c2350;
-  --color-map-navy-mute: #4a5080;
+  /* ===== CDP MAP 디자인 토큰 (Pantone 2026: Cloud Dancer 배경 + Teal Green 강조) ===== */
+  --color-map-navy: #0f4c4c;
+  --color-map-navy-soft: #146b6b;
+  --color-map-navy-mute: #66b2b2;
   --color-map-gold: #e8c96b;
   --color-map-gold-soft: #faf3e0;
-  --color-map-line: #e7e8ee;
-  --color-map-ink: #12173a;
-  --color-map-mist: #f7f7fa;
+  --color-map-line: #e5e2da;
+  --color-map-ink: #16302c;
+  --color-map-mist: #f5f3ee;
 
-  --background: #ffffff;
+  --background: #f1efea;
   --foreground: var(--color-map-ink);
 
   --radius-card: 1rem;
