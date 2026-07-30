@@ -3,7 +3,6 @@ import { LoungeShell } from "@/components/layout/lounge-shell";
 import { BlockListClient } from "@/components/cms/block-list-client";
 import { StatusBadge } from "@/components/common/badge";
 import { SessionQnaPanel } from "@/components/sessions/session-qna-panel";
-import { SessionAgendaTable } from "@/components/sessions/session-agenda-table";
 import { getSessionById, listSessionQuestions } from "@/services/content-service";
 
 export default async function SessionDetailPage({
@@ -28,12 +27,6 @@ export default async function SessionDetailPage({
       <p className="mb-6 text-slate-500">{session.summary}</p>
 
       <BlockListClient blocks={session.publishedBlocks.length ? session.publishedBlocks : session.draftBlocks} />
-
-      {session.agenda && session.agenda.length > 0 && (
-        <div className="mt-8">
-          <SessionAgendaTable agenda={session.agenda} />
-        </div>
-      )}
 
       {session.assignmentNote && (
         <div className="mt-6 rounded-card border border-map-gold/40 bg-map-gold-soft/40 p-5 text-sm text-map-navy">

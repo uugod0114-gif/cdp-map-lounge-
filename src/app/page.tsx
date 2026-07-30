@@ -3,7 +3,8 @@ import { PublicShell } from "@/components/layout/public-shell";
 import { BlockList } from "@/components/cms/block-renderer";
 import { Card } from "@/components/common/card";
 import { MaterialActions } from "@/components/materials/material-actions";
-import { CalendarDays, MapPin, MessageCircle, FileText } from "lucide-react";
+import { ScheduleSessionCard } from "@/components/sessions/schedule-session-card";
+import { MessageCircle, FileText } from "lucide-react";
 import { getPageBySlug, listSessions, listMaterials } from "@/services/content-service";
 
 export default async function HomePage() {
@@ -35,18 +36,7 @@ export default async function HomePage() {
           <h2 className="mb-6 font-display text-2xl font-medium text-map-ink">강의 일정</h2>
           <div className="flex flex-col gap-4">
             {sessions.map((s) => (
-              <Card key={s.id} className="border-map-navy/10">
-                <p className="text-sm font-semibold text-map-navy">{s.week}회차</p>
-                <p className="mt-1 text-lg font-bold text-map-ink">{s.title}</p>
-                <div className="mt-2 flex flex-wrap gap-3 text-sm text-slate-500">
-                  <span className="flex items-center gap-1">
-                    <CalendarDays className="h-4 w-4" /> {s.date} {s.startTime}-{s.endTime}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4" /> {s.location || "미정"}
-                  </span>
-                </div>
-              </Card>
+              <ScheduleSessionCard key={s.id} session={s} />
             ))}
           </div>
         </div>
