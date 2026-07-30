@@ -55,8 +55,8 @@ export default async function HomePage() {
               <div
                 className={
                   track.highlighted
-                    ? "flex h-full flex-col rounded-[1.75rem] bg-gradient-to-br from-map-navy-soft to-map-navy p-7 text-white shadow-[0_20px_40px_-15px_rgba(18,63,69,0.4)] md:-translate-y-3"
-                    : "flex h-full flex-col rounded-[1.75rem] border border-map-line bg-white p-7 text-map-ink shadow-[0_8px_24px_-8px_rgba(18,63,69,0.12)]"
+                    ? "flex h-full flex-col rounded-[1.5rem] bg-map-navy p-7 text-white"
+                    : "flex h-full flex-col rounded-[1.5rem] border border-map-line bg-white p-7 text-map-ink"
                 }
               >
                 <p

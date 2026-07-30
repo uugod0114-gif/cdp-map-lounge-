@@ -2,20 +2,20 @@
 @import "tailwindcss";
 
 :root {
-  /* ===== CDP MAP 디자인 토큰 (화이트 배경 + Transformative Teal) ===== */
-  --color-map-navy: #123f45;
-  --color-map-navy-soft: #1d6e64;
-  --color-map-navy-mute: #8ee0d3;
-  --color-map-gold: #ffc857;
-  --color-map-gold-soft: #fff3d6;
-  --color-map-line: #d9f0ec;
-  --color-map-ink: #123f45;
-  --color-map-mist: #eafbf8;
+  /* ===== CDP MAP 디자인 토큰 (토스 스타일: 화이트 + 에듀그린) ===== */
+  --color-map-navy: #0f8a5e;
+  --color-map-navy-soft: #0b6e4a;
+  --color-map-navy-mute: #7fd9ae;
+  --color-map-gold: #0f8a5e;
+  --color-map-gold-soft: #e8f8f0;
+  --color-map-line: #ebebee;
+  --color-map-ink: #191f28;
+  --color-map-mist: #f9f9fb;
 
-  --background: #fffdfa;
+  --background: #ffffff;
   --foreground: var(--color-map-ink);
 
-  --radius-card: 1.75rem;
+  --radius-card: 1.25rem;
   --radius-pill: 999px;
 }
 

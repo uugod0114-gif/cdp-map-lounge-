@@ -26,12 +26,12 @@ export function LoungeShell({ children }: { children: React.ReactNode }) {
   const roleNavItem = ROLE_NAV_ITEM[user.role];
 
   return (
-    <div className="flex min-h-screen flex-col bg-map-mist">
-      <header className="sticky top-4 z-30 mx-4 mb-2 sm:mx-6">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between rounded-full border border-map-line bg-white/95 px-5 shadow-[0_10px_30px_-10px_rgba(18,63,69,0.2)] backdrop-blur">
+    <div className="flex min-h-screen flex-col bg-white">
+      <header className="sticky top-0 z-30 border-b border-map-line bg-white/95 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-map-navy-mute to-map-navy text-xs font-semibold text-map-gold">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-map-navy text-xs font-semibold text-white">
                 MAP
               </span>
               <span className="hidden font-display text-sm font-medium sm:inline">

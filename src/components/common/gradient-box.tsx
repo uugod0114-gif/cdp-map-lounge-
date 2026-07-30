@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils/cn";
 
 /**
- * 옅은 그라데이션 테두리 + 은은한 컬러 배경의 카드.
- * 참고 레퍼런스(글래스모피즘 대시보드, 넘버링 스텝 박스)의 부드러운 테두리 느낌.
+ * 토스 스타일의 플랫한 화이트 박스 + 얇은 회색 테두리.
+ * (그림자/그라데이션 없이 여백과 테두리만으로 구분감을 준다)
  */
 export function GradientBox({
   className,
@@ -14,13 +14,11 @@ export function GradientBox({
   return (
     <div
       className={cn(
-        "rounded-[1.5rem] bg-gradient-to-br from-map-navy-mute/40 via-map-gold/25 to-map-navy-soft/30 p-[1.5px]",
+        "rounded-[1.25rem] border border-map-line bg-white p-6",
         className,
       )}
     >
-      <div className="h-full w-full rounded-[calc(1.5rem-1.5px)] bg-white/90 p-6 backdrop-blur-sm">
-        {children}
-      </div>
+      {children}
     </div>
   );
 }
