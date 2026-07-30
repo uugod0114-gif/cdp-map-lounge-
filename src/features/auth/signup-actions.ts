@@ -2,7 +2,7 @@
 
 import { findRosterMemberByEmail } from "@/lib/roster/google-sheet";
 import { appendRosterRow } from "@/lib/roster/append-webhook";
-import { sendVerificationEmail } from "@/lib/email/resend";
+import { sendVerificationEmailViaAppsScript } from "@/lib/email/apps-script-mailer";
 import { createPendingCode, verifyPendingCode } from "@/services/auth-service";
 import { recordLogin } from "@/services/content-service";
 import type { UserRole } from "@/types/content";
@@ -34,7 +34,7 @@ export async function requestSignupCode(
   }
 
   const code = createPendingCode(trimmedName, trimmedEmail, category);
-  const emailResult = await sendVerificationEmail(trimmedEmail, code);
+  const emailResult = await sendVerificationEmailViaAppsScript(trimmedEmail, code);
 
   if (!emailResult.ok) {
     return {
