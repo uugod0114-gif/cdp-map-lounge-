@@ -296,6 +296,8 @@ export interface LoungePost {
   message: string;
   sessionTag?: string;
   likes: string[];
+  /** likes의 별칭 — lounge-feed.tsx와 호환성 유지 */
+  likedBy: string[];
   pinned: boolean;
   comments: LoungeComment[];
   createdAt: string;

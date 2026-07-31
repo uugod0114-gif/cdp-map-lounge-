@@ -490,6 +490,7 @@ export async function addLoungePost(
     message,
     sessionTag,
     likes: [],
+    likedBy: [],
     pinned: false,
     comments: [],
     createdAt: new Date().toISOString(),
@@ -526,8 +527,13 @@ export async function toggleLoungeLike(postId: string, memberName: string): Prom
   const post = store.loungePosts.find((p) => p.id === postId);
   if (!post) return;
   const idx = post.likes.indexOf(memberName);
-  if (idx === -1) post.likes.push(memberName);
-  else post.likes.splice(idx, 1);
+  if (idx === -1) {
+    post.likes.push(memberName);
+    post.likedBy.push(memberName);
+  } else {
+    post.likes.splice(idx, 1);
+    post.likedBy.splice(idx, 1);
+  }
 }
 
 export async function toggleLoungePin(postId: string, actor: string): Promise<void> {
