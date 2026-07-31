@@ -3,13 +3,23 @@ import { CheckCircle2 } from "lucide-react";
 import { LoungeShell } from "@/components/layout/lounge-shell";
 import { BlockListClient } from "@/components/cms/block-list-client";
 import { Card } from "@/components/common/card";
-import { getPageBySlug } from "@/services/content-service";
+import { LoungeFeed } from "@/components/lounge/lounge-feed";
+import { getPageBySlug, listLoungePosts, listSessions } from "@/services/content-service";
 
 export default async function LearnerLoungePage() {
-  const page = await getPageBySlug("lounge-learner");
+  const [page, posts, sessions] = await Promise.all([
+    getPageBySlug("lounge-learner"),
+    listLoungePosts("learner"),
+    listSessions(),
+  ]);
+  const sessionTags = sessions.map((s) => `${s.week}회차`);
+
   return (
     <LoungeShell>
-      <h1 className="mb-6 font-display text-2xl font-medium text-map-ink">수강자 라운지</h1>
+      <h1 className="font-display text-2xl font-medium text-map-ink">수강자 라운지</h1>
+      <p className="mb-6 mt-1 text-sm text-slate-500">
+        오늘 교육에서 얻은 인사이트를 익명으로 나눠보세요. 좋은 글은 교수자 추천으로 소개됩니다.
+      </p>
 
       <Link href="/learner/attendance" className="mb-6 block">
         <Card className="flex items-center justify-between border-map-navy/10 hover:border-map-navy">
@@ -25,6 +35,10 @@ export default async function LearnerLoungePage() {
           <span className="text-sm text-map-navy">바로가기 →</span>
         </Card>
       </Link>
+
+      <div className="mb-8">
+        <LoungeFeed board="learner" posts={posts} sessionTags={sessionTags} />
+      </div>
 
       <BlockListClient blocks={page?.publishedBlocks ?? []} />
     </LoungeShell>
