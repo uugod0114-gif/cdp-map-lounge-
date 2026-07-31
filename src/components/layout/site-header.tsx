@@ -13,7 +13,7 @@ const BASE_NAV = [
   { href: "/#intro", label: "교육 소개" },
   { href: "/#schedule", label: "강의 일정" },
   { href: "/#materials", label: "강의 자료" },
-  { href: "/#feedback", label: "피드백" },
+  { href: "/feedback", label: "피드백" },
 ];
 
 /** 로그인한 역할에 따라 상단 메뉴에 추가되는 항목 */
