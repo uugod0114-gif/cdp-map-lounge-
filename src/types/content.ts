@@ -299,6 +299,8 @@ export interface LoungePost {
   /** likes의 별칭 — lounge-feed.tsx와 호환성 유지 */
   likedBy: string[];
   pinned: boolean;
+  /** 교수자가 상단 고정한 경우 — lounge-feed.tsx 호환 */
+  pinnedByInstructor: boolean;
   comments: LoungeComment[];
   createdAt: string;
 }

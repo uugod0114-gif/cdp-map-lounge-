@@ -492,6 +492,7 @@ export async function addLoungePost(
     likes: [],
     likedBy: [],
     pinned: false,
+    pinnedByInstructor: false,
     comments: [],
     createdAt: new Date().toISOString(),
   };
