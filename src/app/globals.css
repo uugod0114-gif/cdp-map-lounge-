@@ -1,16 +1,18 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap");
 @import "tailwindcss";
 
 :root {
-  /* ===== CDP MAP 디자인 토큰 (imweb 스타일 클린 + 배너 네이비) ===== */
-  --color-map-navy: #12173a;
-  --color-map-navy-soft: #1c2350;
-  --color-map-navy-mute: #4a5080;
-  --color-map-gold: #e8c96b;
-  --color-map-gold-soft: #faf3e0;
-  --color-map-line: #e7e8ee;
-  --color-map-ink: #12173a;
-  --color-map-mist: #f7f7fa;
+  /* ===== CDP MAP 디자인 토큰 v10 (화이트 배경 + 에듀 그린) =====
+     navy(=brand) #0f8a5e 성장·학습의 에듀 그린 / soft 짙은 그린(텍스트·호버)
+     gold 웜 앰버 포인트 / ink 토스 계열 잉크 / mist 섹션 교차 배경 */
+  --color-map-navy: #0f8a5e;
+  --color-map-navy-soft: #0a6b49;
+  --color-map-navy-mute: #9bd9c2;
+  --color-map-gold: #f0b429;
+  --color-map-gold-soft: #fdf3da;
+  --color-map-line: #e5e8eb;
+  --color-map-ink: #191f28;
+  --color-map-mist: #f9fafb;
 
   --background: #ffffff;
   --foreground: var(--color-map-ink);
@@ -32,8 +34,8 @@
   --color-map-ink: var(--color-map-ink);
   --color-map-mist: var(--color-map-mist);
 
-  --font-display: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
-  --font-sans: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+  --font-display: "Noto Sans KR", -apple-system, sans-serif;
+  --font-sans: "Noto Sans KR", -apple-system, sans-serif;
 
   --radius-card: var(--radius-card);
   --radius-pill: var(--radius-pill);
