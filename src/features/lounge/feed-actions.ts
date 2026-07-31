@@ -10,8 +10,8 @@ import {
 import type { LoungeBoard, UserRole } from "@/types/content";
 
 const BOARD_PATH: Record<LoungeBoard, string> = {
-  auditor: "/auditor",
-  learner: "/learner",
+  auditor: "/feedback",
+  learner: "/feedback",
 };
 
 export async function submitLoungePostAction(

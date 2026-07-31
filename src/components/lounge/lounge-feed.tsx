@@ -17,12 +17,6 @@ import {
 } from "@/features/lounge/feed-actions";
 import type { LoungeBoard, LoungePost } from "@/types/content";
 
-/**
- * 청강자/수강자 라운지 소감 피드.
- * - 작성자는 익명 아이콘 아바타로만 표시된다 (실명은 서버 데이터에만 보관).
- * - 공감(토글) + 익명 댓글 + 교수자/운영진 추천(상단 고정) 지원.
- * - Phase 1: 서버 메모리 저장(content-service). Phase 2: Supabase 교체.
- */
 export function LoungeFeed({
   board,
   posts,
@@ -72,15 +66,12 @@ export function LoungeFeed({
 
   return (
     <div className="flex flex-col gap-4">
-      {/* 글쓰기 */}
       <Card className="border-map-navy/10">
         {isLoggedIn ? (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="flex items-center gap-2 rounded-lg bg-map-mist px-3 py-2">
               <AnonAvatar seed={user.name} size={26} showLabel />
-              <span className="text-xs text-slate-500">
-                으로 익명 등록됩니다 · 아이콘은 자동 배정
-              </span>
+              <span className="text-xs text-slate-500">으로 익명 등록됩니다 · 아이콘은 자동 배정</span>
             </div>
             <textarea
               value={message}
@@ -96,9 +87,7 @@ export function LoungeFeed({
               >
                 <option value="">자유</option>
                 {sessionTags.map((tag) => (
-                  <option key={tag} value={tag}>
-                    {tag}
-                  </option>
+                  <option key={tag} value={tag}>{tag}</option>
                 ))}
               </select>
               <Button type="submit" variant="primary" disabled={submitting}>
@@ -111,7 +100,6 @@ export function LoungeFeed({
         )}
       </Card>
 
-      {/* 피드 */}
       {posts.length === 0 ? (
         <Card className="border-map-navy/10">
           <p className="text-sm text-slate-400">아직 등록된 글이 없습니다. 첫 소감을 남겨보세요!</p>
@@ -121,10 +109,7 @@ export function LoungeFeed({
           const liked = post.likedBy.includes(user.name);
           const commentsOpen = !!openComments[post.id];
           return (
-            <Card
-              key={post.id}
-              className={post.pinnedByInstructor ? "border-map-navy" : "border-map-navy/10"}
-            >
+            <Card key={post.id} className={post.pinnedByInstructor ? "border-map-navy" : "border-map-navy/10"}>
               {post.pinnedByInstructor && (
                 <p className="mb-2 flex items-center gap-1 text-xs font-bold text-map-navy">
                   <Star className="h-3.5 w-3.5" /> 교수자 추천
@@ -137,51 +122,26 @@ export function LoungeFeed({
                   {post.sessionTag && <Badge variant="navy">{post.sessionTag}</Badge>}
                 </span>
                 <span className="text-xs text-slate-400" suppressHydrationWarning>
-                  {new Date(post.createdAt).toLocaleString("ko-KR", {
-                    month: "short",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "2-digit",
-                  })}
+                  {new Date(post.createdAt).toLocaleString("ko-KR", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}
                 </span>
               </div>
-
               <p className="mt-3 text-sm leading-relaxed text-slate-700">{post.message}</p>
-
               <div className="mt-3 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleLike(post.id)}
-                  disabled={!isLoggedIn}
-                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
-                    liked
-                      ? "border-map-navy bg-map-mist text-map-navy"
-                      : "border-slate-200 text-slate-500 hover:border-map-navy hover:text-map-navy"
-                  }`}
-                >
+                <button type="button" onClick={() => handleLike(post.id)} disabled={!isLoggedIn}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${liked ? "border-map-navy bg-map-mist text-map-navy" : "border-slate-200 text-slate-500 hover:border-map-navy hover:text-map-navy"}`}>
                   <ThumbsUp className="h-3.5 w-3.5" /> 공감 {post.likedBy.length}
                 </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setOpenComments((prev) => ({ ...prev, [post.id]: !prev[post.id] }))
-                  }
-                  className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-map-navy hover:text-map-navy"
-                >
+                <button type="button" onClick={() => setOpenComments((prev) => ({ ...prev, [post.id]: !prev[post.id] }))}
+                  className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-map-navy hover:text-map-navy">
                   <MessageCircle className="h-3.5 w-3.5" /> 댓글 {post.comments.length}
                 </button>
                 {canPin && (
-                  <button
-                    type="button"
-                    onClick={() => handlePin(post.id)}
-                    className="ml-auto flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-map-navy hover:text-map-navy"
-                  >
-                    <Star className="h-3.5 w-3.5" />
-                    {post.pinnedByInstructor ? "추천 해제" : "추천"}
+                  <button type="button" onClick={() => handlePin(post.id)}
+                    className="ml-auto flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:border-map-navy hover:text-map-navy">
+                    <Star className="h-3.5 w-3.5" /> {post.pinnedByInstructor ? "추천 해제" : "추천"}
                   </button>
                 )}
               </div>
-
               {commentsOpen && (
                 <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4">
                   {post.comments.map((comment) => (
@@ -189,16 +149,9 @@ export function LoungeFeed({
                       <AnonAvatar seed={comment.authorName} size={24} />
                       <div className="flex-1 rounded-xl bg-slate-50 px-3 py-2">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-semibold text-map-ink">
-                            익명의 {anonPersona(comment.authorName).label}
-                          </span>
+                          <span className="text-xs font-semibold text-map-ink">익명의 {anonPersona(comment.authorName).label}</span>
                           <span className="text-[11px] text-slate-400" suppressHydrationWarning>
-                            {new Date(comment.createdAt).toLocaleString("ko-KR", {
-                              month: "short",
-                              day: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit",
-                            })}
+                            {new Date(comment.createdAt).toLocaleString("ko-KR", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}
                           </span>
                         </div>
                         <p className="mt-1 text-sm text-slate-600">{comment.message}</p>
@@ -207,23 +160,12 @@ export function LoungeFeed({
                   ))}
                   {isLoggedIn && (
                     <div className="flex gap-2">
-                      <input
-                        value={commentDrafts[post.id] ?? ""}
-                        onChange={(e) =>
-                          setCommentDrafts((prev) => ({ ...prev, [post.id]: e.target.value }))
-                        }
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleComment(post.id);
-                          }
-                        }}
+                      <input value={commentDrafts[post.id] ?? ""}
+                        onChange={(e) => setCommentDrafts((prev) => ({ ...prev, [post.id]: e.target.value }))}
+                        onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) { e.preventDefault(); handleComment(post.id); } }}
                         placeholder="익명 댓글 남기기"
-                        className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm"
-                      />
-                      <Button size="sm" variant="outline" onClick={() => handleComment(post.id)}>
-                        등록
-                      </Button>
+                        className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm" />
+                      <Button size="sm" variant="outline" onClick={() => handleComment(post.id)}>등록</Button>
                     </div>
                   )}
                 </div>
@@ -235,4 +177,3 @@ export function LoungeFeed({
     </div>
   );
 }
-
