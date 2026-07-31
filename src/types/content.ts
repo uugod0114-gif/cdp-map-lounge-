@@ -275,3 +275,28 @@ export interface StaffMember {
   permissions: string[];
   scope: "all" | "course" | "session";
 }
+
+/** 미경님 작업: 라운지 피드(게시글/댓글) 관련 타입 */
+export type LoungeBoard = "auditor" | "learner";
+
+export interface LoungeComment {
+  id: string;
+  postId: string;
+  authorName: string;
+  authorRole: UserRole;
+  message: string;
+  createdAt: string;
+}
+
+export interface LoungePost {
+  id: string;
+  board: LoungeBoard;
+  authorName: string;
+  authorRole: UserRole;
+  message: string;
+  sessionTag?: string;
+  likes: string[];
+  pinned: boolean;
+  comments: LoungeComment[];
+  createdAt: string;
+}
