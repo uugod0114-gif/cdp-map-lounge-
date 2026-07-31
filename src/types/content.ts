@@ -270,3 +270,31 @@ export interface StaffMember {
   permissions: string[];
   scope: "all" | "course" | "session";
 }
+// ================= 라운지 피드 (청강자/수강자 탭) =================
+
+export type LoungeBoard = "auditor" | "learner";
+
+export interface LoungeComment {
+  id: string;
+  /** 실명은 서버 데이터에만 보관되고, 화면에는 익명 아이콘으로만 노출된다. */
+  authorName: string;
+  authorRole: UserRole;
+  message: string;
+  createdAt: string;
+}
+
+export interface LoungePost {
+  id: string;
+  board: LoungeBoard;
+  authorName: string;
+  authorRole: UserRole;
+  message: string;
+  /** 회차 태그 (예: "1회차"). 없으면 자유 글 */
+  sessionTag?: string;
+  /** 공감 누른 사용자 이름 목록 (토글) */
+  likedBy: string[];
+  comments: LoungeComment[];
+  /** 교수자/운영진 추천(하이라이트) 여부 */
+  pinnedByInstructor?: boolean;
+  createdAt: string;
+}
