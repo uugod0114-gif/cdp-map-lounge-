@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDP MAP Lounge — 교수자·라운지 미리보기 (v1)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+:root{
+  --bg:#faf6ec;
+  --card:#ffffff;
+  --ink:#2b2a26;
+  --sub:#8a8378;
+  --line:#eee7d8;
+  --accent:#2f6df6;
+  --accent-soft:#eaf1ff;
+  --warm:#f4a83b;
+  --warm-soft:#fdf3e2;
+  --green:#2fa06a;
+  --green-soft:#e7f6ee;
+  --pin:#e8564a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+
+/* header */
+.hero{padding:28px 0 18px}
+.hero .badge{display:inline-block;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:3px 10px;border-radius:20px;margin-bottom:8px}
+.hero h1{font-size:24px;font-weight:900;letter-spacing:-0.5px}
+.hero p{font-size:13px;color:var(--sub);margin-top:2px}
+
+/* session chips */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:6px 0 14px}
+.chip{flex:none;font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px;background:var(--card);border:1px solid var(--line);color:var(--sub);cursor:pointer;transition:.15s}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:700}
+
+/* tabs */
+.tabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px;margin-bottom:18px}
+.tab{flex:1;text-align:center;padding:10px 0;border-radius:10px;font-size:15px;font-weight:700;color:var(--sub);cursor:pointer;position:relative;transition:.15s}
+.tab.on{background:var(--accent);color:#fff}
+.tab .num{position:absolute;top:6px;margin-left:6px;font-size:11px;font-weight:700;background:var(--pin);color:#fff;border-radius:10px;padding:0 6px}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px}
+.sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.06em;margin:22px 0 10px}
+
+/* notice */
+.notice{border-left:4px solid var(--pin);display:flex;gap:10px;align-items:flex-start}
+.notice .t{font-size:14px;font-weight:700}
+.notice .d{font-size:13px;color:var(--sub)}
+
+/* lecture card */
+.lec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.lec-title{font-size:16px;font-weight:900}
+.lec-meta{font-size:12px;color:var(--sub)}
+.prof{display:flex;align-items:center;gap:10px;margin:12px 0}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;background:var(--warm-soft);flex:none}
+.prof .name{font-size:14px;font-weight:700}
+.prof .role{font-size:11px;font-weight:700;color:var(--warm);background:var(--warm-soft);padding:1px 8px;border-radius:10px;margin-left:6px}
+.speech{background:var(--warm-soft);border-radius:0 14px 14px 14px;padding:14px 16px;font-size:14px}
+.btn-row{display:flex;gap:8px;margin-top:14px}
+.btn{font-family:inherit;font-size:13px;font-weight:700;padding:9px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* qa */
+.qa-q{display:flex;gap:10px;margin-bottom:12px}
+.qa-q .b{font-size:14px}
+.qa-tag{font-size:11px;font-weight:700;padding:1px 8px;border-radius:10px}
+.tag-wait{color:var(--pin);background:#fdeceb}
+.tag-done{color:var(--green);background:var(--green-soft)}
+.qa-a{margin:10px 0 0 48px;background:var(--green-soft);border-radius:0 14px 14px 14px;padding:12px 14px;font-size:13px}
+.qa-a .who{font-size:12px;font-weight:700;color:var(--green);margin-bottom:2px}
+
+/* composer */
+.composer textarea{width:100%;border:none;resize:none;font-family:inherit;font-size:14px;outline:none;background:transparent;min-height:44px}
+.composer .foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
+.composer select{font-family:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--card);color:var(--sub)}
+
+/* feed */
+.post .head{display:flex;align-items:center;gap:10px}
+.post .nick{font-size:14px;font-weight:700}
+.post .meta{font-size:12px;color:var(--sub)}
+.post .lectag{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:1px 8px;border-radius:10px}
+.post .body{font-size:14px;margin:10px 0 12px}
+.post.hl{border:1.5px solid var(--warm)}
+.hl-band{font-size:11px;font-weight:700;color:var(--warm);margin-bottom:8px}
+.react{display:flex;gap:6px;align-items:center}
+.emo{font-family:inherit;font-size:13px;border:1px solid var(--line);background:var(--bg);border-radius:20px;padding:4px 10px;cursor:pointer;transition:.1s}
+.emo.on{background:var(--accent-soft);border-color:var(--accent);font-weight:700}
+.cmt{font-size:13px;color:var(--sub);margin-left:auto;cursor:pointer}
+.q-badge{font-size:11px;font-weight:700;color:#fff;background:var(--accent);border-radius:10px;padding:1px 8px}
+
+.hidden{display:none}
+.foot-note{text-align:center;font-size:12px;color:var(--sub);margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="badge">미리보기 초안 v1</span>
+    <h1>CDP MAP Lounge</h1>
+    <p>함께 듣고, 함께 나누는 성장의 공간</p>
+  </div>
+
+  <!-- 강의 선택 -->
+  <div class="chips" id="chips">
+    <div class="chip on">전체</div>
+    <div class="chip">1강 · 리더의 언어</div>
+    <div class="chip">2강 · 데이터로 말하기</div>
+    <div class="chip">3강 · 피드백의 기술</div>
+    <div class="chip">자유</div>
+  </div>
+
+  <!-- 탭 -->
+  <div class="tabs">
+    <div class="tab" id="tabProf" onclick="show('prof')">🎓 교수자<span class="num">2</span></div>
+    <div class="tab on" id="tabLounge" onclick="show('lounge')">💬 라운지</div>
+  </div>
+
+  <!-- ================= 교수자 탭 ================= -->
+  <div id="prof" class="hidden">
+
+    <div class="sec-label">📌 고정 공지</div>
+    <div class="card notice">
+      <div>📌</div>
+      <div>
+        <div class="t">4강부터 강의실이 B동 대강당으로 변경됩니다</div>
+        <div class="d">운영사무국 · 7/28</div>
+      </div>
+    </div>
+
+    <div class="sec-label">🎓 강의별 교수자 코멘트</div>
+    <div class="card">
+      <div class="lec-head">
+        <div class="lec-title">3강 · 피드백의 기술</div>
+        <div class="lec-meta">7/29 (수)</div>
+      </div>
+      <div class="prof">
+        <div class="avatar">👨‍🏫</div>
+        <div><span class="name">김민준 교수</span><span class="role">교수자</span></div>
+      </div>
+      <div class="speech">
+        오늘 다룬 SBI 모델은 꼭 이번 주 안에 실제 팀원 1명에게 적용해 보세요.
+        해보고 막힌 지점을 라운지에 남겨주시면 다음 강의 때 함께 다루겠습니다.
+      </div>
+      <div class="btn-row">
+        <button class="btn primary">이 강의 설문 하러 가기 →</button>
+        <button class="btn">강의자료 📎</button>
+      </div>
+    </div>
+
+    <div class="sec-label">❓ Q&A · 미답변 2</div>
+    <div class="card">
+      <div class="qa-q">
+        <div class="avatar">🦊</div>
+        <div>
+          <div><span class="nick" style="font-size:13px;font-weight:700">영리한 여우</span>
+          <span class="qa-tag tag-done">답변완료</span></div>
+          <div class="b">SBI 피드백을 상사에게도 쓸 수 있나요?</div>
+        </div>
+      </div>
+      <div class="qa-a">
+        <div class="who">김민준 교수</div>
+        가능합니다. 다만 상향 피드백은 '요청' 형태로 바꾸는 게 안전합니다. 다음 강의에서 예시로 다룰게요.
+      </div>
+    </div>
+    <div class="card">
+      <div class="qa-q">
+        <div class="avatar">🐢</div>
+        <div>
+          <div><span class="nick" style="font-size:13px;font-weight:700">신중한 거북이</span>
+          <span class="qa-tag tag-wait">미답변</span></div>
+          <div class="b">피드백을 받은 팀원이 방어적으로 나올 때는 어떻게 하나요?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 라운지 탭 ================= -->
+  <div id="lounge">
+
+    <div class="card composer">
+      <textarea placeholder="오늘 강의, 한 줄로 남겨보세요 ✏️"></textarea>
+      <div class="foot">
+        <select><option>강의 태그: 3강</option><option>1강</option><option>2강</option><option>자유</option></select>
+        <div class="btn-row" style="margin:0">
+          <button class="btn">❓ 교수자에게 질문</button>
+          <button class="btn primary">올리기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card post hl">
+      <div class="hl-band">📌 교수자 하이라이트</div>
+      <div class="head">
+        <div class="avatar">🦁</div>
+        <div>
+          <div class="nick">씩씩한 사자 <span class="lectag">3강</span></div>
+          <div class="meta">10분 전</div>
+        </div>
+      </div>
+      <div class="body">"평가하지 말고 관찰한 것을 말하라"가 오늘의 문장. 당장 내일 1on1에서 써봐야겠다.</div>
+      <div class="react">
+        <button class="emo" onclick="toggle(this)">👍 12</button>
+        <button class="emo" onclick="toggle(this)">🔥 5</button>
+        <button class="emo" onclick="toggle(this)">💡 8</button>
+        <button class="emo" onclick="toggle(this)">😂 0</button>
+        <span class="cmt">💬 댓글 3</span>
+      </div>
+    </div>
+
+    <div class="card post">
+      <div class="head">
+        <div class="avatar">🐢</div>
+        <div>
+          <div class="nick">신중한 거북이 <span class="q-badge">Q</span> <span class="lectag">3강</span></div>
+          <div class="meta">32분 전 · 교수자 탭 Q&A에 등록됨</div>
+        </div>
+      </div>
+      <div class="body">피드백을 받은 팀원이 방어적으로 나올 때는 어떻게 하나요?</div>
+      <div class="react">
+        <button class="emo" onclick="toggle(this)">👍 4</button>
+        <button class="emo" onclick="toggle(this)">🔥 0</button>
+        <button class="emo" onclick="toggle(this)">💡 2</button>
+        <button class="emo" onclick="toggle(this)">😂 0</button>
+        <span class="cmt">💬 댓글 1</span>
+      </div>
+    </div>
+
+    <div class="card post">
+      <div class="head">
+        <div class="avatar">🐰</div>
+        <div>
+          <div class="nick">재빠른 토끼 <span class="lectag" style="color:var(--sub);background:var(--bg)">자유</span></div>
+          <div class="meta">1시간 전</div>
+        </div>
+      </div>
+      <div class="body">다음 리딩파티 전에 같이 점심 스터디 하실 분? 🙋</div>
+      <div class="react">
+        <button class="emo" onclick="toggle(this)">👍 7</button>
+        <button class="emo" onclick="toggle(this)">🔥 2</button>
+        <button class="emo" onclick="toggle(this)">💡 0</button>
+        <button class="emo" onclick="toggle(this)">😂 3</button>
+        <span class="cmt">💬 댓글 5</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot-note">미리보기용 목업 · 데이터는 예시 · Noto Sans KR</div>
+</div>
+
+<script>
+function show(id){
+  document.getElementById('prof').classList.toggle('hidden', id!=='prof');
+  document.getElementById('lounge').classList.toggle('hidden', id!=='lounge');
+  document.getElementById('tabProf').classList.toggle('on', id==='prof');
+  document.getElementById('tabLounge').classList.toggle('on', id==='lounge');
+}
+function toggle(btn){
+  const parts = btn.textContent.trim().split(' ');
+  let n = parseInt(parts[1],10);
+  const on = btn.classList.toggle('on');
+  btn.textContent = parts[0] + ' ' + (on ? n+1 : n-1);
+}
+document.querySelectorAll('.chip').forEach(c=>{
+  c.onclick=()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+  };
+});
+</script>
+</body>
+</html>
