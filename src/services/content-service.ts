@@ -13,6 +13,9 @@ import type {
   Announcement,
   ContentBlock,
   ContentStatus,
+  LoungeBoard,
+  LoungeComment,
+  LoungePost,
   MaterialItem,
   PageContent,
   RevisionRecord,
@@ -44,6 +47,45 @@ interface Store {
   questions: SessionQuestion[];
   attendance: AttendanceRecord[];
   activityLogs: ActivityLog[];
+  loungePosts: LoungePost[];
+}
+
+/** 라운지 피드 시드 데이터 — 빈 화면 대신 사용 예시가 보이도록 */
+function createLoungeSeed(): LoungePost[] {
+  return [
+    {
+      id: "lounge_seed_1",
+      board: "learner",
+      authorName: "seed-user-a",
+      authorRole: "learner",
+      message:
+        "\"평가하지 말고 관찰한 것을 말하라\" — 오늘의 한 문장. 다음 팀 미팅에서 바로 적용해 보겠습니다.",
+      sessionTag: "1회차",
+      likedBy: ["seed-user-b", "seed-user-c"],
+      comments: [
+        {
+          id: "lounge_seed_1_c1",
+          authorName: "seed-user-b",
+          authorRole: "learner",
+          message: "저도 이 문장 적어뒀어요. 실천 후기 공유해요!",
+          createdAt: "2026-08-13T18:20:00+09:00",
+        },
+      ],
+      pinnedByInstructor: true,
+      createdAt: "2026-08-13T18:05:00+09:00",
+    },
+    {
+      id: "lounge_seed_2",
+      board: "auditor",
+      authorName: "seed-user-d",
+      authorRole: "auditor",
+      message: "청강으로 들었는데 UBIST 파트가 특히 알찼습니다. 자료 열람 가능한가요?",
+      sessionTag: "1회차",
+      likedBy: ["seed-user-a"],
+      comments: [],
+      createdAt: "2026-08-13T19:10:00+09:00",
+    },
+  ];
 }
 
 const globalForStore = globalThis as unknown as { __cdpMapStore?: Store };
@@ -60,12 +102,15 @@ function createStore(): Store {
     activityLogs: [],
     questions: [],
     attendance: [],
+    loungePosts: createLoungeSeed(),
   };
 }
 
 // Next.js dev 서버의 HMR로 모듈이 재평가되어도 데이터가 초기화되지 않도록
 // globalThis에 싱글턴으로 보관한다.
 const store = globalForStore.__cdpMapStore ?? (globalForStore.__cdpMapStore = createStore());
+// HMR로 이전 버전 스토어가 남아 있을 때를 대비한 신규 필드 보정
+store.loungePosts ??= createLoungeSeed();
 
 const delay = (ms = 30) => new Promise((resolve) => setTimeout(resolve, ms));
 const nextId = (prefix: string) =>
@@ -443,4 +488,91 @@ export async function checkAttendance(
 export async function listAttendanceForSession(sessionId: string): Promise<AttendanceRecord[]> {
   await delay();
   return store.attendance.filter((a) => a.sessionId === sessionId);
+}
+
+// ================= 라운지 피드 (청강자/수강자 탭) =================
+// Phase 1: 서버 메모리 저장. 같은 배포를 보는 모든 사용자에게 새로고침 시 반영된다.
+// Phase 2: supabase.from("lounge_posts") / ("lounge_comments")로 내부 구현만 교체.
+
+export async function listLoungePosts(board: LoungeBoard): Promise<LoungePost[]> {
+  await delay();
+  return store.loungePosts
+    .filter((p) => p.board === board)
+    .sort((a, b) => {
+      // 교수자 추천 글을 먼저, 이후 최신순
+      if (!!a.pinnedByInstructor !== !!b.pinnedByInstructor) {
+        return a.pinnedByInstructor ? -1 : 1;
+      }
+      return a.createdAt < b.createdAt ? 1 : -1;
+    });
+}
+
+export async function addLoungePost(
+  board: LoungeBoard,
+  authorName: string,
+  authorRole: UserRole,
+  message: string,
+  sessionTag?: string,
+): Promise<LoungePost> {
+  await delay();
+  const post: LoungePost = {
+    id: nextId("lounge"),
+    board,
+    authorName,
+    authorRole,
+    message,
+    sessionTag,
+    likedBy: [],
+    comments: [],
+    createdAt: new Date().toISOString(),
+  };
+  store.loungePosts.unshift(post);
+  logActivity(authorName, "라운지 글 등록", "lounge", post.id);
+  return post;
+}
+
+export async function addLoungeComment(
+  postId: string,
+  authorName: string,
+  authorRole: UserRole,
+  message: string,
+): Promise<LoungeComment | undefined> {
+  await delay();
+  const post = store.loungePosts.find((p) => p.id === postId);
+  if (!post) return undefined;
+  const comment: LoungeComment = {
+    id: nextId("lcmt"),
+    authorName,
+    authorRole,
+    message,
+    createdAt: new Date().toISOString(),
+  };
+  post.comments.push(comment);
+  logActivity(authorName, "라운지 댓글 등록", "lounge", postId);
+  return comment;
+}
+
+export async function toggleLoungeLike(
+  postId: string,
+  memberName: string,
+): Promise<LoungePost | undefined> {
+  await delay();
+  const post = store.loungePosts.find((p) => p.id === postId);
+  if (!post) return undefined;
+  const idx = post.likedBy.indexOf(memberName);
+  if (idx >= 0) post.likedBy.splice(idx, 1);
+  else post.likedBy.push(memberName);
+  return post;
+}
+
+export async function toggleLoungePin(
+  postId: string,
+  actor: string,
+): Promise<LoungePost | undefined> {
+  await delay();
+  const post = store.loungePosts.find((p) => p.id === postId);
+  if (!post) return undefined;
+  post.pinnedByInstructor = !post.pinnedByInstructor;
+  logActivity(actor, post.pinnedByInstructor ? "라운지 글 추천" : "라운지 글 추천 해제", "lounge", postId);
+  return post;
 }
