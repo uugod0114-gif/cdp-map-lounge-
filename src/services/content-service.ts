@@ -1,6 +1,8 @@
 import "server-only";
 import {
   mockAnnouncements,
+  mockAssignments,
+  mockLearnerMentorMatches,
   mockMaterials,
   mockPages,
   mockSessionTemplates,
@@ -9,10 +11,13 @@ import {
 } from "@/lib/mock/seed";
 import type {
   ActivityLog,
+  Assignment,
+  AssignmentSubmission,
   AttendanceRecord,
   Announcement,
   ContentBlock,
   ContentStatus,
+  LearnerMentorMatch,
   MaterialItem,
   PageContent,
   RevisionRecord,
@@ -43,8 +48,10 @@ interface Store {
   revisions: RevisionRecord[];
   questions: SessionQuestion[];
   attendance: AttendanceRecord[];
-  loungePosts: import("@/types/content").LoungePost[];
   activityLogs: ActivityLog[];
+  assignments: Assignment[];
+  submissions: AssignmentSubmission[];
+  learnerMentorMatches: LearnerMentorMatch[];
 }
 
 const globalForStore = globalThis as unknown as { __cdpMapStore?: Store };
@@ -61,7 +68,9 @@ function createStore(): Store {
     activityLogs: [],
     questions: [],
     attendance: [],
-    loungePosts: [],
+    assignments: mockAssignments,
+    submissions: [],
+    learnerMentorMatches: mockLearnerMentorMatches,
   };
 }
 
@@ -82,12 +91,6 @@ function logActivity(actor: string, action: string, targetType: string, targetId
     targetId,
     createdAt: new Date().toISOString(),
   });
-}
-
-/** 로그인 접속 기록 (관리자 대시보드 접속기록/방문자 수 집계용) */
-export async function recordLogin(actorName: string, role: string) {
-  await delay();
-  logActivity(actorName, `로그인 (${role})`, "auth", actorName);
 }
 
 // ================= Pages =================
@@ -351,13 +354,6 @@ export async function listActivityLogs(limit = 20): Promise<ActivityLog[]> {
 // ================= Dashboard 통계 (기획서 20장 요약) =================
 export async function getDashboardStats() {
   await delay();
-  const todayKey = new Date().toDateString();
-  const visitorsToday = new Set(
-    store.activityLogs
-      .filter((l) => l.action.startsWith("로그인") && new Date(l.createdAt).toDateString() === todayKey)
-      .map((l) => l.actor),
-  ).size;
-
   return {
     applicants: 58,
     learners: 24,
@@ -369,7 +365,6 @@ export async function getDashboardStats() {
     assignmentSubmissionRate: 88,
     assignmentCompletionRate: 76,
     mentorAvgResponseHours: 6.4,
-    visitorsToday,
     pendingReviews: store.pages.filter((p) => p.status === "in_review").length +
       store.sessions.filter((s) => s.status === "in_review").length,
   };
@@ -461,86 +456,137 @@ export async function listAttendanceForSession(sessionId: string): Promise<Atten
   return store.attendance.filter((a) => a.sessionId === sessionId);
 }
 
-// ================= 라운지 피드 (미경님 작업 지원) =================
-import type { LoungeBoard, LoungePost, LoungeComment } from "@/types/content";
-
-export async function listLoungePosts(board: LoungeBoard): Promise<LoungePost[]> {
+// ================= 회차별 과제 · 제출 · 멘토 피드백 =================
+// Phase 1: 서버 메모리 저장. 제출물은 (assignmentId, learnerName) 조합으로
+// 유일하며, "임시저장"은 status를 draft로, "제출"은 submitted로 바꾼다.
+export async function listAssignments(): Promise<Assignment[]> {
   await delay();
-  return store.loungePosts
-    .filter((p) => p.board === board)
-    .sort((a, b) => {
-      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-      return a.createdAt < b.createdAt ? 1 : -1;
-    });
+  return [...store.assignments].sort((a, b) => a.week - b.week);
 }
 
-export async function addLoungePost(
-  board: LoungeBoard,
-  authorName: string,
-  authorRole: UserRole,
-  message: string,
-  sessionTag?: string,
-): Promise<LoungePost> {
+export async function getAssignmentById(id: string): Promise<Assignment | undefined> {
   await delay();
-  const post: LoungePost = {
-    id: nextId("lpost"),
-    board,
-    authorName,
-    authorRole,
-    message,
-    sessionTag,
-    likes: [],
-    likedBy: [],
-    pinned: false,
-    pinnedByInstructor: false,
-    comments: [],
-    createdAt: new Date().toISOString(),
-  };
-  store.loungePosts.unshift(post);
-  logActivity(authorName, "라운지 게시글 등록", "lounge", post.id);
-  return post;
+  return store.assignments.find((a) => a.id === id);
 }
 
-export async function addLoungeComment(
-  postId: string,
-  authorName: string,
-  authorRole: UserRole,
-  message: string,
-): Promise<LoungeComment | undefined> {
+/** 수강자 본인의 멘토 · 도전품목 매칭 정보 */
+export async function getMyMentorMatch(learnerName: string): Promise<LearnerMentorMatch | undefined> {
   await delay();
-  const post = store.loungePosts.find((p) => p.id === postId);
-  if (!post) return undefined;
-  const comment: LoungeComment = {
-    id: nextId("lcmt"),
-    postId,
-    authorName,
-    authorRole,
-    message,
-    createdAt: new Date().toISOString(),
-  };
-  post.comments.push(comment);
-  logActivity(authorName, "라운지 댓글 등록", "lounge", postId);
-  return comment;
+  return store.learnerMentorMatches.find((m) => m.learnerName === learnerName);
 }
 
-export async function toggleLoungeLike(postId: string, memberName: string): Promise<void> {
+/** 멘토가 담당하는 수강자 목록 (도전품목 포함) */
+export async function listMyLearners(mentorName: string): Promise<LearnerMentorMatch[]> {
   await delay();
-  const post = store.loungePosts.find((p) => p.id === postId);
-  if (!post) return;
-  const idx = post.likes.indexOf(memberName);
-  if (idx === -1) {
-    post.likes.push(memberName);
-    post.likedBy.push(memberName);
+  return store.learnerMentorMatches.filter((m) => m.mentorName === mentorName);
+}
+
+export async function getSubmission(
+  assignmentId: string,
+  learnerName: string,
+): Promise<AssignmentSubmission | undefined> {
+  await delay();
+  return store.submissions.find(
+    (s) => s.assignmentId === assignmentId && s.learnerName === learnerName,
+  );
+}
+
+export async function getSubmissionById(id: string): Promise<AssignmentSubmission | undefined> {
+  await delay();
+  return store.submissions.find((s) => s.id === id);
+}
+
+/** 특정 수강자의 회차별 제출 현황을 한 번에 조회 (목록 화면에서 사용) */
+export async function listSubmissionsByLearner(learnerName: string): Promise<AssignmentSubmission[]> {
+  await delay();
+  return store.submissions.filter((s) => s.learnerName === learnerName);
+}
+
+export async function saveAssignmentDraft(
+  assignmentId: string,
+  learnerName: string,
+  content: string,
+): Promise<AssignmentSubmission> {
+  await delay();
+  const now = new Date().toISOString();
+  let submission = store.submissions.find(
+    (s) => s.assignmentId === assignmentId && s.learnerName === learnerName,
+  );
+  if (submission) {
+    submission.content = content;
+    submission.status = "draft";
+    submission.updatedAt = now;
   } else {
-    post.likes.splice(idx, 1);
-    post.likedBy.splice(idx, 1);
+    submission = {
+      id: nextId("sub"),
+      assignmentId,
+      learnerName,
+      content,
+      status: "draft",
+      updatedAt: now,
+    };
+    store.submissions.push(submission);
   }
+  logActivity(learnerName, "과제 임시저장", "assignment", assignmentId);
+  return submission;
 }
 
-export async function toggleLoungePin(postId: string, actor: string): Promise<void> {
+export async function submitAssignment(
+  assignmentId: string,
+  learnerName: string,
+  content: string,
+): Promise<AssignmentSubmission> {
   await delay();
-  const post = store.loungePosts.find((p) => p.id === postId);
-  if (!post) return;
-  post.pinned = !post.pinned;
-  logActivity(actor, `라운지 핀 ${post.pinned ? "추가" : "해제"}`, "lounge", postId);
+  const now = new Date().toISOString();
+  let submission = store.submissions.find(
+    (s) => s.assignmentId === assignmentId && s.learnerName === learnerName,
+  );
+  if (submission) {
+    submission.content = content;
+    submission.status = "submitted";
+    submission.submittedAt = now;
+    submission.updatedAt = now;
+  } else {
+    submission = {
+      id: nextId("sub"),
+      assignmentId,
+      learnerName,
+      content,
+      status: "submitted",
+      submittedAt: now,
+      updatedAt: now,
+    };
+    store.submissions.push(submission);
+  }
+  logActivity(learnerName, "과제 제출", "assignment", assignmentId);
+  return submission;
+}
+
+/** 제출완료 상태를 임시저장으로 되돌려 다시 작성할 수 있게 한다. */
+export async function reopenSubmission(
+  submissionId: string,
+  actor: string,
+): Promise<AssignmentSubmission | undefined> {
+  await delay();
+  const submission = store.submissions.find((s) => s.id === submissionId);
+  if (!submission) return undefined;
+  submission.status = "draft";
+  submission.updatedAt = new Date().toISOString();
+  logActivity(actor, "과제 재작성 시작", "assignment", submission.assignmentId);
+  return submission;
+}
+
+export async function giveMentorFeedback(
+  submissionId: string,
+  feedback: string,
+  mentorName: string,
+): Promise<AssignmentSubmission | undefined> {
+  await delay();
+  const submission = store.submissions.find((s) => s.id === submissionId);
+  if (!submission) return undefined;
+  submission.mentorFeedback = feedback;
+  submission.feedbackBy = mentorName;
+  submission.feedbackAt = new Date().toISOString();
+  logActivity(mentorName, "멘토 피드백 등록", "assignment", submission.assignmentId);
+  return submission;
 }
