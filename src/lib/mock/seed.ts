@@ -1,6 +1,8 @@
 import type {
   Announcement,
+  Assignment,
   ContentBlock,
+  LearnerMentorMatch,
   MaterialItem,
   PageContent,
   SessionRecord,
@@ -48,12 +50,49 @@ const mainBlocks: ContentBlock[] = [
       buttonLabel: "지금 신청하기",
       buttonUrl: "https://forms.gle/awVLtckpMasscMAY7",
       linkTarget: "_blank",
-      secondaryButtonLabel: "교육 소개 보기",
-      secondaryButtonUrl: "/#intro",
+      secondaryButtonLabel: "라운지 둘러보기",
+      secondaryButtonUrl: "/lounge",
       align: "center",
       highlighted: false,
       isActive: true,
       visibilityRoles: [],
+    },
+  ),
+  block(
+    "card",
+    1,
+    {
+      title: "이미 참여 중이신가요?",
+      description: "라운지에서 교육 소개, 강의 일정, 강의 자료까지 한 번에 확인하세요.",
+      buttonLabel: "라운지 입장하기",
+      buttonUrl: "/lounge",
+      align: "center",
+      isActive: true,
+      visibilityRoles: [],
+    },
+  ),
+  block(
+    "cardGrid",
+    2,
+    { title: "CDP MAP은 이런 프로그램이에요", isActive: true, visibilityRoles: [] },
+    {
+      cards: [
+        {
+          title: "실전 중심 커리큘럼",
+          description: "8주간 실제 캠페인 과제를 멘토 PM과 함께 수행합니다.",
+          icon: "Target",
+        },
+        {
+          title: "1:1 멘토 매칭",
+          description: "직무별 현직 PM이 밀착 피드백을 제공합니다.",
+          icon: "Users",
+        },
+        {
+          title: "청강 트랙 제공",
+          description: "관심있는 구성원 누구나 자료 열람과 강의 참여가 가능합니다.",
+          icon: "BookOpen",
+        },
+      ],
     },
   ),
 ];
@@ -618,6 +657,40 @@ export const mockSessions: SessionRecord[] = [
     ],
     publishedBlocks: [],
     updatedAt: "2026-07-22T09:00:00+09:00",
+  },
+];
+
+// ================= 회차별 과제 =================
+// 세션(회차)마다 1개의 과제를 매칭한다. 안내 문구는 세션의 assignmentNote를
+// 우선 사용하고, 없으면 세션 제목을 바탕으로 기본 문구를 채운다.
+export const mockAssignments: Assignment[] = mockSessions.map((session) => ({
+  id: nextId("asg"),
+  sessionId: session.id,
+  week: session.week,
+  title: `${session.week}회차 과제`,
+  description:
+    session.assignmentNote?.trim() ||
+    `"${session.title}" 회차와 관련하여 배운 내용을 정리하고, 담당 도전품목에 어떻게 적용할지 작성해 주세요.`,
+}));
+
+// ================= 수강자-멘토 매칭 (도전품목 포함) =================
+// Phase 1 데모 데이터. Phase 2에서는 운영진 CMS(구글시트 명단 확장 or 별도 매칭
+// 화면)에서 입력한 값을 그대로 이 구조로 저장하면 된다.
+export const mockLearnerMentorMatches: LearnerMentorMatch[] = [
+  {
+    learnerName: "김민준",
+    mentorName: "김도윤 PM",
+    challengeItem: "엔블로 신규 처방명분 확대",
+  },
+  {
+    learnerName: "이서준",
+    mentorName: "김도윤 PM",
+    challengeItem: "펙수클루 지역별 처방 커버리지 확대",
+  },
+  {
+    learnerName: "박하율",
+    mentorName: "최윤아 PM",
+    challengeItem: "마트레 종별 처방 확대",
   },
 ];
 
