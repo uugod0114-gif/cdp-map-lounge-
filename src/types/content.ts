@@ -267,6 +267,41 @@ export interface ActivityLog {
   createdAt: string;
 }
 
+// ================= 과제 (회차별 수강자 과제 · 멘토 피드백) =================
+export type AssignmentSubmissionStatus = "draft" | "submitted";
+
+export interface Assignment {
+  id: string;
+  sessionId: string;
+  /** 몇 회차 과제인지 (세션과 동일 주차) */
+  week: number;
+  title: string;
+  description: string;
+  dueDate?: string;
+}
+
+export interface AssignmentSubmission {
+  id: string;
+  assignmentId: string;
+  learnerName: string;
+  /** 자기소개서 작성하듯 자유 서술하는 본문 */
+  content: string;
+  status: AssignmentSubmissionStatus;
+  submittedAt?: string;
+  updatedAt: string;
+  mentorFeedback?: string;
+  feedbackBy?: string;
+  feedbackAt?: string;
+}
+
+/** 수강자-멘토 매칭 (도전품목 포함). Phase 2에서는 운영진 CMS에서 배정한다. */
+export interface LearnerMentorMatch {
+  learnerName: string;
+  mentorName: string;
+  /** 도전품목: 이번 기수 동안 집중적으로 다루는 과제 품목 */
+  challengeItem: string;
+}
+
 export interface StaffMember {
   id: string;
   name: string;
@@ -276,7 +311,7 @@ export interface StaffMember {
   scope: "all" | "course" | "session";
 }
 
-/** 미경님 작업: 라운지 피드(게시글/댓글) 관련 타입 */
+/** 라운지 피드 관련 타입 */
 export type LoungeBoard = "auditor" | "learner";
 
 export interface LoungeComment {
@@ -296,10 +331,8 @@ export interface LoungePost {
   message: string;
   sessionTag?: string;
   likes: string[];
-  /** likes의 별칭 — lounge-feed.tsx와 호환성 유지 */
   likedBy: string[];
   pinned: boolean;
-  /** 교수자가 상단 고정한 경우 — lounge-feed.tsx 호환 */
   pinnedByInstructor: boolean;
   comments: LoungeComment[];
   createdAt: string;

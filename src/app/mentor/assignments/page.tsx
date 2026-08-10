@@ -1,18 +1,16 @@
 import { LoungeShell } from "@/components/layout/lounge-shell";
-import { Card } from "@/components/common/card";
-import { ClipboardList } from "lucide-react";
+import { MentorLearnerBoard } from "@/components/assignments/mentor-learner-board";
+import { listAssignments } from "@/services/content-service";
 
-// TODO(2번 담당자): 담당 수강자들의 과제 제출물 확인 + 댓글/수정요청/완료처리 화면으로 채워주세요.
-export default function MentorAssignmentsPage() {
+export default async function MentorAssignmentsPage() {
+  const assignments = await listAssignments();
   return (
     <LoungeShell>
-      <div className="mb-6 flex items-center gap-2">
-        <ClipboardList className="h-5 w-5 text-map-navy" />
-        <h1 className="font-display text-2xl font-medium text-map-ink">과제 관리</h1>
-      </div>
-      <Card className="text-center text-slate-400">
-        담당 수강자 과제 확인/피드백 화면을 준비 중입니다.
-      </Card>
+      <h1 className="mb-2 font-display text-2xl font-medium text-map-ink">내 수강자 과제</h1>
+      <p className="mb-6 text-sm text-slate-500">
+        담당 수강자의 회차별 과제 제출 현황을 한눈에 확인하고, 제출된 과제에 피드백을 남겨주세요.
+      </p>
+      <MentorLearnerBoard assignments={assignments} />
     </LoungeShell>
   );
 }
