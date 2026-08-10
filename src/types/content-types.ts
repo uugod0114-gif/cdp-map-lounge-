@@ -310,8 +310,6 @@ export interface StaffMember {
   permissions: string[];
   scope: "all" | "course" | "session";
 }
-<<<<<<< HEAD
-=======
 
 /** 라운지 피드 관련 타입 */
 export type LoungeBoard = "auditor" | "learner";
@@ -339,4 +337,3 @@ export interface LoungePost {
   comments: LoungeComment[];
   createdAt: string;
 }
->>>>>>> 93db603 (수강자,멘토공간)
