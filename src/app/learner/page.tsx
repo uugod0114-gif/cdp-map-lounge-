@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CheckCircle2, FileText } from "lucide-react";
-import { LoungeShell } from "@/components/layout/lounge-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { BlockListClient } from "@/components/cms/block-list-client";
 import { Card } from "@/components/common/card";
 import { getPageBySlug } from "@/services/content-service";
@@ -8,7 +8,7 @@ import { getPageBySlug } from "@/services/content-service";
 export default async function LearnerLoungePage() {
   const page = await getPageBySlug("lounge-learner");
   return (
-    <LoungeShell>
+    <PublicShell><div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <h1 className="mb-6 font-display text-2xl font-medium text-map-ink">수강자 라운지</h1>
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2">
@@ -44,6 +44,6 @@ export default async function LearnerLoungePage() {
       </div>
 
       <BlockListClient blocks={page?.publishedBlocks ?? []} />
-    </LoungeShell>
+    </div></PublicShell>
   );
 }

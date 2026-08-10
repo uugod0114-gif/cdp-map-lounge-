@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
-import { LoungeShell } from "@/components/layout/lounge-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { Card } from "@/components/common/card";
 import { Badge } from "@/components/common/badge";
 import { listSessionQuestions, listSessions } from "@/services/content-service";
@@ -17,7 +17,7 @@ export default async function InstructorFeedbackOverviewPage() {
   );
 
   return (
-    <LoungeShell>
+    <PublicShell><div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <div className="mb-2 flex items-center gap-2">
         <MessageCircle className="h-5 w-5 text-map-navy" />
         <h1 className="font-display text-2xl font-medium text-map-ink">내 강의 질문 / 피드백</h1>
@@ -46,6 +46,6 @@ export default async function InstructorFeedbackOverviewPage() {
           );
         })}
       </div>
-    </LoungeShell>
+    </div></PublicShell>
   );
 }
