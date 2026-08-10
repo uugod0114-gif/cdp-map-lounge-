@@ -14,16 +14,10 @@ const NAV = [
   { href: "/materials", label: "자료" },
 ];
 
-const ROLE_NAV_ITEM: Partial<Record<string, { href: string; label: string }>> = {
-  learner: { href: "/learner", label: "수강자 라운지" },
-  mentor: { href: "/mentor", label: "멘토 라운지" },
-  instructor: { href: "/instructor", label: "교수자 라운지" },
-};
 
 export function LoungeShell({ children }: { children: React.ReactNode }) {
   const { user, isLoggedIn, isStaffUser, previewRole, setPreviewRole, logout } = useDemoUser();
   const router = useRouter();
-  const roleNavItem = ROLE_NAV_ITEM[user.role];
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
@@ -48,14 +42,6 @@ export function LoungeShell({ children }: { children: React.ReactNode }) {
                   {n.label}
                 </Link>
               ))}
-              {roleNavItem && (
-                <Link
-                  href={roleNavItem.href}
-                  className="text-sm font-semibold text-map-navy hover:text-map-navy-soft"
-                >
-                  {roleNavItem.label}
-                </Link>
-              )}
               {isStaff(user.role) && (
                 <Link
                   href="/admin"
