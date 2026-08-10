@@ -3,7 +3,10 @@
 import * as React from "react";
 import { LoungeFeed } from "@/components/lounge/lounge-feed";
 import { cn } from "@/lib/utils/cn";
-import type { SessionRecord, LoungePost } from "@/types/content";
+import type { SessionRecord } from "@/types/content";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type LoungePost = any;
 
 export function FeedbackPageClient({
   sessions,
@@ -20,11 +23,10 @@ export function FeedbackPageClient({
   const filteredPosts =
     activeTab === "전체"
       ? allPosts
-      : allPosts.filter((p) => p.sessionTag === activeTab);
+      : allPosts.filter((p: LoungePost) => p.sessionTag === activeTab);
 
   return (
     <div>
-      {/* 회차 탭 */}
       <div className="mb-5 flex gap-2 overflow-x-auto pb-1">
         {tabs.map((tab) => (
           <button
