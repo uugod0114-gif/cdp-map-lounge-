@@ -827,29 +827,3 @@ export const mockStaff: StaffMember[] = [
     scope: "course",
   },
 ];
-
-export type LoungeBoard = "auditor" | "learner";
-
-export interface LoungeComment {
-  id: string;
-  postId: string;
-  authorName: string;
-  authorRole: UserRole;
-  message: string;
-  createdAt: string;
-}
-
-export interface LoungePost {
-  id: string;
-  board: LoungeBoard;
-  authorName: string;
-  authorRole: UserRole;
-  message: string;
-  sessionTag?: string;
-  likes: string[];
-  likedBy: string[];
-  pinned: boolean;
-  pinnedByInstructor: boolean;
-  comments: LoungeComment[];
-  createdAt: string;
-}
