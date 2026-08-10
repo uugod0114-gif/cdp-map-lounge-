@@ -310,8 +310,6 @@ export interface StaffMember {
   permissions: string[];
   scope: "all" | "course" | "session";
 }
-<<<<<<< HEAD
-=======
 
 /** 라운지 피드 관련 타입 */
 export type LoungeBoard = "auditor" | "learner";
@@ -338,36 +336,4 @@ export interface LoungePost {
   pinnedByInstructor: boolean;
   comments: LoungeComment[];
   createdAt: string;
-<<<<<<< HEAD
 }
-=======
-}
-
-  /** 라운지 피드 관련 타입 */
-export type LoungeBoard = "auditor" | "learner";
-
-export interface LoungeComment {
-  id: string;
-  postId: string;
-  authorName: string;
-  authorRole: UserRole;
-  message: string;
-  createdAt: string;
-}
-
-export interface LoungePost {
-  id: string;
-  board: LoungeBoard;
-  authorName: string;
-  authorRole: UserRole;
-  message: string;
-  sessionTag?: string;
-  likes: string[];
-  likedBy: string[];
-  pinned: boolean;
-  pinnedByInstructor: boolean;
-  comments: LoungeComment[];
-  createdAt: string;
-}
->>>>>>> 93db603 (수강자,멘토공간)
->>>>>>> ce3dae6dd78a2e04f827bebe38aaaa8e4f8643bc
