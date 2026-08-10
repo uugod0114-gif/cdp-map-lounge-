@@ -58,19 +58,7 @@ const mainBlocks: ContentBlock[] = [
       visibilityRoles: [],
     },
   ),
-  block(
-    "card",
-    1,
-    {
-      title: "이미 참여 중이신가요?",
-      description: "라운지에서 교육 소개, 강의 일정, 강의 자료까지 한 번에 확인하세요.",
-      buttonLabel: "라운지 입장하기",
-      buttonUrl: "/lounge",
-      align: "center",
-      isActive: true,
-      visibilityRoles: [],
-    },
-  ),
+
   block(
     "cardGrid",
     2,
@@ -839,3 +827,29 @@ export const mockStaff: StaffMember[] = [
     scope: "course",
   },
 ];
+
+export type LoungeBoard = "auditor" | "learner";
+
+export interface LoungeComment {
+  id: string;
+  postId: string;
+  authorName: string;
+  authorRole: UserRole;
+  message: string;
+  createdAt: string;
+}
+
+export interface LoungePost {
+  id: string;
+  board: LoungeBoard;
+  authorName: string;
+  authorRole: UserRole;
+  message: string;
+  sessionTag?: string;
+  likes: string[];
+  likedBy: string[];
+  pinned: boolean;
+  pinnedByInstructor: boolean;
+  comments: LoungeComment[];
+  createdAt: string;
+}
