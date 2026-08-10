@@ -90,14 +90,13 @@ export function SiteHeader() {
                   로그인
                 </Button>
               </Link>
-              {/* 로그인 버튼 아래, 더 오른쪽(바깥쪽)으로 뺀 작은 안내 박스 */}
               <div className="absolute -right-4 top-full mt-2 w-56 rounded-xl border border-map-line bg-white p-3 text-right shadow-sm sm:-right-8">
-                <p className="text-xs text-slate-400">신청 후 로그인이 가능해요</p>
+                <p className="text-xs text-slate-400">CDP MAP 라운지에 오신 걸 환영해요</p>
                 <Link
-                  href="/apply"
+                  href="/login"
                   className="mt-1 inline-block text-xs font-semibold text-map-navy hover:underline"
                 >
-                  신청 안내 보기 →
+                  로그인 / 회원가입 바로가기 →
                 </Link>
               </div>
             </div>
