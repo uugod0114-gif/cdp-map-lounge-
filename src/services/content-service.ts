@@ -354,6 +354,12 @@ export async function listActivityLogs(limit = 20): Promise<ActivityLog[]> {
 // ================= Dashboard 통계 (기획서 20장 요약) =================
 export async function getDashboardStats() {
   await delay();
+  const todayKey = new Date().toDateString();
+  const visitorsToday = new Set(
+    store.activityLogs
+      .filter((l) => l.action.startsWith("로그인") && new Date(l.createdAt).toDateString() === todayKey)
+      .map((l) => l.actor),
+  ).size;
   return {
     applicants: 58,
     learners: 24,
@@ -365,6 +371,7 @@ export async function getDashboardStats() {
     assignmentSubmissionRate: 88,
     assignmentCompletionRate: 76,
     mentorAvgResponseHours: 6.4,
+    visitorsToday,
     pendingReviews: store.pages.filter((p) => p.status === "in_review").length +
       store.sessions.filter((s) => s.status === "in_review").length,
   };
@@ -589,4 +596,95 @@ export async function giveMentorFeedback(
   submission.feedbackAt = new Date().toISOString();
   logActivity(mentorName, "멘토 피드백 등록", "assignment", submission.assignmentId);
   return submission;
+}
+
+// ================= 접속 기록 =================
+export async function recordLogin(actorName: string, role: string) {
+  await delay();
+  logActivity(actorName, `로그인 (${role})`, "auth", actorName);
+}
+
+// ================= 라운지 피드 =================
+import type { LoungeBoard, LoungePost, LoungeComment } from "@/types/content";
+
+export async function listLoungePosts(board: LoungeBoard): Promise<LoungePost[]> {
+  await delay();
+  const posts = (store as unknown as { loungePosts?: LoungePost[] }).loungePosts ?? [];
+  return posts
+    .filter((p) => p.board === board)
+    .sort((a, b) => {
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+      return a.createdAt < b.createdAt ? 1 : -1;
+    });
+}
+
+export async function addLoungePost(
+  board: LoungeBoard,
+  authorName: string,
+  authorRole: import("@/types/content").UserRole,
+  message: string,
+  sessionTag?: string,
+): Promise<LoungePost> {
+  await delay();
+  const loungePosts = ((store as unknown as { loungePosts?: LoungePost[] }).loungePosts ??= []);
+  const post: LoungePost = {
+    id: nextId("lpost"),
+    board,
+    authorName,
+    authorRole,
+    message,
+    sessionTag,
+    likes: [],
+    likedBy: [],
+    pinned: false,
+    pinnedByInstructor: false,
+    comments: [],
+    createdAt: new Date().toISOString(),
+  };
+  loungePosts.unshift(post);
+  logActivity(authorName, "라운지 게시글 등록", "lounge", post.id);
+  return post;
+}
+
+export async function addLoungeComment(
+  postId: string,
+  authorName: string,
+  authorRole: import("@/types/content").UserRole,
+  message: string,
+): Promise<LoungeComment | undefined> {
+  await delay();
+  const loungePosts = ((store as unknown as { loungePosts?: LoungePost[] }).loungePosts ?? []);
+  const post = loungePosts.find((p) => p.id === postId);
+  if (!post) return undefined;
+  const comment: LoungeComment = {
+    id: nextId("lcmt"),
+    postId,
+    authorName,
+    authorRole,
+    message,
+    createdAt: new Date().toISOString(),
+  };
+  post.comments.push(comment);
+  logActivity(authorName, "라운지 댓글 등록", "lounge", postId);
+  return comment;
+}
+
+export async function toggleLoungeLike(postId: string, memberName: string): Promise<void> {
+  await delay();
+  const loungePosts = ((store as unknown as { loungePosts?: LoungePost[] }).loungePosts ?? []);
+  const post = loungePosts.find((p) => p.id === postId);
+  if (!post) return;
+  const idx = post.likes.indexOf(memberName);
+  if (idx === -1) { post.likes.push(memberName); post.likedBy.push(memberName); }
+  else { post.likes.splice(idx, 1); post.likedBy.splice(idx, 1); }
+}
+
+export async function toggleLoungePin(postId: string, actor: string): Promise<void> {
+  await delay();
+  const loungePosts = ((store as unknown as { loungePosts?: LoungePost[] }).loungePosts ?? []);
+  const post = loungePosts.find((p) => p.id === postId);
+  if (!post) return;
+  post.pinned = !post.pinned;
+  post.pinnedByInstructor = post.pinned;
+  logActivity(actor, `라운지 핀 ${post.pinned ? "추가" : "해제"}`, "lounge", postId);
 }
