@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { Download, Lock } from "lucide-react";
+import { ExternalLink, BookOpen } from "lucide-react";
 import { Button } from "@/components/common/button";
-import { useDemoUser } from "@/features/auth/role-context";
 
 export function MaterialActions({
   materialId,
@@ -18,31 +16,19 @@ export function MaterialActions({
   flipbookEnabled: boolean;
   downloadAllowed: boolean;
 }) {
-  const { isLoggedIn } = useDemoUser();
-
-  if (!isLoggedIn) {
-    return (
-      <Link href="/login">
-        <Button size="sm" variant="subtle">
-          <Lock className="h-4 w-4" /> 로그인 후 열람
-        </Button>
-      </Link>
-    );
-  }
-
   return (
-    <div className="flex items-center gap-2">
-      {flipbookEnabled && (
-        <Link href={`/materials/${materialId}`}>
-          <Button size="sm" variant="outline">
-            플립북으로 보기
-          </Button>
-        </Link>
-      )}
+    <div className="flex flex-wrap items-center gap-2">
       {downloadAllowed && (
         <a href={downloadUrl ?? fileUrl} target="_blank" rel="noreferrer">
-          <Button size="sm" variant="subtle">
-            <Download className="h-4 w-4" /> 다운로드
+          <Button size="sm" variant="primary">
+            <ExternalLink className="h-4 w-4" /> 드라이브 바로가기 (개별 다운로드)
+          </Button>
+        </a>
+      )}
+      {flipbookEnabled && fileUrl && (
+        <a href={fileUrl} target="_blank" rel="noreferrer">
+          <Button size="sm" variant="outline">
+            <BookOpen className="h-4 w-4" /> 플립북 보러가기
           </Button>
         </a>
       )}
