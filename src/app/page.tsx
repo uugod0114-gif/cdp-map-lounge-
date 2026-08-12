@@ -3,7 +3,7 @@ import { PublicShell } from "@/components/layout/public-shell";
 import { BlockList } from "@/components/cms/block-renderer";
 import { Card } from "@/components/common/card";
 import { MaterialActions } from "@/components/materials/material-actions";
-import { ScheduleSessionCard } from "@/components/sessions/schedule-session-card";
+import { ScheduleSessionList } from "@/components/sessions/schedule-session-card";
 import { MessageCircle, FileText } from "lucide-react";
 import { getPageBySlug, listSessions, listMaterials } from "@/services/content-service";
 
@@ -34,11 +34,7 @@ export default async function HomePage() {
       <div id="schedule" className="snap-section scroll-mt-16">
         <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
           <h2 className="mb-6 font-display text-2xl font-medium text-map-ink">강의 일정</h2>
-          <div className="flex flex-col gap-4">
-            {sessions.map((s) => (
-              <ScheduleSessionCard key={s.id} session={s} />
-            ))}
-          </div>
+          <ScheduleSessionList sessions={sessions} />
         </div>
       </div>
 
