@@ -10,7 +10,6 @@ import { ROLE_LABEL } from "@/lib/permissions/roles";
 import type { UserRole } from "@/types/content";
 
 const BASE_NAV = [
-  { href: "/#intro", label: "교육 소개" },
   { href: "/#schedule", label: "강의 일정" },
   { href: "/#materials", label: "강의 자료" },
   { href: "/survey", label: "피드백" },
