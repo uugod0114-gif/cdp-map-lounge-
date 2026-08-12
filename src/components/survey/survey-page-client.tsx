@@ -218,7 +218,7 @@ export function SurveyPageClient() {
             ) : (
               <form onSubmit={handleLectureSubmit} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h2 className="mb-1 text-lg font-bold text-slate-800">{currentLecture.title}</h2>
-                <p className="mb-5 text-xs text-slate-400">강사: {currentLecture.instructor}</p>
+                <p className="mb-5 text-xs text-slate-400">교수진: {currentLecture.instructor}</p>
 
                 <div className="mb-5">
                   <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 강의 만족도 (5점 만점) *</label>
