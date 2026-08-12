@@ -196,15 +196,18 @@ export function SurveyPageClient() {
         {/* 강의별 평가 (수강자/청강자 공통) */}
         {tab === "lecture" && (
           <div>
-            <div className="mb-5 flex flex-wrap gap-2">
+            <div className="mb-5 flex flex-col gap-2">
               {LECTURES.map((lec, i) => (
                 <button key={lec.id} type="button" onClick={() => setActiveLecture(i)}
-                  className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition ${
+                  className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition ${
                     activeLecture === i ? "border-green-700 bg-green-700 text-white"
                     : submitted[lec.id] ? "border-green-200 bg-green-50 text-green-700"
-                    : "border-slate-200 text-slate-500 hover:border-green-700"
+                    : "border-slate-200 text-slate-600 hover:border-green-700"
                   }`}>
-                  {i + 1}강의{submitted[lec.id] && " ✓"}
+                  <span className={`text-xs font-bold ${activeLecture === i ? "text-green-200" : submitted[lec.id] ? "text-green-500" : "text-green-700"}`}>
+                    {i + 1}강의{submitted[lec.id] && " ✓"}
+                  </span>
+                  <span className="ml-2">{lec.title}</span>
                 </button>
               ))}
             </div>
