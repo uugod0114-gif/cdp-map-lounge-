@@ -84,22 +84,7 @@ export function SiteHeader() {
               </button>
             </>
           ) : (
-            <div className="group relative">
-              <Link href="/login">
-                <Button variant="mint" size="sm">
-                  로그인
-                </Button>
-              </Link>
-              <div className="absolute -right-4 top-full mt-2 w-56 rounded-xl border border-map-line bg-white p-3 text-right shadow-sm sm:-right-8">
-                <p className="text-xs text-slate-400">CDP MAP 라운지에 오신 걸 환영해요</p>
-                <Link
-                  href="/login"
-                  className="mt-1 inline-block text-xs font-semibold text-map-navy hover:underline"
-                >
-                  로그인 / 회원가입 바로가기 →
-                </Link>
-              </div>
-            </div>
+            null
           )}
         </div>
       </div>
