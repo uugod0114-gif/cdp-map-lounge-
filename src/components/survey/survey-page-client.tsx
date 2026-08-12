@@ -369,7 +369,7 @@ export function SurveyPageClient() {
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">📊 기본지식 · 학술자료분석 · 시장분석 기초가 쌓였다고 느끼시나요? (셀프 평가)</label>
-                <ChoiceButton value={selfCheck} onChange={setSelfCheck} labels={["전혀 아니다", "조금 부족", "보통", "어느 정도", "충분히 쌓였다"]} />
+                <ChoiceButton value={selfCheck} onChange={setSelfCheck} labels={["충분히 쌓였다", "어느 정도", "보통", "조금 부족", "전혀 아니다"]} />
               </div>
               <div className="mb-4">
                 <label className="mb-1 block text-sm font-semibold text-slate-700">😊 오늘 교육에서 좋았던 점</label>
