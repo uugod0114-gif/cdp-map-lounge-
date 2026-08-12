@@ -45,8 +45,7 @@ const mainBlocks: ContentBlock[] = [
       blockName: "메인 히어로 배너",
       title: "마케팅의 다음 챕터,\nCDP MAP에서 시작하세요",
       subtitle: "ETC마케팅본부 CDP · Marketing Assignment Program",
-      description:
-        "PM 직무 입문부터 실전 캠페인 협업까지, 현직 멘토와 함께 성장하는 8주 프로그램입니다.",
+      description: "",
       buttonLabel: "지금 신청하기",
       buttonUrl: "https://forms.gle/awVLtckpMasscMAY7",
       linkTarget: "_blank",

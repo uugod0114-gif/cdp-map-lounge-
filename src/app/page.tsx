@@ -47,7 +47,7 @@ export default async function HomePage() {
         <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
           <h2 className="mb-2 font-display text-2xl font-medium text-map-ink">강의 자료</h2>
           <p className="mb-6 text-sm text-slate-500">
-            자료 목록은 누구나 볼 수 있고, 실제 열람/다운로드는 로그인 후 가능합니다.
+            강의자료는 드라이브/플립북으로 확인 가능합니다.
           </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {materials.map((m) => (
@@ -74,34 +74,16 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* 실시간 피드백 */}
-      <div id="feedback" className="snap-section scroll-mt-16">
+      {/* CDP MAP 교육 소개 */}
+      <div className="snap-section scroll-mt-16 bg-map-gold-soft/40">
         <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
-          <h2 className="mb-2 font-display text-2xl font-medium text-map-ink">실시간 피드백</h2>
-          <p className="mb-6 text-sm text-slate-500">
-            회차를 선택하면 해당 강의의 피드백/Q&A 공간으로 이동합니다.
+          <p className="mb-2 text-sm font-semibold text-map-navy">CDP MAP이란?</p>
+          <h2 className="mb-4 font-display text-2xl font-medium text-map-ink">CDP MAP 교육 소개</h2>
+          <p className="text-base leading-relaxed text-slate-600">
+            CDP MAP(Marketing Assignment Program)은 ETC마케팅본부 CDP 과정 중 OJT에 해당하는
+            마케팅 직무 입문 및 역량 강화 교육입니다.
           </p>
-          <div className="flex flex-col gap-3">
-            {sessions.map((s) => (
-              <Link key={s.id} href={`/sessions/${s.id}`}>
-                <Card className="flex items-center justify-between border-map-navy/10 hover:border-map-navy">
-                  <div>
-                    <p className="text-xs font-semibold text-map-navy">{s.week}회차</p>
-                    <p className="font-semibold text-map-ink">{s.title}</p>
-                  </div>
-                  <span className="flex items-center gap-1 text-sm text-map-navy">
-                    <MessageCircle className="h-4 w-4" /> 피드백 남기기
-                  </span>
-                </Card>
-              </Link>
-            ))}
-          </div>
         </div>
-      </div>
-
-      {/* 자주 묻는 질문 (스냅 대상 아님, 자유 스크롤) */}
-      <div className="mx-auto max-w-4xl px-4 pb-20 sm:px-6">
-        <BlockList blocks={faqPage?.publishedBlocks ?? []} role="auditor" />
       </div>
     </PublicShell>
   );
