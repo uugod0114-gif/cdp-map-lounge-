@@ -143,7 +143,7 @@ function BlockBody({ block }: { block: ContentBlock }) {
                 </span>
               )}
               {fields.title && (
-                <h1 className="whitespace-pre-line font-display text-3xl font-medium leading-tight text-map-ink sm:text-[44px]">
+                <h1 className="whitespace-pre-line font-display text-3xl font-medium leading-tight text-map-ink sm:text-[38px]">
                   {fields.title}
                 </h1>
               )}
