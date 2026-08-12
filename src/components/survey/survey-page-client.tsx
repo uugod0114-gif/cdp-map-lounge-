@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-const SURVEY_URL = "https://script.google.com/macros/s/AKfycbzoSPV-zXzW7Xo1Hd7Ff7g-n7_PXUAom-boBn0VnLFF5QTyMYGVpH0lwUHq6kY4qjwm/exec";
+const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyxJYMnNf4na1MwmiHeJrIHsCXM3sx3EA3T0gUKCUzgk8hXIyz787qgEnY-gOLAuSCf/exec";
 const SECRET = "cdpmap-survey-2026";
 
 const LECTURES = [
@@ -45,6 +45,26 @@ function ChoiceButton({ labels, value, onChange }: { labels: string[]; value: nu
   );
 }
 
+function EmojiChoice({ options, value, onChange }: {
+  options: { emoji: string; label: string }[];
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((opt, i) => (
+        <button key={i} type="button" onClick={() => onChange(i + 1)}
+          className={`flex flex-col items-center gap-1 rounded-xl border px-4 py-3 text-center transition ${
+            value === i + 1 ? "border-green-700 bg-green-50" : "border-slate-200 hover:border-green-700"
+          }`}>
+          <span className="text-2xl">{opt.emoji}</span>
+          <span className={`text-xs font-semibold ${value === i + 1 ? "text-green-700" : "text-slate-500"}`}>{opt.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function Textarea({ value, onChange, placeholder, rows = 2 }: { value: string; onChange: (v: string) => void; placeholder: string; rows?: number }) {
   return (
     <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} rows={rows}
@@ -61,6 +81,10 @@ export function SurveyPageClient() {
 
   // 강의별
   const [lectureRatings, setLectureRatings] = React.useState<Record<string, number>>({});
+  const [lectureDifficulty, setLectureDifficulty] = React.useState<Record<string, number>>({});
+  const [lectureUtility, setLectureUtility] = React.useState<Record<string, number>>({});
+  const [lectureFlow, setLectureFlow] = React.useState<Record<string, number>>({});
+  const [lectureReplay, setLectureReplay] = React.useState<Record<string, number>>({});
   const [lectureGood, setLectureGood] = React.useState<Record<string, string>>({});
   const [lectureMemo, setLectureMemo] = React.useState<Record<string, string>>({});
   const [lectureHard, setLectureHard] = React.useState<Record<string, string>>({});
@@ -105,6 +129,10 @@ export function SurveyPageClient() {
       lectureId: id,
       lectureTitle: currentLecture.title,
       rating: lectureRatings[id],
+      difficulty: lectureDifficulty[id] ?? 0,
+      utility: lectureUtility[id] ?? 0,
+      flow: lectureFlow[id] ?? 0,
+      replay: lectureReplay[id] ?? 0,
       good: lectureGood[id] ?? "",
       memo: lectureMemo[id] ?? "",
       hard: lectureHard[id] ?? "",
@@ -224,9 +252,69 @@ export function SurveyPageClient() {
                 <p className="mb-5 text-xs text-slate-400">교수진: {currentLecture.instructor}</p>
 
                 <div className="mb-5">
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 강의 만족도 (5점 만점) *</label>
-                  <StarRating value={lectureRatings[currentLecture.id] ?? 0}
-                    onChange={(v) => setLectureRatings((prev) => ({ ...prev, [currentLecture.id]: v }))} />
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">1. 이해도 (내용 소화 정도) *</label>
+                  <EmojiChoice
+                    value={lectureRatings[currentLecture.id] ?? 0}
+                    onChange={(v) => setLectureRatings((prev) => ({ ...prev, [currentLecture.id]: v }))}
+                    options={[
+                      { emoji: "🍽", label: "완벽 흡수" },
+                      { emoji: "🍚", label: "대체로 소화" },
+                      { emoji: "🥛", label: "조금 더 필요" },
+                      { emoji: "❓", label: "아직 어려워요" },
+                    ]}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">2. 난이도</label>
+                  <EmojiChoice
+                    value={lectureDifficulty[currentLecture.id] ?? 0}
+                    onChange={(v) => setLectureDifficulty((prev) => ({ ...prev, [currentLecture.id]: v }))}
+                    options={[
+                      { emoji: "🚶", label: "산책로(쉬움)" },
+                      { emoji: "⛰", label: "뒷동산" },
+                      { emoji: "🧗", label: "조금 가파름" },
+                      { emoji: "🏔", label: "에베레스트" },
+                    ]}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">3. 실용성 (현업 적용도)</label>
+                  <EmojiChoice
+                    value={lectureUtility[currentLecture.id] ?? 0}
+                    onChange={(v) => setLectureUtility((prev) => ({ ...prev, [currentLecture.id]: v }))}
+                    options={[
+                      { emoji: "🔧", label: "바로 쓰는 공구함" },
+                      { emoji: "🎒", label: "곧 꺼내 쓸 도구" },
+                      { emoji: "📦", label: "필요할 때 꺼낼 상자" },
+                      { emoji: "🗂", label: "조금 더 고민 필요" },
+                    ]}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">4. 강의 구성/흐름</label>
+                  <EmojiChoice
+                    value={lectureFlow[currentLecture.id] ?? 0}
+                    onChange={(v) => setLectureFlow((prev) => ({ ...prev, [currentLecture.id]: v }))}
+                    options={[
+                      { emoji: "🧵", label: "잘 짜인 스웨터" },
+                      { emoji: "🧶", label: "살짝 풀린 실타래" },
+                      { emoji: "🪢", label: "조금 복잡한 실타래" },
+                      { emoji: "✂", label: "흐름이 끊김" },
+                    ]}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">5. 다시 듣고 싶은 정도</label>
+                  <EmojiChoice
+                    value={lectureReplay[currentLecture.id] ?? 0}
+                    onChange={(v) => setLectureReplay((prev) => ({ ...prev, [currentLecture.id]: v }))}
+                    options={[
+                      { emoji: "❤️", label: "꼭 다시 듣고 싶어요" },
+                      { emoji: "👍", label: "다시 들어도 좋아요" },
+                      { emoji: "🙂", label: "한 번으로 충분해요" },
+                      { emoji: "👀", label: "다른 강의도 궁금해요" },
+                    ]}
+                  />
                 </div>
                 <div className="mb-4">
                   <label className="mb-1 block text-sm font-semibold text-slate-700">👍 좋았던 점</label>
@@ -267,6 +355,11 @@ export function SurveyPageClient() {
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">🎯 1회차 교육이 목표에 맞게 잘 이뤄졌다고 생각하시나요?</label>
+                <div className="mb-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600">
+                  <p className="font-semibold text-slate-700 mb-1">📌 1회차 교육 목표</p>
+                  <p className="mb-0.5">1) PM의 역할과 책임에 대해 내재화한다</p>
+                  <p>2) PM 직무수행을 위한 기본지식 및 학술자료 분석방법에 대해 배우고, 시장분석 Tool 활용방법을 익힌다.</p>
+                </div>
                 <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["전혀 아니다", "아니다", "보통", "그렇다", "매우 그렇다"]} />
               </div>
               <div className="mb-6">
@@ -284,10 +377,6 @@ export function SurveyPageClient() {
               <div className="mb-4">
                 <label className="mb-1 block text-sm font-semibold text-slate-700">🔧 보완했으면 하는 점</label>
                 <Textarea value={improvePoint} onChange={setImprovePoint} placeholder="개선이 필요한 부분이 있다면 편하게 적어주세요" />
-              </div>
-              <div className="mb-8">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">💬 운영진에게 하고 싶은 말</label>
-                <Textarea value={toStaff} onChange={setToStaff} placeholder="건의사항, 요청사항, 응원 등 무엇이든 환영해요!" />
               </div>
               <button type="submit" disabled={sending}
                 className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
@@ -330,8 +419,8 @@ export function SurveyPageClient() {
                 <Textarea value={auditGood} onChange={setAuditGood} placeholder="강의 내용, 구성, 운영 등 자유롭게 적어주세요" />
               </div>
               <div className="mb-8">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">💬 운영진에게 하고 싶은 말</label>
-                <Textarea value={auditToStaff} onChange={setAuditToStaff} placeholder="건의사항, 요청사항, 응원 등 무엇이든 환영해요!" />
+                <label className="mb-1 block text-sm font-semibold text-slate-700">🔧 보완했으면 하는 점</label>
+                <Textarea value={auditToStaff} onChange={setAuditToStaff} placeholder="개선이 필요한 부분이 있다면 편하게 적어주세요" />
               </div>
               <button type="submit" disabled={sending}
                 className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
