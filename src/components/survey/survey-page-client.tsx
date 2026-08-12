@@ -51,14 +51,14 @@ function EmojiChoice({ options, value, onChange }: {
   onChange: (v: number) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="grid grid-cols-4 gap-2">
       {options.map((opt, i) => (
         <button key={i} type="button" onClick={() => onChange(i + 1)}
-          className={`flex flex-col items-center gap-1 rounded-xl border px-4 py-3 text-center transition ${
+          className={`flex h-24 flex-col items-center justify-center gap-1 rounded-xl border px-2 text-center transition ${
             value === i + 1 ? "border-green-700 bg-green-50" : "border-slate-200 hover:border-green-700"
           }`}>
           <span className="text-2xl">{opt.emoji}</span>
-          <span className={`text-xs font-semibold ${value === i + 1 ? "text-green-700" : "text-slate-500"}`}>{opt.label}</span>
+          <span className={`text-xs font-semibold leading-tight ${value === i + 1 ? "text-green-700" : "text-slate-500"}`}>{opt.label}</span>
         </button>
       ))}
     </div>
