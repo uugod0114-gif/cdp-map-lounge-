@@ -12,6 +12,7 @@ import type { UserRole } from "@/types/content";
 const BASE_NAV = [
   { href: "/#schedule", label: "강의 일정" },
   { href: "/survey", label: "피드백" },
+  { href: "/attendance", label: "출석" },
 ];
 
 /** 로그인한 역할에 따라 상단 메뉴에 추가되는 항목 */
