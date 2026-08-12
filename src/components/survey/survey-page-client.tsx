@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-const SURVEY_URL = "https://script.google.com/macros/s/AKfycbz0d4_qgPeYPus-iNZ2BmJEIYnNRthH-5wAtqJQdow7r-BeVblysoEPErgBsgmCV3MB/exec";
+const SURVEY_URL = "https://script.google.com/macros/s/AKfycbzoSPV-zXzW7Xo1Hd7Ff7g-n7_PXUAom-boBn0VnLFF5QTyMYGVpH0lwUHq6kY4qjwm/exec";
 const SECRET = "cdpmap-survey-2026";
 
 const LECTURES = [
