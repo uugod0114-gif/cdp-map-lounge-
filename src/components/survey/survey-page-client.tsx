@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyw-bDMdd-3pPHlIu7JeBx2afifaA3q6rOEDIWlAm_EtH-DbvwDxpACislfRLX7EN8r/exec";
+const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyA17RG2ylCAv-P_sBlJdl_MWAXPU4Ji6yOAKMsyNngfCUTdEK-HLwCGjkWSowE8kfW/exec";
 const SECRET = "cdpmap-survey-2026";
 
 const LECTURES = [
@@ -360,7 +360,7 @@ export function SurveyPageClient() {
                   <p className="mb-0.5">1) PM의 역할과 책임에 대해 내재화한다</p>
                   <p>2) PM 직무수행을 위한 기본지식 및 학술자료 분석방법에 대해 배우고, 시장분석 Tool 활용방법을 익힌다.</p>
                 </div>
-                <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["전혀 아니다", "아니다", "보통", "그렇다", "매우 그렇다"]} />
+                <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["매우 그렇다", "그렇다", "보통", "아니다", "전혀 아니다"]} />
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 1회차 교육이 실제 PM 전략 수립 과제에 어떤 도움이 되었나요?</label>
