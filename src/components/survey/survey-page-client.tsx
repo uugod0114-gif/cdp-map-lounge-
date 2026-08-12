@@ -405,7 +405,7 @@ export function SurveyPageClient() {
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">💼 오늘 배운 내용 중 현업에서 바로 적용할 수 있는 부분이 있었나요?</label>
-                <ChoiceButton value={applyable} onChange={setApplyable} labels={["전혀 없다", "거의 없다", "조금 있다", "꽤 있다", "많이 있다"]} />
+                <ChoiceButton value={applyable} onChange={setApplyable} labels={["많이 있다", "꽤 있다", "조금 있다", "거의 없다", "전혀 없다"]} />
               </div>
               <div className="mb-6">
                 <label className="mb-1 block text-sm font-semibold text-slate-700">📝 있다면 어떤 내용인지 구체적으로 적어주세요</label>
@@ -413,7 +413,7 @@ export function SurveyPageClient() {
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">🤝 이 교육을 주변 동료에게 추천하시겠어요?</label>
-                <ChoiceButton value={recommend} onChange={setRecommend} labels={["절대 안 한다", "안 한다", "보통", "추천한다", "적극 추천한다"]} />
+                <ChoiceButton value={recommend} onChange={setRecommend} labels={["적극 추천한다", "추천한다", "보통", "안 한다", "절대 안 한다"]} />
               </div>
               <div className="mb-4">
                 <label className="mb-1 block text-sm font-semibold text-slate-700">😊 오늘 교육에서 좋았던 점</label>
