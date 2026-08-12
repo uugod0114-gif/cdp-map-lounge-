@@ -363,8 +363,9 @@ export function SurveyPageClient() {
                 <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["전혀 아니다", "아니다", "보통", "그렇다", "매우 그렇다"]} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">💼 PM에게 가장 중요한 역할/책임을 한 줄로 정리해주세요 *</label>
-                <Textarea value={pmRole} onChange={setPmRole} placeholder="예) PM은 데이터 기반으로 의사결정을 이끌고 팀의 방향성을 제시하는 사람이다." rows={3} />
+                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 1회차 교육이 실제 PM 전략 수립 과제에 어떤 도움이 되었나요?</label>
+                <p className="mb-2 text-xs text-slate-400">배운 내용을 바탕으로 앞으로 어떻게 적용·고도화해볼 수 있을지 작성해주세요.</p>
+                <Textarea value={pmRole} onChange={setPmRole} placeholder="예) UBIST 데이터를 활용해 시장 점유율을 분석하고, 경쟁사 대비 우리 제품의 포지셔닝을 재정립할 수 있을 것 같다." rows={3} />
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">📊 기본지식 · 학술자료분석 · 시장분석 기초가 쌓였다고 느끼시나요? (셀프 평가)</label>
