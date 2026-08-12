@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyA17RG2ylCAv-P_sBlJdl_MWAXPU4Ji6yOAKMsyNngfCUTdEK-HLwCGjkWSowE8kfW/exec";
+const SURVEY_URL = "https://script.google.com/macros/s/AKfycbwBRg1_cSme8wPN9TRYTJRBqcUT_RyrcMMKu52B5olDSmw-35fr62eRmp2CgnePinVf/exec";
 const SECRET = "cdpmap-survey-2026";
 
 type Role = "수강" | "청강" | "";
@@ -101,7 +101,7 @@ export function AttendancePageClient() {
                 <input
                   value={dept}
                   onChange={(e) => setDept(e.target.value)}
-                  placeholder="예) ETC마케팅본부 전략팀"
+                  placeholder="예) 병원서울1"
                   className="w-full rounded-xl border border-slate-200 px-3 py-3 text-sm focus:border-green-600 focus:outline-none"
                 />
               </div>
