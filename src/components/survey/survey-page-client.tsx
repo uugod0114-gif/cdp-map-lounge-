@@ -2,26 +2,26 @@
 
 import * as React from "react";
 
+const SURVEY_URL = "https://script.google.com/macros/s/AKfycbz0d4_qgPeYPus-iNZ2BmJEIYnNRthH-5wAtqJQdow7r-BeVblysoEPErgBsgmCV3MB/exec";
+const SECRET = "cdpmap-survey-2026";
+
 const LECTURES = [
-  { id: "L1", title: "1강의 PM의 성과창출 프로세스", instructor: "서욱" },
-  { id: "L2", title: "2강의 우리 본부 PM 평가 맛보기", instructor: "박미경/김유신" },
-  { id: "L3", title: "3강의 기초자료 검색법 & 논문의 이해", instructor: "채연지" },
-  { id: "L4", title: "4강의 PM의 듀얼브레인, AI 실무 활용법", instructor: "황득경" },
-  { id: "L5", title: "5강의 UBIST 데이터의 이해와 활용사례 & 실전 UBIST", instructor: "마케팅기획팀 데이터파트" },
+  { id: "L1", title: "PM의 성과창출 프로세스", instructor: "서욱" },
+  { id: "L2", title: "우리 본부 PM 평가 맛보기", instructor: "박미경/김유신" },
+  { id: "L3", title: "기초자료 검색법 & 논문의 이해", instructor: "채연지" },
+  { id: "L4", title: "PM의 듀얼브레인, AI 실무 활용법", instructor: "황득경" },
+  { id: "L5", title: "UBIST 데이터의 이해와 활용사례 & 실전 UBIST", instructor: "마케팅기획팀 데이터파트" },
 ];
 
 type Tab = "lecture" | "overall";
+type Role = "수강" | "청강" | "";
 
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   return (
     <div className="flex gap-2">
       {[1, 2, 3, 4, 5].map((star) => (
-        <button
-          key={star}
-          type="button"
-          onClick={() => onChange(star)}
-          className={`text-3xl transition-transform hover:scale-110 ${star <= value ? "text-yellow-400" : "text-slate-200"}`}
-        >
+        <button key={star} type="button" onClick={() => onChange(star)}
+          className={`text-3xl transition-transform hover:scale-110 ${star <= value ? "text-yellow-400" : "text-slate-200"}`}>
           ★
         </button>
       ))}
@@ -30,20 +30,14 @@ function StarRating({ value, onChange }: { value: number; onChange: (v: number) 
   );
 }
 
-function SelfCheck({ value, onChange, labels }: { value: number; onChange: (v: number) => void; labels: string[] }) {
+function ChoiceButton({ labels, value, onChange }: { labels: string[]; value: number; onChange: (v: number) => void }) {
   return (
-    <div className="flex gap-3">
+    <div className="flex flex-wrap gap-2">
       {labels.map((label, i) => (
-        <button
-          key={i}
-          type="button"
-          onClick={() => onChange(i + 1)}
+        <button key={i} type="button" onClick={() => onChange(i + 1)}
           className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-            value === i + 1
-              ? "border-green-600 bg-green-600 text-white"
-              : "border-slate-200 text-slate-500 hover:border-green-600 hover:text-green-600"
-          }`}
-        >
+            value === i + 1 ? "border-green-700 bg-green-700 text-white" : "border-slate-200 text-slate-500 hover:border-green-700 hover:text-green-700"
+          }`}>
           {label}
         </button>
       ))}
@@ -52,17 +46,19 @@ function SelfCheck({ value, onChange, labels }: { value: number; onChange: (v: n
 }
 
 export function SurveyPageClient() {
+  const [role, setRole] = React.useState<Role>("");
   const [tab, setTab] = React.useState<Tab>("lecture");
   const [activeLecture, setActiveLecture] = React.useState(0);
   const [submitted, setSubmitted] = React.useState<Record<string, boolean>>({});
+  const [sending, setSending] = React.useState(false);
 
-  // 강의별 설문 상태
+  // 강의별
   const [lectureRatings, setLectureRatings] = React.useState<Record<string, number>>({});
   const [lectureGood, setLectureGood] = React.useState<Record<string, string>>({});
   const [lectureMemo, setLectureMemo] = React.useState<Record<string, string>>({});
   const [lectureHard, setLectureHard] = React.useState<Record<string, string>>({});
 
-  // 전체 설문 상태
+  // 전체
   const [overallRating, setOverallRating] = React.useState(0);
   const [goalMet, setGoalMet] = React.useState(0);
   const [pmRole, setPmRole] = React.useState("");
@@ -70,29 +66,92 @@ export function SurveyPageClient() {
 
   const currentLecture = LECTURES[activeLecture];
 
-  function handleLectureSubmit(e: React.FormEvent) {
+  async function sendToSheet(payload: Record<string, unknown>) {
+    try {
+      await fetch(SURVEY_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, secret: SECRET, role }),
+        mode: "no-cors",
+      });
+    } catch (_) {}
+  }
+
+  async function handleLectureSubmit(e: React.FormEvent) {
     e.preventDefault();
     const id = currentLecture.id;
     if (!lectureRatings[id]) return alert("별점을 선택해주세요.");
+    setSending(true);
+    await sendToSheet({
+      type: "lecture",
+      lectureId: id,
+      lectureTitle: currentLecture.title,
+      rating: lectureRatings[id],
+      good: lectureGood[id] ?? "",
+      memo: lectureMemo[id] ?? "",
+      hard: lectureHard[id] ?? "",
+    });
+    setSending(false);
     setSubmitted((prev) => ({ ...prev, [id]: true }));
     if (activeLecture < LECTURES.length - 1) setActiveLecture((v) => v + 1);
   }
 
-  function handleOverallSubmit(e: React.FormEvent) {
+  async function handleOverallSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!overallRating) return alert("전체 만족도 별점을 선택해주세요.");
     if (!pmRole.trim()) return alert("PM 역할/책임 한 줄 정리를 입력해주세요.");
+    setSending(true);
+    await sendToSheet({
+      type: "overall",
+      overallRating,
+      goalMet,
+      pmRole,
+      selfCheck,
+    });
+    setSending(false);
     setSubmitted((prev) => ({ ...prev, overall: true }));
+  }
+
+  // 참여 유형 선택 화면
+  if (!role) {
+    return (
+      <div className="flex min-h-screen flex-col bg-slate-50">
+        <header className="border-b border-slate-200 bg-white">
+          <div className="mx-auto flex h-16 max-w-3xl items-center gap-3 px-4">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
+            <span className="font-bold text-slate-800">CDP MAP Lounge</span>
+            <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 설문</span>
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col items-center justify-center px-4">
+          <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
+            <p className="text-4xl mb-4">👋</p>
+            <h2 className="text-xl font-bold text-slate-800 mb-2">반갑습니다!</h2>
+            <p className="text-sm text-slate-500 mb-6">1회차 설문을 시작하기 전에<br />참여 유형을 선택해주세요.</p>
+            <div className="flex flex-col gap-3">
+              <button type="button" onClick={() => setRole("수강")}
+                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800">
+                수강자로 참여
+              </button>
+              <button type="button" onClick={() => setRole("청강")}
+                className="w-full rounded-full border border-green-700 py-3 text-sm font-bold text-green-700 hover:bg-green-50">
+                청강자로 참여
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* 헤더 */}
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex h-16 max-w-3xl items-center gap-3 px-4">
           <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
           <span className="font-bold text-slate-800">CDP MAP Lounge</span>
           <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 설문</span>
+          <span className="ml-auto rounded-full bg-slate-100 px-3 py-0.5 text-xs font-semibold text-slate-500">{role}자</span>
         </div>
       </header>
 
@@ -102,46 +161,31 @@ export function SurveyPageClient() {
 
         {/* 탭 */}
         <div className="mb-6 flex gap-2">
-          <button
-            type="button"
-            onClick={() => setTab("lecture")}
+          <button type="button" onClick={() => setTab("lecture")}
             className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
               tab === "lecture" ? "bg-green-700 text-white" : "border border-slate-200 text-slate-500 hover:border-green-700"
-            }`}
-          >
+            }`}>
             📚 강의별 평가
           </button>
-          <button
-            type="button"
-            onClick={() => setTab("overall")}
+          <button type="button" onClick={() => setTab("overall")}
             className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
               tab === "overall" ? "bg-green-700 text-white" : "border border-slate-200 text-slate-500 hover:border-green-700"
-            }`}
-          >
+            }`}>
             📋 1회차 전체 평가
           </button>
         </div>
 
-        {/* 강의별 평가 */}
         {tab === "lecture" && (
           <div>
-            {/* 강의 선택 */}
             <div className="mb-5 flex flex-wrap gap-2">
               {LECTURES.map((lec, i) => (
-                <button
-                  key={lec.id}
-                  type="button"
-                  onClick={() => setActiveLecture(i)}
-                  className={`relative rounded-full border px-4 py-1.5 text-sm font-semibold transition ${
-                    activeLecture === i
-                      ? "border-green-700 bg-green-700 text-white"
-                      : submitted[lec.id]
-                      ? "border-green-200 bg-green-50 text-green-700"
-                      : "border-slate-200 text-slate-500 hover:border-green-700"
-                  }`}
-                >
-                  {i + 1}강의
-                  {submitted[lec.id] && <span className="ml-1">✓</span>}
+                <button key={lec.id} type="button" onClick={() => setActiveLecture(i)}
+                  className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition ${
+                    activeLecture === i ? "border-green-700 bg-green-700 text-white"
+                    : submitted[lec.id] ? "border-green-200 bg-green-50 text-green-700"
+                    : "border-slate-200 text-slate-500 hover:border-green-700"
+                  }`}>
+                  {i + 1}강의{submitted[lec.id] && " ✓"}
                 </button>
               ))}
             </div>
@@ -150,7 +194,7 @@ export function SurveyPageClient() {
               <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
                 <p className="text-3xl">✅</p>
                 <p className="mt-2 font-bold text-green-700">{currentLecture.title}</p>
-                <p className="mt-1 text-sm text-slate-500">제출 완료! 다음 강의를 선택해주세요.</p>
+                <p className="mt-1 text-sm text-slate-500">제출 완료! 다음 강의를 선택하거나 전체 평가를 해주세요.</p>
               </div>
             ) : (
               <form onSubmit={handleLectureSubmit} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -158,58 +202,44 @@ export function SurveyPageClient() {
                 <p className="mb-5 text-xs text-slate-400">강사: {currentLecture.instructor}</p>
 
                 <div className="mb-5">
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 강의 만족도 (5점 만점)</label>
-                  <StarRating
-                    value={lectureRatings[currentLecture.id] ?? 0}
-                    onChange={(v) => setLectureRatings((prev) => ({ ...prev, [currentLecture.id]: v }))}
-                  />
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 강의 만족도 (5점 만점) *</label>
+                  <StarRating value={lectureRatings[currentLecture.id] ?? 0}
+                    onChange={(v) => setLectureRatings((prev) => ({ ...prev, [currentLecture.id]: v }))} />
                 </div>
 
                 <div className="mb-4">
                   <label className="mb-1 block text-sm font-semibold text-slate-700">👍 좋았던 점</label>
-                  <textarea
-                    value={lectureGood[currentLecture.id] ?? ""}
+                  <textarea value={lectureGood[currentLecture.id] ?? ""}
                     onChange={(e) => setLectureGood((prev) => ({ ...prev, [currentLecture.id]: e.target.value }))}
                     placeholder="강의에서 좋았던 점을 자유롭게 적어주세요"
-                    className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none"
-                    rows={2}
-                  />
+                    className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none" rows={2} />
                 </div>
 
                 <div className="mb-4">
                   <label className="mb-1 block text-sm font-semibold text-slate-700">💡 가장 기억에 남는 점</label>
-                  <textarea
-                    value={lectureMemo[currentLecture.id] ?? ""}
+                  <textarea value={lectureMemo[currentLecture.id] ?? ""}
                     onChange={(e) => setLectureMemo((prev) => ({ ...prev, [currentLecture.id]: e.target.value }))}
                     placeholder="인상 깊었거나 새로 알게 된 내용은?"
-                    className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none"
-                    rows={2}
-                  />
+                    className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none" rows={2} />
                 </div>
 
                 <div className="mb-6">
                   <label className="mb-1 block text-sm font-semibold text-slate-700">🤔 어려웠거나 더 알고 싶은 점</label>
-                  <textarea
-                    value={lectureHard[currentLecture.id] ?? ""}
+                  <textarea value={lectureHard[currentLecture.id] ?? ""}
                     onChange={(e) => setLectureHard((prev) => ({ ...prev, [currentLecture.id]: e.target.value }))}
                     placeholder="이해가 어려웠거나 더 다뤄줬으면 했던 내용은?"
-                    className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none"
-                    rows={2}
-                  />
+                    className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none" rows={2} />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 active:opacity-80"
-                >
-                  이 강의 평가 제출
+                <button type="submit" disabled={sending}
+                  className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
+                  {sending ? "제출 중…" : "이 강의 평가 제출"}
                 </button>
               </form>
             )}
           </div>
         )}
 
-        {/* 전체 평가 */}
         {tab === "overall" && (
           submitted.overall ? (
             <div className="rounded-2xl border border-green-200 bg-green-50 p-10 text-center">
@@ -222,52 +252,32 @@ export function SurveyPageClient() {
               <h2 className="mb-5 text-lg font-bold text-slate-800">📋 1회차 전체 평가</h2>
 
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  ⭐ 1회차 전체 만족도 (5점 만점)
-                </label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 1회차 전체 만족도 (5점 만점) *</label>
                 <StarRating value={overallRating} onChange={setOverallRating} />
               </div>
 
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  🎯 1회차 교육이 목표에 맞게 잘 이뤄졌다고 생각하시나요?
-                </label>
-                <SelfCheck
-                  value={goalMet}
-                  onChange={setGoalMet}
-                  labels={["전혀 아니다", "아니다", "보통", "그렇다", "매우 그렇다"]}
-                />
+                <label className="mb-2 block text-sm font-semibold text-slate-700">🎯 1회차 교육이 목표에 맞게 잘 이뤄졌다고 생각하시나요?</label>
+                <ChoiceButton value={goalMet} onChange={setGoalMet}
+                  labels={["전혀 아니다", "아니다", "보통", "그렇다", "매우 그렇다"]} />
               </div>
 
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  💼 PM에게 가장 중요한 역할/책임이 무엇인지 한 줄로 정리해주세요
-                </label>
-                <textarea
-                  value={pmRole}
-                  onChange={(e) => setPmRole(e.target.value)}
+                <label className="mb-2 block text-sm font-semibold text-slate-700">💼 PM에게 가장 중요한 역할/책임을 한 줄로 정리해주세요 *</label>
+                <textarea value={pmRole} onChange={(e) => setPmRole(e.target.value)}
                   placeholder="예) PM은 데이터 기반으로 의사결정을 이끌고 팀의 방향성을 제시하는 사람이다."
-                  className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none"
-                  rows={3}
-                />
+                  className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-green-600 focus:outline-none" rows={3} />
               </div>
 
               <div className="mb-8">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  📊 기본지식 · 학술자료분석 · 시장분석 기초가 쌓였다고 느끼시나요? (셀프 평가)
-                </label>
-                <SelfCheck
-                  value={selfCheck}
-                  onChange={setSelfCheck}
-                  labels={["전혀 아니다", "조금 부족", "보통", "어느 정도", "충분히 쌓였다"]}
-                />
+                <label className="mb-2 block text-sm font-semibold text-slate-700">📊 기본지식 · 학술자료분석 · 시장분석 기초가 쌓였다고 느끼시나요?</label>
+                <ChoiceButton value={selfCheck} onChange={setSelfCheck}
+                  labels={["전혀 아니다", "조금 부족", "보통", "어느 정도", "충분히 쌓였다"]} />
               </div>
 
-              <button
-                type="submit"
-                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 active:opacity-80"
-              >
-                1회차 전체 평가 제출
+              <button type="submit" disabled={sending}
+                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
+                {sending ? "제출 중…" : "1회차 전체 평가 제출"}
               </button>
             </form>
           )
