@@ -136,8 +136,10 @@ export function SurveyPageClient() {
       <div className="flex min-h-screen flex-col bg-slate-50">
         <header className="border-b border-slate-200 bg-white">
           <div className="mx-auto flex h-16 max-w-3xl items-center gap-3 px-4">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
-            <span className="font-bold text-slate-800">CDP MAP Lounge</span>
+            <a href="/" className="flex items-center gap-3">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
+              <span className="font-bold text-slate-800">CDP MAP Lounge</span>
+            </a>
             <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 설문</span>
           </div>
         </header>
@@ -166,8 +168,10 @@ export function SurveyPageClient() {
     <div className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex h-16 max-w-3xl items-center gap-3 px-4">
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
-          <span className="font-bold text-slate-800">CDP MAP Lounge</span>
+          <a href="/" className="flex items-center gap-3">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
+            <span className="font-bold text-slate-800">CDP MAP Lounge</span>
+          </a>
           <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 설문</span>
           <span className="ml-auto rounded-full bg-slate-100 px-3 py-0.5 text-xs font-semibold text-slate-500">{role}자</span>
         </div>
