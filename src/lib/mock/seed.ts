@@ -452,7 +452,7 @@ export const mockSessions: SessionRecord[] = [
       { time: "12:20~13:20", minutes: "60'", title: "점심식사", instructor: "-" },
       { time: "13:20~14:10", minutes: "50'", title: "MBO 및 성공모델 확산시스템의 이해", instructor: "오창헌" },
       { time: "14:10~14:50", minutes: "40'", title: "Projection A의 도출과정", instructor: "원성훈" },
-      { time: "15:00~15:40", minutes: "40'", title: "검증 4단계 과정에서의 고민 해결 노하우", instructor: "TBD" },
+      { time: "15:00~15:40", minutes: "40'", title: "검증 4단계 과정에서의 고민 해결 노하우", instructor: "오재석" },
       { time: "15:50~17:20", minutes: "90'", title: "검증2단계 멘토링", instructor: "멘토PM" },
       { time: "17:20~17:40", minutes: "20'", title: "사후테스트 / WRAP-UP", instructor: "진재훈" },
     ],

@@ -6,11 +6,13 @@ const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyA17RG2ylCAv-P_sBlJ
 const SECRET = "cdpmap-survey-2026";
 
 const LECTURES = [
-  { id: "L1", title: "PM의 성과창출 프로세스", instructor: "서욱" },
-  { id: "L2", title: "우리 본부 PM 평가 맛보기", instructor: "박미경/김유신" },
-  { id: "L3", title: "기초자료 검색법 & 논문의 이해", instructor: "채연지" },
-  { id: "L4", title: "PM의 듀얼브레인, AI 실무 활용법", instructor: "황득경" },
-  { id: "L5", title: "UBIST 데이터의 이해와 활용사례 & 실전 UBIST", instructor: "마케팅기획팀 데이터파트" },
+  { id: "L1", title: "검증4단계 총론 및 가속화 노하우", instructor: "김화산" },
+  { id: "L2", title: "처방명분 작성의 고찰", instructor: "김학준" },
+  { id: "L3", title: "AI 시대의 메디컬 Sales Forecast", instructor: "이영민" },
+  { id: "L4", title: "Brand Planning : 목표 & 전략수립", instructor: "배정현" },
+  { id: "L5", title: "MBO 및 성공모델 확산시스템의 이해", instructor: "오창헌" },
+  { id: "L6", title: "Projection A의 도출과정", instructor: "원성훈" },
+  { id: "L7", title: "검증 4단계 과정에서의 고민 해결 노하우", instructor: "오재석" },
 ];
 
 type Tab = "lecture" | "overall";
@@ -126,6 +128,7 @@ export function SurveyPageClient() {
     setSending(true);
     await sendToSheet({
       type: "lecture",
+      round: 2,
       lectureId: id,
       lectureTitle: currentLecture.title,
       rating: lectureRatings[id],
@@ -146,13 +149,13 @@ export function SurveyPageClient() {
     e.preventDefault();
     if (role === "수강") {
       if (!overallRating) return alert("전체 만족도 별점을 선택해주세요.");
-      if (!pmRole.trim()) return alert("PM 역할/책임 한 줄 정리를 입력해주세요.");
+      if (!pmRole.trim()) return alert("도전품목 전략수립에 대한 적용 계획을 입력해주세요.");
       setSending(true);
-      await sendToSheet({ type: "overall", overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
+      await sendToSheet({ type: "overall", round: 2, overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
     } else {
       if (!auditRating) return alert("전체 만족도 별점을 선택해주세요.");
       setSending(true);
-      await sendToSheet({ type: "overall_audit", auditRating, applyable, applyDetail, recommend, auditGood, auditToStaff });
+      await sendToSheet({ type: "overall_audit", round: 2, auditRating, applyable, applyDetail, recommend, auditGood, auditToStaff });
     }
     setSending(false);
     setSubmitted((prev) => ({ ...prev, overall: true }));
@@ -168,14 +171,14 @@ export function SurveyPageClient() {
               <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
               <span className="font-bold text-slate-800">CDP MAP Lounge</span>
             </a>
-            <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 설문</span>
+            <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">2회차 설문</span>
           </div>
         </header>
         <div className="flex flex-1 flex-col items-center justify-center px-4">
           <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
             <p className="text-4xl mb-4">👋</p>
             <h2 className="text-xl font-bold text-slate-800 mb-2">반갑습니다!</h2>
-            <p className="text-sm text-slate-500 mb-6">1회차 설문을 시작하기 전에<br />참여 유형을 선택해주세요.</p>
+            <p className="text-sm text-slate-500 mb-6">2회차 설문을 시작하기 전에<br />참여 유형을 선택해주세요.</p>
             <div className="flex flex-col gap-3">
               <button type="button" onClick={() => setRole("수강")}
                 className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800">
@@ -200,13 +203,13 @@ export function SurveyPageClient() {
             <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
             <span className="font-bold text-slate-800">CDP MAP Lounge</span>
           </a>
-          <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 설문</span>
+          <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">2회차 설문</span>
           <span className="ml-auto rounded-full bg-slate-100 px-3 py-0.5 text-xs font-semibold text-slate-500">{role}자</span>
         </div>
       </header>
 
       <div className="mx-auto max-w-3xl px-4 py-8">
-        <h1 className="mb-1 text-2xl font-bold text-slate-800">1회차 강의 설문조사</h1>
+        <h1 className="mb-1 text-2xl font-bold text-slate-800">2회차 강의 설문조사</h1>
         <p className="mb-6 text-sm text-slate-500">솔직한 피드백이 더 좋은 교육을 만들어요. 익명으로 제출됩니다.</p>
 
         {/* 탭 */}
@@ -217,7 +220,7 @@ export function SurveyPageClient() {
           </button>
           <button type="button" onClick={() => setTab("overall")}
             className={`rounded-full px-5 py-2 text-sm font-semibold transition ${tab === "overall" ? "bg-green-700 text-white" : "border border-slate-200 text-slate-500 hover:border-green-700"}`}>
-            📋 1회차 전체 평가
+            📋 2회차 전체 평가
           </button>
         </div>
 
@@ -342,33 +345,33 @@ export function SurveyPageClient() {
           submitted.overall ? (
             <div className="rounded-2xl border border-green-200 bg-green-50 p-10 text-center">
               <p className="text-4xl">🎉</p>
-              <p className="mt-3 text-xl font-bold text-green-700">1회차 전체 설문 제출 완료!</p>
+              <p className="mt-3 text-xl font-bold text-green-700">2회차 전체 설문 제출 완료!</p>
               <p className="mt-1 text-sm text-slate-500">소중한 피드백 감사해요. 다음 회차에 반영하겠습니다.</p>
             </div>
           ) : (
             <form onSubmit={handleOverallSubmit} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h2 className="mb-5 text-lg font-bold text-slate-800">📋 1회차 전체 평가 (수강자)</h2>
+              <h2 className="mb-5 text-lg font-bold text-slate-800">📋 2회차 전체 평가 (수강자)</h2>
 
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 1회차 전체 만족도 (5점 만점) *</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 2회차 전체 만족도 (5점 만점) *</label>
                 <StarRating value={overallRating} onChange={setOverallRating} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">🎯 1회차 교육이 목표에 맞게 잘 이뤄졌다고 생각하시나요?</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">🎯 2회차 교육이 목표에 맞게 잘 이뤄졌다고 생각하시나요?</label>
                 <div className="mb-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600">
-                  <p className="font-semibold text-slate-700 mb-1">📌 1회차 교육 목표</p>
-                  <p className="mb-0.5">1) PM의 역할과 책임에 대해 내재화한다</p>
-                  <p>2) PM 직무수행을 위한 기본지식 및 학술자료 분석방법에 대해 배우고, 시장분석 Tool 활용방법을 익힌다.</p>
+                  <p className="font-semibold text-slate-700 mb-1">📌 2회차 교육 목표</p>
+                  <p className="mb-0.5">1) 마케팅 전략수립 프로세스 및 이론에 대해 학습하고 활용할 수 있도록 한다</p>
+                  <p>2) 검증4단계 프로세스를 내재화하고, 현업에 대한 이해를 바탕으로 도전품목 전략수립을 구체화한다.</p>
                 </div>
                 <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["매우 그렇다", "그렇다", "보통", "아니다", "전혀 아니다"]} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 1회차 교육이 실제 PM 전략 수립 과제에 어떤 도움이 되었나요?</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 2회차 교육이 실제 도전품목 전략수립에 어떤 도움이 되었나요?</label>
                 <p className="mb-2 text-xs text-slate-400">배운 내용을 바탕으로 앞으로 어떻게 적용·고도화해볼 수 있을지 작성해주세요.</p>
-                <Textarea value={pmRole} onChange={setPmRole} placeholder="예) UBIST 데이터를 활용해 시장 점유율을 분석하고, 경쟁사 대비 우리 제품의 포지셔닝을 재정립할 수 있을 것 같다." rows={3} />
+                <Textarea value={pmRole} onChange={setPmRole} placeholder="예) 검증4단계 프로세스를 활용해 처방명분을 다시 다듬고, Brand Planning 프레임으로 목표와 전략을 재정리할 수 있을 것 같다." rows={3} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">📊 기본지식 · 학술자료분석 · 시장분석 기초가 쌓였다고 느끼시나요? (셀프 평가)</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">📊 마케팅 전략수립 · 검증4단계 프로세스에 대한 이해가 쌓였다고 느끼시나요? (셀프 평가)</label>
                 <ChoiceButton value={selfCheck} onChange={setSelfCheck} labels={["충분히 쌓였다", "어느 정도", "보통", "조금 부족", "전혀 아니다"]} />
               </div>
               <div className="mb-4">
@@ -381,7 +384,7 @@ export function SurveyPageClient() {
               </div>
               <button type="submit" disabled={sending}
                 className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
-                {sending ? "제출 중…" : "1회차 전체 평가 제출"}
+                {sending ? "제출 중…" : "2회차 전체 평가 제출"}
               </button>
             </form>
           )
@@ -392,15 +395,15 @@ export function SurveyPageClient() {
           submitted.overall ? (
             <div className="rounded-2xl border border-green-200 bg-green-50 p-10 text-center">
               <p className="text-4xl">🎉</p>
-              <p className="mt-3 text-xl font-bold text-green-700">1회차 전체 설문 제출 완료!</p>
+              <p className="mt-3 text-xl font-bold text-green-700">2회차 전체 설문 제출 완료!</p>
               <p className="mt-1 text-sm text-slate-500">소중한 피드백 감사해요. 다음 회차에 반영하겠습니다.</p>
             </div>
           ) : (
             <form onSubmit={handleOverallSubmit} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h2 className="mb-5 text-lg font-bold text-slate-800">📋 1회차 전체 평가 (청강자)</h2>
+              <h2 className="mb-5 text-lg font-bold text-slate-800">📋 2회차 전체 평가 (청강자)</h2>
 
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 1회차 전체 만족도 (5점 만점) *</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 2회차 전체 만족도 (5점 만점) *</label>
                 <StarRating value={auditRating} onChange={setAuditRating} />
               </div>
               <div className="mb-6">
@@ -425,7 +428,7 @@ export function SurveyPageClient() {
               </div>
               <button type="submit" disabled={sending}
                 className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
-                {sending ? "제출 중…" : "1회차 전체 평가 제출"}
+                {sending ? "제출 중…" : "2회차 전체 평가 제출"}
               </button>
             </form>
           )
