@@ -92,7 +92,6 @@ export function SurveyPageClient() {
 
   // 수강자 전체 평가
   const [overallRating, setOverallRating] = React.useState(0);
-  const [goalMet, setGoalMet] = React.useState(0);
   const [pmRole, setPmRole] = React.useState("");
   const [selfCheck, setSelfCheck] = React.useState(0);
   const [goodPoint, setGoodPoint] = React.useState("");
@@ -149,7 +148,8 @@ export function SurveyPageClient() {
     if (role === "수강") {
       if (!overallRating) return alert("전체 만족도 별점을 선택해주세요.");
       if (!pmRole.trim()) return alert("도전품목 전략수립에 대한 적용 계획을 입력해주세요.");
-      sendToSheet({ type: "overall", round: 2, overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
+      if (!selfCheck) return alert("검증4단계 내재화 정도를 선택해주세요.");
+      sendToSheet({ type: "overall", round: 2, overallRating, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
     } else {
       if (!auditRating) return alert("전체 만족도 별점을 선택해주세요.");
       sendToSheet({ type: "overall_audit", round: 2, auditRating, applyable, applyDetail, recommend, auditGood, auditToStaff });
@@ -353,22 +353,13 @@ export function SurveyPageClient() {
                 <StarRating value={overallRating} onChange={setOverallRating} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">🎯 2회차 교육이 목표에 맞게 잘 이뤄졌다고 생각하시나요?</label>
-                <div className="mb-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600">
-                  <p className="font-semibold text-slate-700 mb-1">📌 2회차 교육 목표</p>
-                  <p className="mb-0.5">1) 마케팅 전략수립 프로세스 및 이론에 대해 학습하고 활용할 수 있도록 한다</p>
-                  <p>2) 검증4단계 프로세스를 내재화하고, 현업에 대한 이해를 바탕으로 도전품목 전략수립을 구체화한다.</p>
-                </div>
-                <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["매우 그렇다", "그렇다", "보통", "아니다", "전혀 아니다"]} />
-              </div>
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 2회차 교육이 실제 도전품목 전략수립에 어떤 도움이 되었나요?</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 마케팅 전략수립 프로세스를 본인 전략에 적용할 것인지</label>
                 <p className="mb-2 text-xs text-slate-400">배운 내용을 바탕으로 앞으로 어떻게 적용·고도화해볼 수 있을지 작성해주세요.</p>
                 <Textarea value={pmRole} onChange={setPmRole} placeholder="예) 검증4단계 프로세스를 활용해 처방명분을 다시 다듬고, Brand Planning 프레임으로 목표와 전략을 재정리할 수 있을 것 같다." rows={3} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">📊 마케팅 전략수립 · 검증4단계 프로세스에 대한 이해가 쌓였다고 느끼시나요? (셀프 평가)</label>
-                <ChoiceButton value={selfCheck} onChange={setSelfCheck} labels={["충분히 쌓였다", "어느 정도", "보통", "조금 부족", "전혀 아니다"]} />
+                <label className="mb-2 block text-sm font-semibold text-slate-700">📊 검증4단계가 얼마나 내재화되었는지 (1~5) *</label>
+                <StarRating value={selfCheck} onChange={setSelfCheck} />
               </div>
               <div className="mb-4">
                 <label className="mb-1 block text-sm font-semibold text-slate-700">😊 오늘 교육에서 좋았던 점</label>
