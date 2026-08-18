@@ -11,30 +11,28 @@ export function AttendancePageClient() {
   const [role, setRole] = React.useState<Role>("");
   const [dept, setDept] = React.useState("");
   const [name, setName] = React.useState("");
-  const [sending, setSending] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [error, setError] = React.useState("");
 
-  async function handleSubmit(e: React.FormEvent) {
+  // no-cors라 응답을 읽을 수 없어 성공 여부를 확인할 방법이 없었고, 실패해도
+  // 어차피 "출석 완료" 화면을 그대로 보여주던 구조라 await로 기다릴 이유가
+  // 없었다. await를 없애 버튼을 누르는 즉시 반응하게 하고, keepalive로 화면을
+  // 빨리 넘어가도 요청이 끊기지 않게 한다.
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!dept.trim() || !name.trim()) {
       setError("소속과 이름을 모두 입력해주세요.");
       return;
     }
-    setSending(true);
     setError("");
-    try {
-      await fetch(SURVEY_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "attendance", session: "2회차", role, dept: dept.trim(), name: name.trim(), secret: SECRET }),
-        mode: "no-cors",
-      });
-      setDone(true);
-    } catch (_) {
-      setDone(true);
-    }
-    setSending(false);
+    fetch(SURVEY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "attendance", session: "2회차", role, dept: dept.trim(), name: name.trim(), secret: SECRET }),
+      mode: "no-cors",
+      keepalive: true,
+    }).catch(() => {});
+    setDone(true);
   }
 
   if (!role) {
@@ -115,9 +113,9 @@ export function AttendancePageClient() {
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <button type="submit" disabled={sending}
-                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
-                {sending ? "제출 중…" : "출석 제출"}
+              <button type="submit"
+                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800">
+                출석 제출
               </button>
             </form>
           </div>

@@ -79,7 +79,6 @@ export function SurveyPageClient() {
   const [tab, setTab] = React.useState<Tab>("lecture");
   const [activeLecture, setActiveLecture] = React.useState(0);
   const [submitted, setSubmitted] = React.useState<Record<string, boolean>>({});
-  const [sending, setSending] = React.useState(false);
 
   // 강의별
   const [lectureRatings, setLectureRatings] = React.useState<Record<string, number>>({});
@@ -110,23 +109,24 @@ export function SurveyPageClient() {
 
   const currentLecture = LECTURES[activeLecture];
 
-  async function sendToSheet(payload: Record<string, unknown>) {
-    try {
-      await fetch(SURVEY_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, secret: SECRET, role }),
-        mode: "no-cors",
-      });
-    } catch (_) {}
+  // no-cors 요청이라 응답 내용을 읽을 수 없고, 실패해도 어차피 조용히 무시하던
+  // 구조라 await로 응답을 기다리는 게 의미가 없었다. await를 없애 제출 버튼이
+  // 즉시 반응하도록 하고, keepalive로 탭을 빨리 넘어가도 요청이 살아있게 한다.
+  function sendToSheet(payload: Record<string, unknown>) {
+    fetch(SURVEY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...payload, secret: SECRET, role }),
+      mode: "no-cors",
+      keepalive: true,
+    }).catch(() => {});
   }
 
-  async function handleLectureSubmit(e: React.FormEvent) {
+  function handleLectureSubmit(e: React.FormEvent) {
     e.preventDefault();
     const id = currentLecture.id;
     if (!lectureRatings[id]) return alert("별점을 선택해주세요.");
-    setSending(true);
-    await sendToSheet({
+    sendToSheet({
       type: "lecture",
       round: 2,
       lectureId: id,
@@ -140,24 +140,20 @@ export function SurveyPageClient() {
       memo: lectureMemo[id] ?? "",
       hard: lectureHard[id] ?? "",
     });
-    setSending(false);
     setSubmitted((prev) => ({ ...prev, [id]: true }));
     if (activeLecture < LECTURES.length - 1) setActiveLecture((v) => v + 1);
   }
 
-  async function handleOverallSubmit(e: React.FormEvent) {
+  function handleOverallSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (role === "수강") {
       if (!overallRating) return alert("전체 만족도 별점을 선택해주세요.");
       if (!pmRole.trim()) return alert("도전품목 전략수립에 대한 적용 계획을 입력해주세요.");
-      setSending(true);
-      await sendToSheet({ type: "overall", round: 2, overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
+      sendToSheet({ type: "overall", round: 2, overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
     } else {
       if (!auditRating) return alert("전체 만족도 별점을 선택해주세요.");
-      setSending(true);
-      await sendToSheet({ type: "overall_audit", round: 2, auditRating, applyable, applyDetail, recommend, auditGood, auditToStaff });
+      sendToSheet({ type: "overall_audit", round: 2, auditRating, applyable, applyDetail, recommend, auditGood, auditToStaff });
     }
-    setSending(false);
     setSubmitted((prev) => ({ ...prev, overall: true }));
   }
 
@@ -331,9 +327,9 @@ export function SurveyPageClient() {
                   <label className="mb-1 block text-sm font-semibold text-slate-700">🤔 어려웠거나 더 알고 싶은 점</label>
                   <Textarea value={lectureHard[currentLecture.id] ?? ""} onChange={(v) => setLectureHard((prev) => ({ ...prev, [currentLecture.id]: v }))} placeholder="이해가 어려웠거나 더 다뤄줬으면 했던 내용은?" />
                 </div>
-                <button type="submit" disabled={sending}
-                  className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
-                  {sending ? "제출 중…" : "이 강의 평가 제출"}
+                <button type="submit"
+                  className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800">
+                  이 강의 평가 제출
                 </button>
               </form>
             )}
@@ -382,9 +378,9 @@ export function SurveyPageClient() {
                 <label className="mb-1 block text-sm font-semibold text-slate-700">🔧 보완했으면 하는 점</label>
                 <Textarea value={improvePoint} onChange={setImprovePoint} placeholder="개선이 필요한 부분이 있다면 편하게 적어주세요" />
               </div>
-              <button type="submit" disabled={sending}
-                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
-                {sending ? "제출 중…" : "2회차 전체 평가 제출"}
+              <button type="submit"
+                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800">
+                2회차 전체 평가 제출
               </button>
             </form>
           )
@@ -426,9 +422,9 @@ export function SurveyPageClient() {
                 <label className="mb-1 block text-sm font-semibold text-slate-700">🔧 보완했으면 하는 점</label>
                 <Textarea value={auditToStaff} onChange={setAuditToStaff} placeholder="개선이 필요한 부분이 있다면 편하게 적어주세요" />
               </div>
-              <button type="submit" disabled={sending}
-                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">
-                {sending ? "제출 중…" : "2회차 전체 평가 제출"}
+              <button type="submit"
+                className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800">
+                2회차 전체 평가 제출
               </button>
             </form>
           )

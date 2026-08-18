@@ -29,7 +29,7 @@ const ROLE_EXTRA_NAV: Partial<Record<UserRole, { href: string; label: string }[]
 export function SiteHeader() {
   const { user, isLoggedIn, isStaffUser, logout } = useDemoUser();
   const router = useRouter();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(true);
 
   const nav = [
     ...BASE_NAV,
