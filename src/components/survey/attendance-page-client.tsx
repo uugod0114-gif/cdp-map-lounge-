@@ -27,7 +27,7 @@ export function AttendancePageClient() {
       await fetch(SURVEY_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "attendance", session: "1회차", role, dept: dept.trim(), name: name.trim(), secret: SECRET }),
+        body: JSON.stringify({ type: "attendance", session: "2회차", role, dept: dept.trim(), name: name.trim(), secret: SECRET }),
         mode: "no-cors",
       });
       setDone(true);
@@ -46,7 +46,7 @@ export function AttendancePageClient() {
               <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
               <span className="font-bold text-slate-800">CDP MAP Lounge</span>
             </a>
-            <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 출석</span>
+            <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">2회차 출석</span>
           </div>
         </header>
         <div className="flex flex-1 flex-col items-center justify-center px-4">
@@ -78,7 +78,7 @@ export function AttendancePageClient() {
             <span className="grid h-9 w-9 place-items-center rounded-full bg-green-700 text-sm font-bold text-white">MAP</span>
             <span className="font-bold text-slate-800">CDP MAP Lounge</span>
           </a>
-          <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">1회차 출석</span>
+          <span className="ml-2 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">2회차 출석</span>
           <span className="ml-auto rounded-full bg-slate-100 px-3 py-0.5 text-xs font-semibold text-slate-500">{role}자</span>
         </div>
       </header>
@@ -93,7 +93,7 @@ export function AttendancePageClient() {
           </div>
         ) : (
           <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-            <h2 className="mb-1 text-xl font-bold text-slate-800">1회차 출석하기</h2>
+            <h2 className="mb-1 text-xl font-bold text-slate-800">2회차 출석하기</h2>
             <p className="mb-6 text-sm text-slate-400">소속과 이름을 입력해주세요.</p>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div>

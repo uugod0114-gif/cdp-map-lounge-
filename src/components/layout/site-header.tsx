@@ -1,8 +1,9 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, LogOut } from "lucide-react";
+import { Bell, LogOut, Menu, X } from "lucide-react";
 import { Button } from "@/components/common/button";
 import { Badge } from "@/components/common/badge";
 import { useDemoUser } from "@/features/auth/role-context";
@@ -28,6 +29,7 @@ const ROLE_EXTRA_NAV: Partial<Record<UserRole, { href: string; label: string }[]
 export function SiteHeader() {
   const { user, isLoggedIn, isStaffUser, logout } = useDemoUser();
   const router = useRouter();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const nav = [
     ...BASE_NAV,
@@ -39,7 +41,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-map-line bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
             <span className="grid h-9 w-9 place-items-center rounded-full bg-map-navy font-display text-sm font-semibold text-white">
               MAP
             </span>
@@ -85,8 +87,33 @@ export function SiteHeader() {
           ) : (
             null
           )}
+
+          <button
+            type="button"
+            className="text-slate-500 hover:text-map-navy md:hidden"
+            aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
       </div>
+
+      {mobileOpen && (
+        <nav className="flex flex-col gap-1 border-t border-map-line bg-white px-4 py-3 md:hidden">
+          {nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileOpen(false)}
+              className="rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-map-navy/5 hover:text-map-navy"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }
