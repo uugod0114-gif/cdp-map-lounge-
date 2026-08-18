@@ -353,13 +353,13 @@ export function SurveyPageClient() {
                 <StarRating value={overallRating} onChange={setOverallRating} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 마케팅 전략수립 프로세스를 본인 전략에 적용할 것인지</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 마케팅 전략수립 프로세스를 본인 전략에 적용할 수 있을 것 같으신가요?</label>
                 <p className="mb-2 text-xs text-slate-400">배운 내용을 바탕으로 앞으로 어떻게 적용·고도화해볼 수 있을지 작성해주세요.</p>
                 <Textarea value={pmRole} onChange={setPmRole} placeholder="예) 검증4단계 프로세스를 활용해 처방명분을 다시 다듬고, Brand Planning 프레임으로 목표와 전략을 재정리할 수 있을 것 같다." rows={3} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">📊 검증4단계가 얼마나 내재화되었는지 (1~5) *</label>
-                <StarRating value={selfCheck} onChange={setSelfCheck} />
+                <label className="mb-2 block text-sm font-semibold text-slate-700">📊 검증4단계가 얼마나 내재화되었다고 생각하시나요? (1~5)</label>
+                <ChoiceButton value={selfCheck} onChange={setSelfCheck} labels={["충분히 내재화됐다", "어느 정도 내재화됐다", "보통", "조금 부족하다", "전혀 아니다"]} />
               </div>
               <div className="mb-4">
                 <label className="mb-1 block text-sm font-semibold text-slate-700">😊 오늘 교육에서 좋았던 점</label>
