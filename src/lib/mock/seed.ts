@@ -45,7 +45,7 @@ const mainBlocks: ContentBlock[] = [
       blockName: "메인 히어로 배너",
       title: "마케팅의 다음 챕터,\nCDP MAP에서 시작하세요",
       subtitle: "ETC마케팅본부 CDP · Marketing Assignment Program",
-      description: "CDP MAP(Marketing Assignment Program)은\nETC마케팅본부 CDP 과정 중 OJT에 해당하는 마케팅 직무 입문 및 역량 강화 교육입니다.",
+      description: "CDP MAP(Marketing Assignment Program)은\nETC마케팅본부 CDP 과정 중 OJT에 해당하는\n마케팅 직무 입문 및 역량 강화 교육입니다.",
       buttonLabel: "",
       buttonUrl: "",
       linkTarget: "_blank",
