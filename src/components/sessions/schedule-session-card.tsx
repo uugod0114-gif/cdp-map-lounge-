@@ -10,6 +10,7 @@ import type { SessionRecord } from "@/types/content";
 // 회차별 자료 링크 (자료가 생기면 여기에 추가)
 const SESSION_MATERIAL_URL: Record<number, string> = {
   1: "https://works.do/FQiGHsY",
+  2: "https://works.do/5NL8Nv0",
 };
 
 export function ScheduleSessionList({ sessions }: { sessions: SessionRecord[] }) {
