@@ -135,7 +135,7 @@ function BlockBody({ block }: { block: ContentBlock }) {
       return (
         <div className="relative overflow-hidden px-4 py-16 text-map-ink sm:py-24">
           <WaveBackground />
-          <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between">
+          <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col items-center gap-5 text-center lg:items-start lg:text-left">
               {fields.subtitle && (
                 <span className="text-xs font-medium tracking-wide text-slate-500">
@@ -148,7 +148,7 @@ function BlockBody({ block }: { block: ContentBlock }) {
                 </h1>
               )}
               {fields.description && (
-                <p className="max-w-2xl whitespace-pre-line break-keep text-[15px] leading-relaxed text-slate-500">{fields.description}</p>
+                <p className="max-w-3xl whitespace-pre-line break-keep text-[15px] leading-relaxed text-slate-500">{fields.description}</p>
               )}
               {(fields.buttonLabel || fields.secondaryButtonLabel) && (
                 <div className="mt-2 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
