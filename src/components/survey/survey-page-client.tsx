@@ -7,10 +7,10 @@ const SECRET = "cdpmap-survey-2026";
 
 const LECTURES = [
   { id: "L1", title: "검증4단계 총론 및 가속화 노하우", instructor: "김화산" },
-  { id: "L2", title: "처방명분 작성의 고찰", instructor: "김학준" },
+  { id: "L2", title: "처방명분 작성의 고찰", instructor: "김학준 실장님" },
   { id: "L3", title: "AI 시대의 메디컬 Sales Forecast", instructor: "이영민" },
-  { id: "L4", title: "Brand Planning : 목표 & 전략수립", instructor: "배정현" },
-  { id: "L5", title: "MBO 및 성공모델 확산시스템의 이해", instructor: "오창헌" },
+  { id: "L4", title: "Brand Planning : 목표 & 전략수립", instructor: "배정현 팀장님" },
+  { id: "L5", title: "MBO 및 성공모델 확산시스템의 이해", instructor: "오창헌 팀장님" },
   { id: "L6", title: "Projection A의 도출과정", instructor: "원성훈" },
   { id: "L7", title: "검증 4단계 과정에서의 고민 해결 노하우", instructor: "오재석" },
 ];
@@ -92,6 +92,7 @@ export function SurveyPageClient() {
 
   // 수강자 전체 평가
   const [overallRating, setOverallRating] = React.useState(0);
+  const [goalMet, setGoalMet] = React.useState(0);
   const [pmRole, setPmRole] = React.useState("");
   const [selfCheck, setSelfCheck] = React.useState(0);
   const [goodPoint, setGoodPoint] = React.useState("");
@@ -149,7 +150,7 @@ export function SurveyPageClient() {
       if (!overallRating) return alert("전체 만족도 별점을 선택해주세요.");
       if (!pmRole.trim()) return alert("도전품목 전략수립에 대한 적용 계획을 입력해주세요.");
       if (!selfCheck) return alert("검증4단계 내재화 정도를 선택해주세요.");
-      sendToSheet({ type: "overall", round: 2, overallRating, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
+      sendToSheet({ type: "overall", round: 2, overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
     } else {
       if (!auditRating) return alert("전체 만족도 별점을 선택해주세요.");
       sendToSheet({ type: "overall_audit", round: 2, auditRating, applyable, applyDetail, recommend, auditGood, auditToStaff });
@@ -351,6 +352,15 @@ export function SurveyPageClient() {
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">⭐ 2회차 전체 만족도 (5점 만점) *</label>
                 <StarRating value={overallRating} onChange={setOverallRating} />
+              </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-semibold text-slate-700">🎯 2회차 교육이 목표에 맞게 잘 이뤄졌다고 생각하시나요?</label>
+                <div className="mb-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600">
+                  <p className="font-semibold text-slate-700 mb-1">📌 2회차 교육 목표</p>
+                  <p className="mb-0.5">1) 마케팅 전략수립 프로세스 및 이론에 대해 학습하고 활용할 수 있도록 한다</p>
+                  <p>2) 검증4단계 프로세스를 내재화하고, 현업에 대한 이해를 바탕으로 도전품목 전략수립을 구체화한다.</p>
+                </div>
+                <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["매우 그렇다", "그렇다", "보통", "아니다", "전혀 아니다"]} />
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 배운 마케팅 전략수립 프로세스가 본인 과제 수행에 어떤 도움이 되었나요?</label>
