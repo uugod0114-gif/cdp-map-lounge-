@@ -504,8 +504,8 @@ export const mockSessions: SessionRecord[] = [
       { time: "14:10~14:50", minutes: "40'", title: "신제품 판촉자료 준비 프로세스", instructor: "윤지영" },
       { time: "14:50~15:30", minutes: "40'", title: "시판 후 임상연구의 활용방안", instructor: "김소희" },
       { time: "15:40~16:20", minutes: "40'", title: "유관부서 업무의 이해 (사업개발/신제품기획)", instructor: "임청하" },
-      { time: "16:30~17:00", minutes: "30'", title: "판매계획에 따른 공급 프로세스", instructor: "TBD" },
-      { time: "17:00~17:30", minutes: "30'", title: "PM 우수 전략 발표 공유 (1)", instructor: "TBD" },
+      { time: "16:30~17:00", minutes: "30'", title: "판매계획에 따른 공급 프로세스", instructor: "주민규" },
+      { time: "17:00~17:30", minutes: "30'", title: "PM 실전사례(직접판매 사전/사후 관리 고도화)", instructor: "김주빈" },
       { time: "17:30~17:50", minutes: "20'", title: "사후테스트 / WRAP-UP", instructor: "진재훈" },
     ],
     draftBlocks: [
@@ -759,6 +759,18 @@ export const mockMaterials: MaterialItem[] = [
     flipbookEnabled: false,
     fileUrl: "https://works.do/5NL8Nv0",
     downloadUrl: "https://works.do/5NL8Nv0",
+  },
+  {
+    id: nextId("mat"),
+    title: "3회차 강의자료 다운로드 받기",
+    description: "3회차 전체 강의 자료 모음",
+    fileType: "pdf",
+    sessionId: mockSessions[2].id,
+    visibilityRoles: [],
+    downloadAllowed: true,
+    flipbookEnabled: false,
+    fileUrl: "https://works.do/56rH3Ly",
+    downloadUrl: "https://works.do/56rH3Ly",
   },
 ];
 
