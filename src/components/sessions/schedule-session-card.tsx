@@ -11,6 +11,7 @@ import type { SessionRecord } from "@/types/content";
 const SESSION_MATERIAL_URL: Record<number, string> = {
   1: "https://works.do/FQiGHsY",
   2: "https://works.do/5NL8Nv0",
+  3: "https://works.do/56rH3Ly",
 };
 
 export function ScheduleSessionList({ sessions }: { sessions: SessionRecord[] }) {
