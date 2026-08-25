@@ -6,13 +6,13 @@ const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyA17RG2ylCAv-P_sBlJ
 const SECRET = "cdpmap-survey-2026";
 
 const LECTURES = [
-  { id: "L1", title: "PM으로서 알아야하는 CP기준", instructor: "지대웅" },
-  { id: "L2", title: "신제품 발매 프로세스의 A to Z", instructor: "이상곤" },
-  { id: "L3", title: "신제품 판촉자료 준비 프로세스", instructor: "윤지영" },
-  { id: "L4", title: "시판 후 임상연구의 활용방안", instructor: "김소희" },
-  { id: "L5", title: "유관부서 업무의 이해 (사업개발/신제품기획)", instructor: "임청하" },
-  { id: "L6", title: "판매계획에 따른 공급 프로세스", instructor: "주민규" },
-  { id: "L7", title: "PM 실전사례(직접판매 사전/사후 관리 고도화)", instructor: "김주빈" },
+  { id: "L1", title: "PM으로서 알아야하는 CP기준", instructor: "지대웅님" },
+  { id: "L2", title: "신제품 발매 프로세스의 A to Z", instructor: "이상곤 팀장님" },
+  { id: "L3", title: "신제품 판촉자료 준비 프로세스", instructor: "윤지영님" },
+  { id: "L4", title: "시판 후 임상연구의 활용방안", instructor: "김소희님" },
+  { id: "L5", title: "유관부서 업무의 이해 (사업개발/신제품기획)", instructor: "임청하 센터장님" },
+  { id: "L6", title: "판매계획에 따른 공급 프로세스", instructor: "주민규님" },
+  { id: "L7", title: "PM 실전사례(직접판매 사전/사후 관리 고도화)", instructor: "김주빈님" },
 ];
 
 type Tab = "lecture" | "overall";
