@@ -548,11 +548,11 @@ export const mockSessions: SessionRecord[] = [
     agenda: [
       { time: "08:30~09:00", minutes: "30'", title: "사전테스트", instructor: "진재훈" },
       { time: "09:00~09:30", minutes: "30'", title: "메일작성 Skill UP", instructor: "서동진" },
-      { time: "09:30~10:10", minutes: "40'", title: "심포지엄 기획·운영의 차별화", instructor: "TBD" },
+      { time: "09:30~10:10", minutes: "40'", title: "심포지엄 기획·운영의 차별화", instructor: "황득경" },
       { time: "10:20~11:00", minutes: "40'", title: "학회 관리 통한 KOL 고객단계 증진", instructor: "김혁" },
       { time: "11:00~12:00", minutes: "60'", title: "업무혁신을 이끄는 생성형AI 접목사례와 전략", instructor: "서로다" },
       { time: "12:00~13:00", minutes: "60'", title: "점심식사", instructor: "-" },
-      { time: "13:00~13:40", minutes: "40'", title: "닥터빌 활용의 모든 것", instructor: "TBD" },
+      { time: "13:00~13:40", minutes: "40'", title: "닥터빌 기획·운영의 차별화", instructor: "심연주" },
       { time: "13:40~15:10", minutes: "90'", title: "디지털 헬스케어 시장의 미래와 우리의 할일", instructor: "이대영" },
       { time: "15:20~15:50", minutes: "30'", title: "관계저축 이론과 AI 활용전략", instructor: "서욱" },
       { time: "15:50~16:20", minutes: "30'", title: "PM 우수 전략 발표 공유 (2)", instructor: "TBD" },
