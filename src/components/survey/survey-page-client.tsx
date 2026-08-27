@@ -98,6 +98,7 @@ export function SurveyPageClient() {
   const [goodPoint, setGoodPoint] = React.useState("");
   const [improvePoint, setImprovePoint] = React.useState("");
   const [toStaff, setToStaff] = React.useState("");
+  const [nextPlan, setNextPlan] = React.useState("");
 
   // 청강자 전체 평가
   const [auditRating, setAuditRating] = React.useState(0);
@@ -150,7 +151,7 @@ export function SurveyPageClient() {
       if (!overallRating) return alert("전체 만족도 별점을 선택해주세요.");
       if (!pmRole.trim()) return alert("오늘 배운 내용을 어떻게 적용해볼 지 입력해주세요.");
       if (!selfCheck) return alert("제품개발/발매 프로세스 이해도를 선택해주세요.");
-      sendToSheet({ type: "overall", round: 3, overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff });
+      sendToSheet({ type: "overall", round: 3, overallRating, goalMet, pmRole, selfCheck, goodPoint, improvePoint, toStaff, nextPlan });
     } else {
       if (!auditRating) return alert("전체 만족도 별점을 선택해주세요.");
       sendToSheet({ type: "overall_audit", round: 3, auditRating, applyable, applyDetail, recommend, auditGood, auditToStaff });
@@ -363,7 +364,7 @@ export function SurveyPageClient() {
                 <ChoiceButton value={goalMet} onChange={setGoalMet} labels={["매우 그렇다", "그렇다", "보통", "아니다", "전혀 아니다"]} />
               </div>
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 배운 신제품 발매·마케팅 프로세스가 본인 업무 수행에 어떤 도움이 되었나요?</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">💡 오늘 배운 신제품 발매·마케팅 프로세스가 본인 과제 수행에 어떤 도움이 되었나요?</label>
                 <p className="mb-2 text-xs text-slate-400">배운 내용을 바탕으로 앞으로 어떻게 적용·고도화해볼 수 있을지 작성해주세요.</p>
                 <Textarea value={pmRole} onChange={setPmRole} placeholder="" rows={3} />
               </div>
@@ -378,6 +379,10 @@ export function SurveyPageClient() {
               <div className="mb-4">
                 <label className="mb-1 block text-sm font-semibold text-slate-700">🔧 보완했으면 하는 점</label>
                 <Textarea value={improvePoint} onChange={setImprovePoint} placeholder="개선이 필요한 부분이 있다면 편하게 적어주세요" />
+              </div>
+              <div className="mb-6">
+                <label className="mb-1 block text-sm font-semibold text-slate-700">📝 금일 1차 발표 이후 본인 과제 개선 방향, 계획을 작성해주세요.</label>
+                <Textarea value={nextPlan} onChange={setNextPlan} placeholder="1차 평가에서 받은 피드백을 바탕으로 앞으로의 개선 방향과 계획을 적어주세요" rows={3} />
               </div>
               <button type="submit"
                 className="w-full rounded-full bg-green-700 py-3 text-sm font-bold text-white hover:bg-green-800">
