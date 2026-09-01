@@ -555,8 +555,7 @@ export const mockSessions: SessionRecord[] = [
       { time: "13:00~13:40", minutes: "40'", title: "닥터빌 기획·운영의 차별화", instructor: "심연주" },
       { time: "13:40~15:10", minutes: "90'", title: "디지털 헬스케어 시장의 미래와 우리의 할일", instructor: "이대영" },
       { time: "15:20~15:50", minutes: "30'", title: "관계저축 이론과 AI 활용전략", instructor: "서욱" },
-      { time: "15:50~16:20", minutes: "30'", title: "PM 우수 전략 발표 공유 (2)", instructor: "TBD" },
-      { time: "16:30~17:40", minutes: "70'", title: "최종전략 멘토링", instructor: "멘토PM" },
+      { time: "16:00~17:40", minutes: "100'", title: "최종전략 멘토링", instructor: "멘토PM" },
       { time: "17:40~18:00", minutes: "20'", title: "사후테스트 / WRAP-UP", instructor: "진재훈" },
     ],
     draftBlocks: [
