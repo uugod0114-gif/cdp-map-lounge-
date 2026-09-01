@@ -87,7 +87,7 @@ export function AttendancePageClient() {
             <p className="text-5xl mb-4">✅</p>
             <p className="text-xl font-bold text-green-700">출석 완료!</p>
             <p className="mt-2 text-sm text-slate-500">{dept} {name}님, 출석이 확인되었습니다.</p>
-            <p className="mt-1 text-xs text-slate-400">오늘 교육도 수고 많으셨어요 🎉</p>
+            <p className="mt-1 text-xs text-slate-400">오늘 교육도 화이팅입니다! 💪</p>
           </div>
         ) : (
           <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
