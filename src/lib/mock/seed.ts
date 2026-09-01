@@ -771,6 +771,18 @@ export const mockMaterials: MaterialItem[] = [
     fileUrl: "https://works.do/56rH3Ly",
     downloadUrl: "https://works.do/56rH3Ly",
   },
+  {
+    id: nextId("mat"),
+    title: "4회차 강의자료 다운로드 받기",
+    description: "4회차 전체 강의 자료 모음",
+    fileType: "pdf",
+    sessionId: mockSessions[3].id,
+    visibilityRoles: [],
+    downloadAllowed: true,
+    flipbookEnabled: false,
+    fileUrl: "https://works.do/GHs0b36",
+    downloadUrl: "https://works.do/GHs0b36",
+  },
 ];
 
 export const mockStaff: StaffMember[] = [

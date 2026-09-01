@@ -12,6 +12,7 @@ const SESSION_MATERIAL_URL: Record<number, string> = {
   1: "https://works.do/FQiGHsY",
   2: "https://works.do/5NL8Nv0",
   3: "https://works.do/56rH3Ly",
+  4: "https://works.do/GHs0b36",
 };
 
 export function ScheduleSessionList({ sessions }: { sessions: SessionRecord[] }) {

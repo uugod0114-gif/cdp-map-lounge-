@@ -12,7 +12,7 @@ const LECTURES = [
   { id: "L4", title: "업무혁신을 이끄는 생성형AI 접목사례와 전략", instructor: "서로다님" },
   { id: "L5", title: "닥터빌 기획·운영의 차별화", instructor: "심연주님" },
   { id: "L6", title: "디지털 헬스케어 시장의 미래와 우리의 할일", instructor: "이대영님" },
-  { id: "L7", title: "관계저축 이론과 AI 활용전략", instructor: "서욱님" },
+  { id: "L7", title: "관계저축 이론과 AI 활용전략", instructor: "서욱 사업부장님" },
 ];
 
 type Tab = "lecture" | "overall";
