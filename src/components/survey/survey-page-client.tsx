@@ -6,12 +6,12 @@ const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyA17RG2ylCAv-P_sBlJ
 const SECRET = "cdpmap-survey-2026";
 
 const LECTURES = [
-  { id: "L1", title: "메일작성 Skill UP", instructor: "서동진님" },
-  { id: "L2", title: "심포지엄 기획·운영의 차별화", instructor: "황득경님" },
+  { id: "L1", title: "디지털 헬스케어 시장의 미래와 우리의 할일", instructor: "이대영 팀장님" },
+  { id: "L2", title: "심포지엄 기획·운영의 차별화", instructor: "황득경 팀장님" },
   { id: "L3", title: "학회 관리 통한 KOL 고객단계 증진", instructor: "김혁님" },
   { id: "L4", title: "업무혁신을 이끄는 생성형AI 접목사례와 전략", instructor: "서로다님" },
   { id: "L5", title: "닥터빌 기획·운영의 차별화", instructor: "심연주님" },
-  { id: "L6", title: "디지털 헬스케어 시장의 미래와 우리의 할일", instructor: "이대영님" },
+  { id: "L6", title: "메일작성 Skill UP", instructor: "서동진님" },
   { id: "L7", title: "관계저축 이론과 AI 활용전략", instructor: "서욱 사업부장님" },
 ];
 
