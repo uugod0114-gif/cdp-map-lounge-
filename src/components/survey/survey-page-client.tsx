@@ -149,7 +149,14 @@ export function SurveyPageClient() {
   function handleLectureSubmit(e: React.FormEvent) {
     e.preventDefault();
     const id = currentLecture.id;
-    if (!lectureRatings[id]) return alert("별점을 선택해주세요.");
+    if (!lectureRatings[id]) return alert("1. 이해도(내용 소화 정도)를 선택해주세요.");
+    if (!lectureDifficulty[id]) return alert("2. 난이도를 선택해주세요.");
+    if (!lectureUtility[id]) return alert("3. 실용성(현업 적용도)을 선택해주세요.");
+    if (!lectureFlow[id]) return alert("4. 강의 구성/흐름을 선택해주세요.");
+    if (!lectureReplay[id]) return alert("5. 다시 듣고 싶은 정도를 선택해주세요.");
+    if (!(lectureGood[id] ?? "").trim()) return alert("👍 좋았던 점을 작성해주세요.");
+    if (!(lectureMemo[id] ?? "").trim()) return alert("💡 가장 기억에 남는 점을 작성해주세요.");
+    if (!(lectureHard[id] ?? "").trim()) return alert("🤔 어려웠거나 더 알고 싶은 점을 작성해주세요.");
     sendToSheet({
       type: "lecture",
       round: 5,
@@ -300,7 +307,7 @@ export function SurveyPageClient() {
                   />
                 </div>
                 <div className="mb-5">
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">2. 난이도</label>
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">2. 난이도 *</label>
                   <EmojiChoice
                     value={lectureDifficulty[currentLecture.id] ?? 0}
                     onChange={(v) => setLectureDifficulty((prev) => ({ ...prev, [currentLecture.id]: v }))}
@@ -313,7 +320,7 @@ export function SurveyPageClient() {
                   />
                 </div>
                 <div className="mb-5">
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">3. 실용성 (현업 적용도)</label>
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">3. 실용성 (현업 적용도) *</label>
                   <EmojiChoice
                     value={lectureUtility[currentLecture.id] ?? 0}
                     onChange={(v) => setLectureUtility((prev) => ({ ...prev, [currentLecture.id]: v }))}
@@ -326,7 +333,7 @@ export function SurveyPageClient() {
                   />
                 </div>
                 <div className="mb-5">
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">4. 강의 구성/흐름</label>
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">4. 강의 구성/흐름 *</label>
                   <EmojiChoice
                     value={lectureFlow[currentLecture.id] ?? 0}
                     onChange={(v) => setLectureFlow((prev) => ({ ...prev, [currentLecture.id]: v }))}
@@ -339,7 +346,7 @@ export function SurveyPageClient() {
                   />
                 </div>
                 <div className="mb-5">
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">5. 다시 듣고 싶은 정도</label>
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">5. 다시 듣고 싶은 정도 *</label>
                   <EmojiChoice
                     value={lectureReplay[currentLecture.id] ?? 0}
                     onChange={(v) => setLectureReplay((prev) => ({ ...prev, [currentLecture.id]: v }))}
@@ -352,15 +359,15 @@ export function SurveyPageClient() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">👍 좋았던 점</label>
+                  <label className="mb-1 block text-sm font-semibold text-slate-700">👍 좋았던 점 *</label>
                   <Textarea value={lectureGood[currentLecture.id] ?? ""} onChange={(v) => setLectureGood((prev) => ({ ...prev, [currentLecture.id]: v }))} placeholder="강의에서 좋았던 점을 자유롭게 적어주세요" />
                 </div>
                 <div className="mb-4">
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">💡 가장 기억에 남는 점</label>
+                  <label className="mb-1 block text-sm font-semibold text-slate-700">💡 가장 기억에 남는 점 *</label>
                   <Textarea value={lectureMemo[currentLecture.id] ?? ""} onChange={(v) => setLectureMemo((prev) => ({ ...prev, [currentLecture.id]: v }))} placeholder="인상 깊었거나 새로 알게 된 내용은?" />
                 </div>
                 <div className="mb-6">
-                  <label className="mb-1 block text-sm font-semibold text-slate-700">🤔 어려웠거나 더 알고 싶은 점</label>
+                  <label className="mb-1 block text-sm font-semibold text-slate-700">🤔 어려웠거나 더 알고 싶은 점 *</label>
                   <Textarea value={lectureHard[currentLecture.id] ?? ""} onChange={(v) => setLectureHard((prev) => ({ ...prev, [currentLecture.id]: v }))} placeholder="이해가 어려웠거나 더 다뤄줬으면 했던 내용은?" />
                 </div>
                 <button type="submit"
