@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-const SURVEY_URL = "https://script.google.com/macros/s/AKfycbyA17RG2ylCAv-P_sBlJdl_MWAXPU4Ji6yOAKMsyNngfCUTdEK-HLwCGjkWSowE8kfW/exec";
+const SURVEY_URL = "https://script.google.com/macros/s/AKfycbwBRg1_cSme8wPN9TRYTJRBqcUT_RyrcMMKu52B5olDSmw-35fr62eRmp2CgnePinVf/exec";
 const SECRET = "cdpmap-survey-2026";
 
 // 5회차 강의별 피드백 대상 (기존 강의별 설문과 동일한 문항 구조 유지)
