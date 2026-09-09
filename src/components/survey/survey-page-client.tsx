@@ -171,6 +171,11 @@ export function SurveyPageClient() {
   function handleOverallSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!courseHelpful) return alert("MAP 교육 과정이 PM 직무 준비에 도움이 되었는지 선택해주세요.");
+    // 시트에는 id 대신 "강의명_교수진" 형태로 보내서 바로 알아볼 수 있게 한다.
+    const bestLectureLabels = bestLectures.map((id) => {
+      const lec = ALL_LECTURES.find((l) => l.id === id);
+      return lec ? `${lec.title}_${lec.instructor}` : id;
+    });
     sendToSheet({
       type: "overall_course",
       courseHelpful,
@@ -178,7 +183,7 @@ export function SurveyPageClient() {
       lackingTopics,
       applyPlan,
       messageToStaff,
-      bestLectures,
+      bestLectures: bestLectureLabels,
     });
     setSubmitted((prev) => ({ ...prev, overall: true }));
   }
