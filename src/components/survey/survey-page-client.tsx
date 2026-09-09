@@ -7,14 +7,14 @@ const SECRET = "cdpmap-survey-2026";
 
 // 5회차 강의별 피드백 대상 (기존 강의별 설문과 동일한 문항 구조 유지)
 const LECTURES = [
-  { id: "L1", title: "마케팅본부에서의 성장 경험", instructor: "김민성님" },
-  { id: "L2", title: "마케팅본부에서의 거현량", instructor: "조병하님" },
+  { id: "L1", title: "마케팅본부에서의 성장 경험", instructor: "김민성 소장님" },
+  { id: "L2", title: "마케팅본부에서의 거현량", instructor: "조병하 사업부장님" },
 ];
 
 // Best of Best 선택용 - 1~5회차 전체 강의 목록
 const ALL_LECTURES: { id: string; round: number; title: string; instructor: string }[] = [
   { id: "R1-1", round: 1, title: "PM의 성과창출 프로세스", instructor: "서욱 사업부장님" },
-  { id: "R1-2", round: 1, title: "우리 본부 PM 평가 맛보기", instructor: "박미경/김유신" },
+  { id: "R1-2", round: 1, title: "우리 본부 PM 평가 맛보기", instructor: "마케팅기획팀 평가파트" },
   { id: "R1-3", round: 1, title: "기초자료 검색법 & 논문의 이해", instructor: "채연지님" },
   { id: "R1-4", round: 1, title: "PM의 듀얼브레인, AI 실무 활용법", instructor: "황득경 팀장님" },
   { id: "R1-5", round: 1, title: "UBIST 데이터의 이해와 활용사례&실습", instructor: "마케팅기획팀 데이터파트" },
@@ -39,8 +39,8 @@ const ALL_LECTURES: { id: string; round: number; title: string; instructor: stri
   { id: "R4-5", round: 4, title: "닥터빌 기획·운영의 차별화", instructor: "심연주님" },
   { id: "R4-6", round: 4, title: "메일작성 Skill UP", instructor: "서동진님" },
   { id: "R4-7", round: 4, title: "관계저축 이론과 AI 활용전략", instructor: "서욱 사업부장님" },
-  { id: "R5-1", round: 5, title: "마케팅본부에서의 성장 경험", instructor: "김민성님" },
-  { id: "R5-2", round: 5, title: "마케팅본부에서의 거현량", instructor: "조병하님" },
+  { id: "R5-1", round: 5, title: "마케팅본부에서의 성장 경험", instructor: "김민성 소장님" },
+  { id: "R5-2", round: 5, title: "마케팅본부에서의 거현량", instructor: "조병하 사업부장님" },
   { id: "R5-3", round: 5, title: "PM 토크콘서트", instructor: "박영준/멘토" },
 ];
 
