@@ -170,7 +170,12 @@ export function SurveyPageClient() {
 
   function handleOverallSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!courseHelpful) return alert("MAP 교육 과정이 PM 직무 준비에 도움이 되었는지 선택해주세요.");
+    if (!courseHelpful) return alert("1️⃣ MAP 교육 과정이 PM 직무 준비에 도움이 되었는지 선택해주세요.");
+    if (!favoritePart.trim()) return alert("2️⃣ 가장 만족스러웠던 부분을 작성해주세요.");
+    if (!lackingTopics.trim()) return alert("3️⃣ 부족했던 주제나 추가되었으면 하는 내용을 작성해주세요.");
+    if (!applyPlan.trim()) return alert("4️⃣ PM 직무를 하게 되면 바로 접목·실행할 사항을 작성해주세요.");
+    if (!messageToStaff.trim()) return alert("5️⃣ CDP MAP 운영진에게 하고 싶은 말을 작성해주세요.");
+    if (bestLectures.length === 0) return alert("🥇 Best of Best 강의를 1개 이상 선택해주세요.");
     // 시트에는 id 대신 "강의명_교수진" 형태로 보내서 바로 알아볼 수 있게 한다.
     const bestLectureLabels = bestLectures.map((id) => {
       const lec = ALL_LECTURES.find((l) => l.id === id);
@@ -385,25 +390,25 @@ export function SurveyPageClient() {
                 <ChoiceButton value={courseHelpful} onChange={setCourseHelpful} labels={["매우 도움이 되었다", "도움이 되었다", "보통", "별로 도움이 안 되었다", "전혀 도움이 안 되었다"]} />
               </div>
               <div className="mb-6">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">2️⃣ 전체 교육 과정에서 어떤 부분이 가장 만족스러우셨나요?</label>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">2️⃣ 전체 교육 과정에서 어떤 부분이 가장 만족스러우셨나요? *</label>
                 <Textarea value={favoritePart} onChange={setFavoritePart} placeholder="가장 만족스러웠던 내용, 강의, 운영 방식 등을 자유롭게 적어주세요" rows={3} />
               </div>
               <div className="mb-6">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">3️⃣ 부족하다고 느낀 주제나 추가되었으면 하는 내용이 있다면 자유롭게 작성 부탁드립니다.</label>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">3️⃣ 부족하다고 느낀 주제나 추가되었으면 하는 내용이 있다면 자유롭게 작성 부탁드립니다. *</label>
                 <Textarea value={lackingTopics} onChange={setLackingTopics} placeholder="다뤄지지 않았지만 필요했던 주제, 아쉬웠던 점 등을 적어주세요" rows={3} />
               </div>
               <div className="mb-6">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">4️⃣ PM직무를 하게 되면, 바로 접목하고 실행할 사항을 간략히 작성해주세요.</label>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">4️⃣ PM직무를 하게 되면, 바로 접목하고 실행할 사항을 간략히 작성해주세요. *</label>
                 <Textarea value={applyPlan} onChange={setApplyPlan} placeholder="교육에서 배운 내용 중 실제 업무에 바로 적용해볼 계획을 적어주세요" rows={3} />
               </div>
               <div className="mb-8">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">5️⃣ 마지막으로 CDP MAP 운영진에게 하고 싶은 말이 있으면 자유롭게 부탁드립니다.</label>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">5️⃣ 마지막으로 CDP MAP 운영진에게 하고 싶은 말이 있으면 자유롭게 부탁드립니다. *</label>
                 <Textarea value={messageToStaff} onChange={setMessageToStaff} placeholder="운영진에게 전하고 싶은 말을 자유롭게 남겨주세요" rows={3} />
               </div>
 
               <div className="mb-2">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">🥇 전체 교육 과정 중에서 가장 좋았던 과정은 무엇인가요? (복수선택 가능)</label>
-                <p className="mb-3 text-xs text-slate-400">Best of Best 강의를 뽑아주세요!</p>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">🥇 전체 교육 과정 중에서 가장 좋았던 과정은 무엇인가요? (복수선택 가능) *</label>
+                <p className="mb-3 text-xs text-slate-400">Best of Best 강의를 1개 이상 뽑아주세요!</p>
               </div>
               <div className="mb-8 space-y-4">
                 {[1, 2, 3, 4, 5].map((round) => (
