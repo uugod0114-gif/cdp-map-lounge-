@@ -13,36 +13,34 @@ const LECTURES = [
 
 // Best of Best 선택용 - 1~5회차 전체 강의 목록
 const ALL_LECTURES: { id: string; round: number; title: string; instructor: string }[] = [
-  { id: "R1-1", round: 1, title: "PM의 성과창출 프로세스", instructor: "서욱" },
+  { id: "R1-1", round: 1, title: "PM의 성과창출 프로세스", instructor: "서욱 사업부장님" },
   { id: "R1-2", round: 1, title: "우리 본부 PM 평가 맛보기", instructor: "박미경/김유신" },
-  { id: "R1-3", round: 1, title: "기초자료 검색법 & 논문의 이해", instructor: "채연지" },
-  { id: "R1-4", round: 1, title: "PM의 듀얼브레인, AI 실무 활용법", instructor: "황득경" },
-  { id: "R1-5", round: 1, title: "UBIST 데이터의 이해와 활용사례", instructor: "마케팅기획팀 데이터파트" },
-  { id: "R1-6", round: 1, title: "실전 UBIST 1 (기본)", instructor: "마케팅기획팀 데이터파트" },
-  { id: "R1-7", round: 1, title: "실전 UBIST 2 (고급)", instructor: "마케팅기획팀 데이터파트" },
-  { id: "R2-1", round: 2, title: "검증4단계 총론 및 가속화 노하우", instructor: "김화산" },
-  { id: "R2-2", round: 2, title: "처방명분 작성의 고찰", instructor: "김학준" },
-  { id: "R2-3", round: 2, title: "AI 시대의 메디컬 Sales Forecast", instructor: "이영민" },
-  { id: "R2-4", round: 2, title: "Brand Planning : 목표 & 전략수립", instructor: "배정현" },
-  { id: "R2-5", round: 2, title: "MBO 및 성공모델 확산시스템의 이해", instructor: "오창헌" },
-  { id: "R2-6", round: 2, title: "Projection A의 도출과정", instructor: "원성훈" },
-  { id: "R2-7", round: 2, title: "검증 4단계 과정에서의 고민 해결 노하우", instructor: "오재석" },
-  { id: "R3-1", round: 3, title: "PM으로서 알아야하는 CP기준", instructor: "지대웅" },
-  { id: "R3-2", round: 3, title: "신제품 발매 프로세스의 A to Z", instructor: "이상곤" },
-  { id: "R3-3", round: 3, title: "신제품 판촉자료 준비 프로세스", instructor: "윤지영" },
-  { id: "R3-4", round: 3, title: "시판 후 임상연구의 활용방안", instructor: "김소희" },
-  { id: "R3-5", round: 3, title: "유관부서 업무의 이해 (사업개발/신제품기획)", instructor: "임청하" },
-  { id: "R3-6", round: 3, title: "판매계획에 따른 공급 프로세스", instructor: "주민규" },
-  { id: "R3-7", round: 3, title: "PM 실전사례(직접판매 사전/사후 관리 고도화)", instructor: "김주빈" },
-  { id: "R4-1", round: 4, title: "디지털 헬스케어 시장의 미래와 우리의 할일", instructor: "이대영" },
-  { id: "R4-2", round: 4, title: "심포지엄 기획·운영의 차별화", instructor: "황득경" },
-  { id: "R4-3", round: 4, title: "학회 관리 통한 KOL 고객단계 증진", instructor: "김혁" },
-  { id: "R4-4", round: 4, title: "업무혁신을 이끄는 생성형AI 접목사례와 전략", instructor: "서로다" },
-  { id: "R4-5", round: 4, title: "닥터빌 기획·운영의 차별화", instructor: "심연주" },
-  { id: "R4-6", round: 4, title: "메일작성 Skill UP", instructor: "서동진" },
-  { id: "R4-7", round: 4, title: "관계저축 이론과 AI 활용전략", instructor: "서욱" },
-  { id: "R5-1", round: 5, title: "마케팅본부에서의 성장 경험", instructor: "김민성" },
-  { id: "R5-2", round: 5, title: "마케팅본부에서의 거현량", instructor: "조병하" },
+  { id: "R1-3", round: 1, title: "기초자료 검색법 & 논문의 이해", instructor: "채연지님" },
+  { id: "R1-4", round: 1, title: "PM의 듀얼브레인, AI 실무 활용법", instructor: "황득경 팀장님" },
+  { id: "R1-5", round: 1, title: "UBIST 데이터의 이해와 활용사례&실습", instructor: "마케팅기획팀 데이터파트" },
+  { id: "R2-1", round: 2, title: "검증4단계 총론 및 가속화 노하우", instructor: "김화산님" },
+  { id: "R2-2", round: 2, title: "처방명분 작성의 고찰", instructor: "김학준님" },
+  { id: "R2-3", round: 2, title: "AI 시대의 메디컬 Sales Forecast", instructor: "이영민님" },
+  { id: "R2-4", round: 2, title: "Brand Planning : 목표 & 전략수립", instructor: "배정현님" },
+  { id: "R2-5", round: 2, title: "MBO 및 성공모델 확산시스템의 이해", instructor: "오창헌님" },
+  { id: "R2-6", round: 2, title: "Projection A의 도출과정", instructor: "원성훈님" },
+  { id: "R2-7", round: 2, title: "검증 4단계 과정에서의 고민 해결 노하우", instructor: "오재석님" },
+  { id: "R3-1", round: 3, title: "PM으로서 알아야하는 CP기준", instructor: "지대웅님" },
+  { id: "R3-2", round: 3, title: "신제품 발매 프로세스의 A to Z", instructor: "이상곤님" },
+  { id: "R3-3", round: 3, title: "신제품 판촉자료 준비 프로세스", instructor: "윤지영님" },
+  { id: "R3-4", round: 3, title: "시판 후 임상연구의 활용방안", instructor: "김소희님" },
+  { id: "R3-5", round: 3, title: "유관부서 업무의 이해 (사업개발/신제품기획)", instructor: "임청하님" },
+  { id: "R3-6", round: 3, title: "판매계획에 따른 공급 프로세스", instructor: "주민규님" },
+  { id: "R3-7", round: 3, title: "PM 실전사례(직접판매 사전/사후 관리 고도화)", instructor: "김주빈님" },
+  { id: "R4-1", round: 4, title: "디지털 헬스케어 시장의 미래와 우리의 할일", instructor: "이대영 팀장님" },
+  { id: "R4-2", round: 4, title: "심포지엄 기획·운영의 차별화", instructor: "황득경 팀장님" },
+  { id: "R4-3", round: 4, title: "학회 관리 통한 KOL 고객단계 증진", instructor: "김혁님" },
+  { id: "R4-4", round: 4, title: "업무혁신을 이끄는 생성형AI 접목사례와 전략", instructor: "서로다님" },
+  { id: "R4-5", round: 4, title: "닥터빌 기획·운영의 차별화", instructor: "심연주님" },
+  { id: "R4-6", round: 4, title: "메일작성 Skill UP", instructor: "서동진님" },
+  { id: "R4-7", round: 4, title: "관계저축 이론과 AI 활용전략", instructor: "서욱 사업부장님" },
+  { id: "R5-1", round: 5, title: "마케팅본부에서의 성장 경험", instructor: "김민성님" },
+  { id: "R5-2", round: 5, title: "마케팅본부에서의 거현량", instructor: "조병하님" },
   { id: "R5-3", round: 5, title: "PM 토크콘서트", instructor: "박영준/멘토" },
 ];
 
@@ -414,7 +412,7 @@ export function SurveyPageClient() {
                               ? "border-green-700 bg-green-700 text-white"
                               : "border-slate-200 text-slate-500 hover:border-green-700 hover:text-green-700"
                           }`}>
-                          {bestLectures.includes(lec.id) ? "✓ " : ""}{lec.title}
+                          {bestLectures.includes(lec.id) ? "✓ " : ""}{lec.title}_{lec.instructor}
                         </button>
                       ))}
                     </div>
