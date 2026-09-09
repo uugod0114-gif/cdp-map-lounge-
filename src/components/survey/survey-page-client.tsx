@@ -41,7 +41,6 @@ const ALL_LECTURES: { id: string; round: number; title: string; instructor: stri
   { id: "R4-7", round: 4, title: "관계저축 이론과 AI 활용전략", instructor: "서욱 사업부장님" },
   { id: "R5-1", round: 5, title: "마케팅본부에서의 성장 경험", instructor: "김민성 소장님" },
   { id: "R5-2", round: 5, title: "마케팅본부에서의 거현량", instructor: "조병하 사업부장님" },
-  { id: "R5-3", round: 5, title: "PM 토크콘서트", instructor: "박영준/멘토" },
 ];
 
 type Tab = "lecture" | "overall";
